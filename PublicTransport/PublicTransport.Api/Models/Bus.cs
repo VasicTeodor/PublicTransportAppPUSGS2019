@@ -1,0 +1,10 @@
+﻿namespace PublicTransport.Api.Models
+{
+    public class Bus
+    {
+        public int Id { get; set; }
+        public Location Location { get; set; }
+        public int BusNumber { get; set; }
+        public bool InUse { get; set; }
+    }
+}
