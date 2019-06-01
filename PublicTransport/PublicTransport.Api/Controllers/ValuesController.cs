@@ -12,7 +12,7 @@ namespace PublicTransport.Api.Controllers
     public class ValuesController : ControllerBase
     {
         // GET api/values
-        [Authorize(Roles = "Passenger")]
+        //[Authorize(Roles = "Passenger")]
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
@@ -20,7 +20,7 @@ namespace PublicTransport.Api.Controllers
         }
 
         // GET api/values/5
-        [Authorize (Roles = "Admin")]
+        //[Authorize (Roles = "Admin")]
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {

@@ -32,6 +32,8 @@ namespace PublicTransport.Api.Data
                     _roleManager.CreateAsync(role);
                 }
 
+                var userList = new List<User>();
+
                 for (int i = 0; i < 5; i++)
                 {
                     var user = new User()
@@ -41,40 +43,32 @@ namespace PublicTransport.Api.Data
                         Surname = $"Peric {i}"
                     };
 
+                    userList.Add(user);
+                   
+                }
+
+                foreach (var user in userList)
+                {
                     _userManager.CreateAsync(user, "password").Wait();
                     _userManager.AddToRoleAsync(user, "Passenger").Wait();
                 }
 
-                for (int i = 0; i < 2; i++)
+                var admin = new User { UserName = "Admin" };
+                IdentityResult result = _userManager.CreateAsync(admin, "password").Result;
+
+                if (result.Succeeded)
                 {
-                    var adminUser = new User
-                    {
-                        UserName = $"Admin{i}"
-                    };
-
-                    IdentityResult result = _userManager.CreateAsync(adminUser, "admin").Result;
-
-                    if (result.Succeeded)
-                    {
-                        var admin = _userManager.FindByNameAsync($"Admin{i}").Result;
-                        _userManager.AddToRolesAsync(admin, new[] { "Admin", "Controller" }).Wait();
-                    }
+                    var adm = _userManager.FindByNameAsync("Admin").Result;
+                    _userManager.AddToRolesAsync(adm, new[] { "Admin", "Controller" }).Wait();
                 }
 
-                for (int i = 0; i < 2; i++)
+                var controller = new User { UserName = "Controller" };
+                IdentityResult res = _userManager.CreateAsync(controller, "password").Result;
+
+                if (res.Succeeded)
                 {
-                    var controller = new User
-                    {
-                        UserName = $"Controller{i}"
-                    };
-
-                    IdentityResult result = _userManager.CreateAsync(controller, "controller").Result;
-
-                    if (result.Succeeded)
-                    {
-                        var admin = _userManager.FindByNameAsync($"Controller{i}").Result;
-                        _userManager.AddToRoleAsync(admin, "Controller").Wait();
-                    }
+                    var con = _userManager.FindByNameAsync("Controller").Result;
+                    _userManager.AddToRoleAsync(con, "Controller" ).Wait();
                 }
 
             }
