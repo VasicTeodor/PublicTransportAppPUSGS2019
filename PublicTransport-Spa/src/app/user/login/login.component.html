@@ -1,0 +1,10 @@
+<div class="container align-content-center">
+  <form *ngIf="!loggedIn()" #loginForm="ngForm" (ngSubmit)="login()" class="p-2">
+    <input class="form-control mr-sm-2 mb-2" type="text" name="email" placeholder="Email" required [(ngModel)]="model.email">
+    <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password"> 
+    <div class="container align-content-center text-center m-2">
+      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
+      <button class="btn btn-warning my-2 my-sm-0 ml-1" type="submit">Register</button>
+    </div>
+  </form>  
+</div>
