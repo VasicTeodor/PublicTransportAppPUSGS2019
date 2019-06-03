@@ -40,20 +40,30 @@ namespace PublicTransport.Api.Data
                     {
                         UserName = $"User{i}",
                         Name = $"Pera {i}",
-                        Surname = $"Peric {i}"
+                        Surname = $"Peric {i}",
+                        Email = $"user{i}@gmail.com"
                     };
 
                     userList.Add(user);
                    
                 }
 
-                foreach (var user in userList)
-                {
-                    _userManager.CreateAsync(user, "password").Wait();
-                    _userManager.AddToRoleAsync(user, "Passenger").Wait();
-                }
+                _userManager.CreateAsync(userList[0], "password").Wait();
+                _userManager.AddToRoleAsync(userList[0], "Passenger").Wait();
 
-                var admin = new User { UserName = "Admin" };
+                _userManager.CreateAsync(userList[1], "password").Wait();
+                _userManager.AddToRoleAsync(userList[1], "Passenger").Wait();
+
+                _userManager.CreateAsync(userList[2], "password").Wait();
+                _userManager.AddToRoleAsync(userList[2], "Passenger").Wait();
+
+                _userManager.CreateAsync(userList[3], "password").Wait();
+                _userManager.AddToRoleAsync(userList[3], "Passenger").Wait();
+
+                _userManager.CreateAsync(userList[4], "password").Wait();
+                _userManager.AddToRoleAsync(userList[4], "Passenger").Wait();
+
+                var admin = new User { UserName = "Admin", Email = "admin@publictransport.com"};
                 IdentityResult result = _userManager.CreateAsync(admin, "password").Result;
 
                 if (result.Succeeded)
@@ -62,7 +72,7 @@ namespace PublicTransport.Api.Data
                     _userManager.AddToRolesAsync(adm, new[] { "Admin", "Controller" }).Wait();
                 }
 
-                var controller = new User { UserName = "Controller" };
+                var controller = new User { UserName = "Controller", Email = "controller@publictransport.com"};
                 IdentityResult res = _userManager.CreateAsync(controller, "password").Result;
 
                 if (res.Succeeded)
