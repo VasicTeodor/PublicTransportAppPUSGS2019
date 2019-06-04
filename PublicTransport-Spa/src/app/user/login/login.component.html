@@ -1,4 +1,6 @@
-<div class="container align-content-center">
+<div class="container align-content-center mt-5" style="width: 70vh">
+  <h3 class="text font-weight-bolder text-center">Login:</h3>
+  <hr>
   <form *ngIf="!loggedIn()" #loginForm="ngForm" (ngSubmit)="login()" class="p-2">
     <input class="form-control mr-sm-2 mb-2" type="text" name="email" placeholder="Email" required [(ngModel)]="model.email">
     <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password"> 
