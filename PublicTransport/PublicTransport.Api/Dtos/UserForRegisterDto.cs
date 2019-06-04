@@ -12,6 +12,8 @@ namespace PublicTransport.Api.Dtos
         [StringLength(20, MinimumLength = 4, ErrorMessage = "You must specify username at least 4 characters long")]
         public string UserName { get; set; }
         [Required]
+        public string UserType { get; set; }
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]

@@ -10,5 +10,10 @@ namespace PublicTransport.Api.Models
         public bool IsValid { get; set; }
         public User User { get; set; }
         public PricelistItem PriceInfo { get; set; }
+
+        public Ticket()
+        {
+            DateOfIssue = DateTime.Now;
+        }
     }
 }

@@ -19,6 +19,8 @@ namespace PublicTransport.Api.Data
         public DbSet<StationLine> StationLines { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TimeTable> TimeTables { get; set; }
+        public DbSet<PricelistItem> PricelistItems { get; set; }
+        public DbSet<UserDiscount> UserDiscounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
