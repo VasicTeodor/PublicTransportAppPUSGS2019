@@ -10,5 +10,6 @@ namespace PublicTransport.Api.Data
     {
         Task<IEnumerable<Bus>> GetBuses();
         Task<Bus> GetBus(int id);
+        Task<IEnumerable<Bus>> GetFreeBuses(bool inUse);
     }
 }

@@ -25,5 +25,10 @@ namespace PublicTransport.Api.Data
         {
             return await _context.Busses.ToListAsync();
         }
+
+        public async Task<IEnumerable<Bus>> GetFreeBuses(bool inUse)
+        {
+            return await _context.Busses.Where(b => b.InUse == false).ToListAsync();
+        }
     }
 }
