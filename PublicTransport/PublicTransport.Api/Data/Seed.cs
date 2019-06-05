@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Identity;
 using PublicTransport.Api.Models;
@@ -9,11 +10,13 @@ namespace PublicTransport.Api.Data
     {
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
+        private readonly DataContext _context;
 
-        public Seed(UserManager<User> userManager,RoleManager<Role> roleManager)
+        public Seed(UserManager<User> userManager,RoleManager<Role> roleManager, DataContext context)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public void SeedUsers()
@@ -82,6 +85,150 @@ namespace PublicTransport.Api.Data
                 }
 
             }
+        }
+
+        public void SeedStations()
+        {
+            Station station = new Station()
+            {
+                Adress = new Adress()
+                {
+                    City = "Novi Sad",
+                    Number = "122",
+                    Street = "Bul Oslobodjenja"
+                },
+                Location = new Location()
+                {
+                    X = 223.12333,
+                    Y = 123.44221
+                },
+                Name = "Lutrija"
+            };
+
+            //_context.Add(station);
+
+            TimeTable timeTable = new TimeTable()
+            {
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "StanicaLutrijaLiman",
+                    LineNumber = 7,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 244,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 222,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 234,
+                            InUse = true,
+                        }
+                    }
+                }
+            };
+
+            //_context.Add(timeTable);
+
+            UserDiscount ud1 = new UserDiscount()
+            {
+                Type = "Student",
+                Value = 20
+            };
+            _context.Add(ud1);
+
+            UserDiscount ud2 = new UserDiscount()
+            {
+                Type = "Regular",
+                Value = 0
+            };
+            _context.Add(ud1);
+
+            UserDiscount ud3 = new UserDiscount()
+            {
+                Type = "Senior",
+                Value = 35
+            };
+            _context.Add(ud1);
+
+
+            Item it1 = new Item()
+            {
+                Type = "Hourly"
+            };
+            _context.Add(it1);
+
+            Item it2 = new Item()
+            {
+                Type = "Daily"
+            };
+            _context.Add(it2);
+
+
+            Item it3 = new Item()
+            {
+                Type = "Monthly"
+            };
+            _context.Add(it3);
+
+            Item it4 = new Item()
+            {
+                Type = "Annual"
+            };
+            _context.Add(it4);
+            _context.SaveChanges();
+
+            Pricelist pr = new Pricelist()
+            {
+                Active = true,
+                From = DateTime.Now,
+                To = DateTime.Now.AddMonths(4)
+            };
+            _context.Add(pr);
+            _context.SaveChanges();
+
+            PricelistItem prit1 = new PricelistItem()
+            {
+                Pricelist = pr,
+                Price = 150,
+                Item = it1
+            };
+            _context.Add(prit1);
+
+            PricelistItem prit2 = new PricelistItem()
+            {
+                Pricelist = pr,
+                Price = 390,
+                Item = it2
+            };
+            _context.Add(prit2);
+
+            PricelistItem prit3 = new PricelistItem()
+            {
+                Pricelist = pr,
+                Price = 3450,
+                Item = it3
+            };
+            _context.Add(prit3);
+
+            PricelistItem prit4 = new PricelistItem()
+            {
+                Pricelist = pr,
+                Price = 12050,
+                Item = it4
+            };
+            _context.Add(prit4);
+            _context.SaveChanges();
+
         }
     }
 }

@@ -68,6 +68,16 @@ namespace PublicTransport.Api
             services.AddAutoMapper();
 
             services.AddTransient<Seed>();
+
+            // register repos here
+            services.AddScoped<IPublicTransportRepository, PublicTransportRepository>();
+            services.AddScoped<ITicketRepository, TicketRepository>();
+            services.AddScoped<IBusRepository, BusRepository>();
+            services.AddScoped<ILineRepository, LineRepository>();
+            services.AddScoped<IPricelistItemRepository, PricelistItemRepository>();
+            services.AddScoped<IStationRepository, StationRepository>();
+            services.AddScoped<ITimeTableRepository, TimeTableRepository>();
+            services.AddScoped<IUserDiscountRepository, UserDiscountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -79,6 +89,7 @@ namespace PublicTransport.Api
             }
 
             seeder.SeedUsers();
+            //seeder.SeedStations();
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();

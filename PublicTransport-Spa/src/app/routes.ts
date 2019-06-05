@@ -2,11 +2,13 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { HomeComponent } from './home/home.component';
+import { TicketsComponent } from './passenger/tickets/tickets.component';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
+    {path: 'tickets', component: TicketsComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 //     { path: '', component: HomeComponent},
 //     { path: '',

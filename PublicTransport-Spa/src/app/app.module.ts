@@ -17,6 +17,7 @@ import { AdminService } from './_services/admin.service';
 import { AuthGuard } from './_guards/auth.guard';
 import { PricelistResolver } from './_resolvers/pricelist.resolver';
 import { HomeComponent } from './home/home.component';
+import { TicketsComponent } from './passenger/tickets/tickets.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -28,7 +29,8 @@ export function getToken() {
       RegisterComponent,
       LoginComponent,
       NavbarComponent,
-      HomeComponent
+      HomeComponent,
+      TicketsComponent
    ],
    imports: [
       BrowserModule,
