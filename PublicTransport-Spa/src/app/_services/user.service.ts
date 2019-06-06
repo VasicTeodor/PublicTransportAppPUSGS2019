@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Pricelist } from '../_models/pricelist';
 import { map } from 'rxjs/operators';
+import { PricelistItem } from '../_models/pricelistItem';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +14,9 @@ export class UserService {
 
 constructor(private http: HttpClient) { }
 
-getPricelists(active: boolean = true): Observable<any[]> {
+getPricelists(active: boolean = true): Observable<PricelistItem[]> {
   let params = new HttpParams();
   params = params.append('active', JSON.stringify(active));
-  return this.http.get<any[]>(this.baseUrl + 'user/pricelists', {params});
+  return this.http.get<PricelistItem[]>(this.baseUrl + 'user/pricelists', {params});
 }
 }

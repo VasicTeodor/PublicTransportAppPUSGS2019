@@ -10,5 +10,6 @@ namespace PublicTransport.Api.Data
         void Delete<T>(T entity) where T : class;
         Task<bool> SaveAll();
         Task<IEnumerable<PricelistItem>> GetPricelists(bool active);
+        Task<IEnumerable<TimeTable>> GetTimetables(string type);
     }
 }

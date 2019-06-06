@@ -13,7 +13,7 @@ export class PricelistResolver implements Resolve<any> {
 
     constructor(private router: Router, private alertify: AlertifyService, private userService: UserService) {}
 
-    resolve(route: ActivatedRouteSnapshot): Observable<any> {
+    resolve(route: ActivatedRouteSnapshot): Observable<PricelistResolver[]> {
         return this.userService.getPricelists().pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');

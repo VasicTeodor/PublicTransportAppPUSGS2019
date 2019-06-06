@@ -18,6 +18,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { PricelistResolver } from './_resolvers/pricelist.resolver';
 import { HomeComponent } from './home/home.component';
 import { TicketsComponent } from './passenger/tickets/tickets.component';
+import { TimetableComponent } from './passenger/timetable/timetable.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -30,7 +31,8 @@ export function getToken() {
       LoginComponent,
       NavbarComponent,
       HomeComponent,
-      TicketsComponent
+      TicketsComponent,
+      TimetableComponent
    ],
    imports: [
       BrowserModule,

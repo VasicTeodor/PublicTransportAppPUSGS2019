@@ -9,13 +9,15 @@ namespace PublicTransport.Api.Data
         private readonly DataContext _context;
         private readonly ITicketRepository _ticketRepository;
         private readonly IPricelistItemRepository _pricelistItemRepository;
+        private readonly ITimeTableRepository _timeTableRepository;
 
         public PublicTransportRepository(DataContext context, ITicketRepository ticketRepository,
-            IPricelistItemRepository pricelistItemRepository)
+            IPricelistItemRepository pricelistItemRepository, ITimeTableRepository timeTableRepository)
         {
             _context = context;
             _ticketRepository = ticketRepository;
             _pricelistItemRepository = pricelistItemRepository;
+            _timeTableRepository = timeTableRepository;
         }
         public void Add<T>(T entity) where T : class
         {
@@ -30,6 +32,11 @@ namespace PublicTransport.Api.Data
         public async Task<IEnumerable<PricelistItem>> GetPricelists(bool active)
         {
             return await _pricelistItemRepository.GetPricelistItemsByActive(active);
+        }
+
+        public async Task<IEnumerable<TimeTable>> GetTimetables(string type)
+        {
+            return await _timeTableRepository.GetTimeTables();
         }
 
         public async Task<bool> SaveAll()

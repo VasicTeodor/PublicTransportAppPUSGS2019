@@ -107,14 +107,14 @@ namespace PublicTransport.Api.Data
 
             //_context.Add(station);
 
-            TimeTable timeTable = new TimeTable()
+            TimeTable timeTable1 = new TimeTable()
             {
                 Day = "Working days",
                 Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
                 Type = "In City",
                 Line = new Line()
                 {
-                    Name = "StanicaLutrijaLiman",
+                    Name = "7A:Stanica-Lutrija-Liman",
                     LineNumber = 7,
                     Buses = new List<Bus>()
                     {
@@ -136,97 +136,255 @@ namespace PublicTransport.Api.Data
                     }
                 }
             };
+            _context.Add(timeTable1);
 
-            //_context.Add(timeTable);
-
-            UserDiscount ud1 = new UserDiscount()
+            TimeTable timeTable2 = new TimeTable()
             {
-                Type = "Student",
-                Value = 20
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "7B:Liman-Lutrija-Stanica",
+                    LineNumber = 7,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 241,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 221,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 231,
+                            InUse = true,
+                        }
+                    }
+                }
             };
-            _context.Add(ud1);
+            _context.Add(timeTable2);
 
-            UserDiscount ud2 = new UserDiscount()
+            TimeTable timeTable3 = new TimeTable()
             {
-                Type = "Regular",
-                Value = 0
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "12:Centar-Telep",
+                    LineNumber = 12,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 111,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 112,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 113,
+                            InUse = true,
+                        }
+                    }
+                }
             };
-            _context.Add(ud1);
+            _context.Add(timeTable3);
 
-            UserDiscount ud3 = new UserDiscount()
+            TimeTable timeTable4 = new TimeTable()
             {
-                Type = "Senior",
-                Value = 35
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "12:Telep-Centar",
+                    LineNumber = 12,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 241,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 221,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 231,
+                            InUse = true,
+                        }
+                    }
+                }
             };
-            _context.Add(ud1);
+            _context.Add(timeTable4);
 
-
-            Item it1 = new Item()
+            TimeTable timeTable5 = new TimeTable()
             {
-                Type = "Hourly"
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "8:Novo Naselje-Centar-Liman",
+                    LineNumber = 8,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 1,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 2,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 3,
+                            InUse = true,
+                        }
+                    }
+                }
             };
-            _context.Add(it1);
+            _context.Add(timeTable5);
 
-            Item it2 = new Item()
+            TimeTable timeTable6 = new TimeTable()
             {
-                Type = "Daily"
+                Day = "Working days",
+                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                Type = "In City",
+                Line = new Line()
+                {
+                    Name = "8:Liman-Centar-Novo Naselje",
+                    LineNumber = 8,
+                    Buses = new List<Bus>()
+                    {
+                        new Bus()
+                        {
+                            BusNumber = 11,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 12,
+                            InUse = true,
+                        },
+                        new Bus()
+                        {
+                            BusNumber = 13,
+                            InUse = true,
+                        }
+                    }
+                }
             };
-            _context.Add(it2);
+            _context.Add(timeTable6);
 
-
-            Item it3 = new Item()
+            if (!_context.PricelistItems.Any())
             {
-                Type = "Monthly"
-            };
-            _context.Add(it3);
+                UserDiscount ud1 = new UserDiscount()
+                {
+                    Type = "Student",
+                    Value = 20
+                };
+                _context.Add(ud1);
 
-            Item it4 = new Item()
-            {
-                Type = "Annual"
-            };
-            _context.Add(it4);
-            _context.SaveChanges();
+                UserDiscount ud2 = new UserDiscount()
+                {
+                    Type = "Regular",
+                    Value = 0
+                };
+                _context.Add(ud1);
 
-            Pricelist pr = new Pricelist()
-            {
-                Active = true,
-                From = DateTime.Now,
-                To = DateTime.Now.AddMonths(4)
-            };
-            _context.Add(pr);
-            _context.SaveChanges();
+                UserDiscount ud3 = new UserDiscount()
+                {
+                    Type = "Senior",
+                    Value = 35
+                };
+                _context.Add(ud1);
 
-            PricelistItem prit1 = new PricelistItem()
-            {
-                Pricelist = pr,
-                Price = 150,
-                Item = it1
-            };
-            _context.Add(prit1);
 
-            PricelistItem prit2 = new PricelistItem()
-            {
-                Pricelist = pr,
-                Price = 390,
-                Item = it2
-            };
-            _context.Add(prit2);
+                Item it1 = new Item()
+                {
+                    Type = "Hourly"
+                };
+                _context.Add(it1);
 
-            PricelistItem prit3 = new PricelistItem()
-            {
-                Pricelist = pr,
-                Price = 3450,
-                Item = it3
-            };
-            _context.Add(prit3);
+                Item it2 = new Item()
+                {
+                    Type = "Daily"
+                };
+                _context.Add(it2);
 
-            PricelistItem prit4 = new PricelistItem()
-            {
-                Pricelist = pr,
-                Price = 12050,
-                Item = it4
-            };
-            _context.Add(prit4);
+
+                Item it3 = new Item()
+                {
+                    Type = "Monthly"
+                };
+                _context.Add(it3);
+
+                Item it4 = new Item()
+                {
+                    Type = "Annual"
+                };
+                _context.Add(it4);
+                _context.SaveChanges();
+
+                Pricelist pr = new Pricelist()
+                {
+                    Active = true,
+                    From = DateTime.Now,
+                    To = DateTime.Now.AddMonths(4)
+                };
+                _context.Add(pr);
+                _context.SaveChanges();
+
+                PricelistItem prit1 = new PricelistItem()
+                {
+                    Pricelist = pr,
+                    Price = 150,
+                    Item = it1
+                };
+                _context.Add(prit1);
+
+                PricelistItem prit2 = new PricelistItem()
+                {
+                    Pricelist = pr,
+                    Price = 390,
+                    Item = it2
+                };
+                _context.Add(prit2);
+
+                PricelistItem prit3 = new PricelistItem()
+                {
+                    Pricelist = pr,
+                    Price = 3450,
+                    Item = it3
+                };
+                _context.Add(prit3);
+
+                PricelistItem prit4 = new PricelistItem()
+                {
+                    Pricelist = pr,
+                    Price = 12050,
+                    Item = it4
+                };
+                _context.Add(prit4);
+            }
+            
             _context.SaveChanges();
 
         }

@@ -89,7 +89,7 @@ namespace PublicTransport.Api
             }
 
             seeder.SeedUsers();
-            //seeder.SeedStations();
+            seeder.SeedStations();
 
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();

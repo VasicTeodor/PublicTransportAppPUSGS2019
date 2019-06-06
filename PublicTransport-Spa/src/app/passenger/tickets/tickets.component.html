@@ -9,25 +9,26 @@
         </p>
       </div>
     </div>
-    <button class="btn btn-danger" (click)="getTickets()">Press Me</button>
     <!-- end of title -->
     <div class="row">
-      <div class="col-lg-3 col-sm-10 mx-auto mb-4">
+      <div class="col-lg-3 col-sm-10 mx-auto mb-4" *ngFor="let ticket of pricelists">
         <div class="card">
-          <!-- <img src="images/kid1.jpg" alt="kid1" class="card-img-top" /> -->
           <div class="card-body">
             <div class="card-title">
-              <h3 class="text-muted">Hourly</h3>
+              <h3 class="text-muted font-weight-bolder">{{ticket.item.type}}</h3>
             </div>
             <hr>
             <div class="card-subtitle">
-              <p class="lead text-secondary">This ticket is valid just for one hour</p>
+              <p class="lead">This ticket is valid just for one hour</p>
             </div>
-            <div class="text-right">
-              <a href="#"
-                ><i class="fa fa-ticket fa-2x mx-2 text-primary"></i
-              ></a>
-              <p>Price</p>
+            <hr>
+            <div class="text-right d-inline">
+              <p class="font-weight-bold fa-2x"><a href="#"
+                ><i class="fa fa-ticket mx-2 text-primary"></i
+              ></a>{{ticket.price}} RSD</p>
+            </div>
+            <div class="text-center mt-2">
+              <button class="btn btn-default border-dark" [disabled]="ticket.item.type !== 'Hourly'">Buy Ticket</button>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ namespace PublicTransport.Api.Controllers
         [HttpGet("pricelists")]
         public async Task<IActionResult> GetPricelists([FromQuery]bool active)
         {
-            var pricelists = await _publicTransportRepository.GetPricelists(active).ToAsyncEnumerable().ToList();
+            var pricelists = await _publicTransportRepository.GetPricelists(active);
 
             if (pricelists.Count() > 0)
             {
@@ -41,10 +41,20 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("timetables")]
-        public Task<IActionResult> GetTimetables()
+        public async Task<IActionResult> GetTimetables()
         {
-            throw new NotImplementedException();
+            var timetables = await _publicTransportRepository.GetTimetables("opa");
+
+            if (timetables.Count() > 0)
+            {
+                return Ok(timetables);
+            }
+            else
+            {
+                return BadRequest("Error while getting timetables.");
+            }
         }
 
         [HttpGet("lines")]
