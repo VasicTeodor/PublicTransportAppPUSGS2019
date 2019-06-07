@@ -6,7 +6,7 @@ namespace PublicTransport.Api.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Adress Adress { get; set; }
+        public Address Address { get; set; }
         public Location Location { get; set; }
         public ICollection<StationLine> StationLines { get; set; }
     }

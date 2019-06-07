@@ -41,6 +41,8 @@ namespace PublicTransport.Api.Controllers
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
+            userToCreate.AccountStatus = "Pending activation";
+
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
             if (result.Succeeded)
@@ -62,7 +64,10 @@ namespace PublicTransport.Api.Controllers
 
             if (result.Succeeded)
             {
-                var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.NormalizedEmail == userForLoginDto.Email.ToUpper());
+                var appUser = await _userManager.Users
+                    .Include(u => u.Address)
+                    .Include(u => u.UserRoles).ThenInclude(r => r.Role)
+                    .FirstOrDefaultAsync(u => u.NormalizedEmail == userForLoginDto.Email.ToUpper());
 
                 return Ok(new
                 {

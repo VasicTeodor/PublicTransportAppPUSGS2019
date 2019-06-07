@@ -83,7 +83,6 @@ namespace PublicTransport.Api.Data
                     var con = _userManager.FindByNameAsync("Controller").Result;
                     _userManager.AddToRoleAsync(con, "Controller" ).Wait();
                 }
-
             }
         }
 
@@ -91,7 +90,7 @@ namespace PublicTransport.Api.Data
         {
             Station station = new Station()
             {
-                Adress = new Adress()
+                Address = new Address()
                 {
                     City = "Novi Sad",
                     Number = "122",

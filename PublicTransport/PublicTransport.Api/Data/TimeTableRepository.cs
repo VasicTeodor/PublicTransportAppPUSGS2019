@@ -42,5 +42,11 @@ namespace PublicTransport.Api.Data
             return await _context.TimeTables.Include(t => t.Line).ThenInclude(s => s.Stations)
                                             .Include(t => t.Line).ThenInclude(b => b.Buses).ToListAsync();
         }
+
+        public async Task<IEnumerable<TimeTable>> GetTimeTablesForParams(string type, string day)
+        {
+            return await _context.TimeTables.Include(t => t.Line).ThenInclude(s => s.Stations)
+                .Include(t => t.Line).ThenInclude(b => b.Buses).Where(t => t.Day == day && t.Type == type).ToListAsync();
+        }
     }
 }

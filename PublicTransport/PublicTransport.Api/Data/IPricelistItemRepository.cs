@@ -9,5 +9,6 @@ namespace PublicTransport.Api.Data
         Task<IEnumerable<PricelistItem>> GetPricelistItemsByActive(bool active = false);
         Task<IEnumerable<PricelistItem>> GetPricelistItems();
         Task<PricelistItem> GetPriceListItem(int id);
+        Task<PricelistItem> GetPriceListItemForTicketType(string type);
     }
 }

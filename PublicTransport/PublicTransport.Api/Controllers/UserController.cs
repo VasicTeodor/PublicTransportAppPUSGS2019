@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using PublicTransport.Api.Data;
+using PublicTransport.Api.Dtos;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
@@ -18,47 +21,98 @@ namespace PublicTransport.Api.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IPublicTransportRepository _publicTransportRepository;
+        private readonly UserManager<User> _userManager;
 
-        public UserController(IMapper mapper, IPublicTransportRepository publicTransportRepository)
+        public UserController(IMapper mapper, IPublicTransportRepository publicTransportRepository, UserManager<User> userManager)
         {
             _mapper = mapper;
             _publicTransportRepository = publicTransportRepository;
+            _userManager = userManager;
         }
 
-        [AllowAnonymous]
-        [HttpGet("pricelists")]
-        public async Task<IActionResult> GetPricelists([FromQuery]bool active)
+        [Authorize(Roles = "Controller, Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
         {
-            var pricelists = await _publicTransportRepository.GetPricelists(active);
+            var users = await _publicTransportRepository.GetUsers();
 
-            if (pricelists.Count() > 0)
+            if (users != null)
             {
-                return Ok(pricelists);
+                return Ok(users);
             }
             else
             {
-                return BadRequest("Error while getting pricelists.");
+                return NotFound();
             }
         }
 
-        [AllowAnonymous]
-        [HttpGet("timetables")]
-        public async Task<IActionResult> GetTimetables()
+        [Authorize(Roles = "Passenger, Controller, Admin")]
+        [HttpGet("{id}", Name = "GetUser")]
+        public async Task<IActionResult> GetUser(int id)
         {
-            var timetables = await _publicTransportRepository.GetTimetables("opa");
+            var user = await _publicTransportRepository.GetUser(id);
 
-            if (timetables.Count() > 0)
+            if (user != null)
             {
-                return Ok(timetables);
+                return Ok(user);
             }
             else
             {
-                return BadRequest("Error while getting timetables.");
+                return NotFound();
             }
         }
 
-        [HttpGet("lines")]
-        public Task<IActionResult> GetLinesForMap()
+        [Authorize(Roles = "Passenger")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateAccount(int id,UserForUpdateDto userForUpdateDto)
+        {
+            if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var userFromRepo = await _publicTransportRepository.GetUser(id);
+
+            _mapper.Map(userForUpdateDto, userFromRepo);
+
+            var result = await _userManager.UpdateAsync(userFromRepo);
+            
+            if (result.Succeeded)
+            {
+                result = await _userManager.ChangePasswordAsync(userFromRepo, userForUpdateDto.OldPassword, userForUpdateDto.Password);
+
+                if (result.Succeeded)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    throw new Exception($"Updating user {id} failed on save!");
+                }
+            }
+            else
+            {
+                throw new Exception($"Updating user {id} failed on save!");
+            }
+        }
+
+        [Authorize(Roles = "Passenger")]
+        [HttpPut("buyTicket")]
+        public async Task<IActionResult> BuyTicket(string type,int userId = -1, string email = null)
+        {
+            var result = await _publicTransportRepository.BuyTicketAsync(type, userId, email);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
+        [Authorize(Roles = "Passenger")]
+        [HttpPost("addDocument")]
+        public Task<IActionResult> AddDocumentForUse(int id)
         {
             throw new NotImplementedException();
         }

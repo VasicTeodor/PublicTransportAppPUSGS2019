@@ -9,7 +9,7 @@ namespace PublicTransport.Api.Data
         UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
-        public DbSet<Adress> Adresses { get; set; }
+        public DbSet<Address> Adresses { get; set; }
         public DbSet<Bus> Busses { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<Line> Lines { get; set; }
