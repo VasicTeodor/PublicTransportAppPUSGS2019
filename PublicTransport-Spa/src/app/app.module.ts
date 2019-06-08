@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './user/register/register.component';
@@ -19,6 +20,9 @@ import { PricelistResolver } from './_resolvers/pricelist.resolver';
 import { HomeComponent } from './home/home.component';
 import { TicketsComponent } from './passenger/tickets/tickets.component';
 import { TimetableComponent } from './passenger/timetable/timetable.component';
+import { UpdateAccountComponent } from './passenger/update-account/update-account.component';
+import { UpdateUserResolver } from './_resolvers/update-user.resolver';
+import { MomentModule, DateFormatPipe } from 'ngx-moment';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -32,7 +36,8 @@ export function getToken() {
       NavbarComponent,
       HomeComponent,
       TicketsComponent,
-      TimetableComponent
+      TimetableComponent,
+      UpdateAccountComponent
    ],
    imports: [
       BrowserModule,
@@ -45,8 +50,10 @@ export function getToken() {
          }
       }),
       HttpClientModule,
+      MomentModule,
       FormsModule,
       ReactiveFormsModule,
+      FileUploadModule,
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
       ButtonsModule.forRoot(),
@@ -57,7 +64,8 @@ export function getToken() {
      AlertifyService,
      AdminService,
      AuthGuard,
-     PricelistResolver
+     PricelistResolver,
+     UpdateUserResolver
   ],
   bootstrap: [
      AppComponent

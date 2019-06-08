@@ -17,6 +17,7 @@ using PublicTransport.Api.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using PublicTransport.Api.Helpers;
 
 namespace PublicTransport.Api
 {
@@ -70,6 +71,7 @@ namespace PublicTransport.Api
 
             services.AddCors();
             services.AddAutoMapper();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
             services.AddTransient<Seed>();
 

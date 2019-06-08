@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { UserRegister } from '../_models/userRegister';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ currentUser: any;
 
 constructor(private http: HttpClient) { }
 
-register(user: any) {
+register(user: UserRegister) {
   return this.http.post(this.baseUrl + 'register', user);
 }
 

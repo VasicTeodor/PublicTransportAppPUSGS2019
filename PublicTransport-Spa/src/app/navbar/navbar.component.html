@@ -14,7 +14,6 @@
       <li class="nav-item">
         <a
           class="nav-link text-light font-weight-bolder h5 px-3"
-          href="#"
           >Map</a
         >
       </li>
@@ -28,15 +27,23 @@
       <li class="nav-item">
         <a
           class="nav-link text-light font-weight-bolder h5 px-3"
-          href="#"
           >Ticket</a
+        >
+      </li>
+      <li class="nav-item" *ngIf="loggedIn()">
+        <a
+          class="nav-link text-light font-weight-bolder h5 px-3"
+          [routerLink]="['/updateAccount']" routerLinkActive="router-link-active"
+          >Update Account</a
         >
       </li>
     </ul>
 
-    <form class="form-inline ml-3">
-      <button class="btn border-warning mr-2" (click)="goToLogin()" >Login</button>
-      <button class="btn border-warning" (click)="goToRegister()" >Register</button>
+    <form *ngIf="!loggedIn()" class="form-inline ml-3">
+      <button class="btn border-warning text-white mr-2" (click)="goToLogin()" >Login</button>
+      <button class="btn border-warning text-white" (click)="goToRegister()" >Register</button>
     </form>
+
+    <button *ngIf="loggedIn()" class="btn border-warning text-white" (click)="logout()" >LogOut</button>
   </div>
 </nav>

@@ -4,13 +4,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Options;
 using PublicTransport.Api.Data;
 using PublicTransport.Api.Dtos;
+using PublicTransport.Api.Helpers;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
@@ -22,12 +26,23 @@ namespace PublicTransport.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IPublicTransportRepository _publicTransportRepository;
         private readonly UserManager<User> _userManager;
+        private readonly IOptions<CloudinarySettings> _cloudinaryConfig;
+        private Cloudinary _cloudinary;
 
-        public UserController(IMapper mapper, IPublicTransportRepository publicTransportRepository, UserManager<User> userManager)
+        public UserController(IMapper mapper, IPublicTransportRepository publicTransportRepository,
+            UserManager<User> userManager, IOptions<CloudinarySettings> cloudinaryConfig)
         {
             _mapper = mapper;
             _publicTransportRepository = publicTransportRepository;
             _userManager = userManager;
+            _cloudinaryConfig = cloudinaryConfig;
+
+            Account acc = new Account(
+                _cloudinaryConfig.Value.CloudName,
+                _cloudinaryConfig.Value.ApiKey,
+                _cloudinaryConfig.Value.ApiSecret);
+
+            _cloudinary = new Cloudinary(acc);
         }
 
         [Authorize(Roles = "Controller, Admin")]
@@ -111,8 +126,58 @@ namespace PublicTransport.Api.Controllers
         }
 
         [Authorize(Roles = "Passenger")]
-        [HttpPost("addDocument")]
-        public Task<IActionResult> AddDocumentForUse(int id)
+        [HttpPost("addDocument/{userId}")]
+        public async Task<IActionResult> AddDocumentForUse(int userId, [FromForm]PhotoUploadDto photoForCreationDto)
+        {
+            if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            var userFromRepo = await _publicTransportRepository.GetUser(userId);
+
+            var file = photoForCreationDto.File;
+
+            var uploadResult = new ImageUploadResult();
+
+            if (file.Length > 0)
+            {
+                using (var stream = file.OpenReadStream())
+                {
+                    var uploadParams = new ImageUploadParams()
+                    {
+                        File = new FileDescription(file.Name, stream),
+                        Transformation = new Transformation().Width(600).Height(500).Crop("fill")
+                    };
+
+                    uploadResult = _cloudinary.Upload(uploadParams);
+                }
+            }
+
+            photoForCreationDto.Url = uploadResult.Uri.ToString();
+            photoForCreationDto.PublicId = uploadResult.PublicId;
+
+            _mapper.Map(photoForCreationDto, userFromRepo);
+
+            var result = await _userManager.UpdateAsync(userFromRepo);
+
+            //if (await _repo.SaveAll())
+            //{
+            //    var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
+            //    return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
+            //}
+
+            if (result.Succeeded)
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Could not add the photo!");
+        }
+
+        [Authorize(Roles = "Controller")]
+        [HttpPut]
+        public Task<IActionResult> ValidateUserAccount(int userId, bool valid)
         {
             throw new NotImplementedException();
         }

@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { UserRegister } from 'src/app/_models/userRegister';
 
 @Component({
   selector: 'app-register',
@@ -11,14 +12,15 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  user: any;
+  user: UserRegister;
   registerForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
+
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.bsConfig = {
-      containerClass: 'theme-red'
+      containerClass: 'theme-orange'
     };
     this.createRegiserForm();
   }
@@ -29,6 +31,7 @@ export class RegisterComponent implements OnInit {
       userName: ['', Validators.required],
       name: ['', Validators.required],
       surname: ['', Validators.required],
+      dateOfBirth: [null, Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
@@ -50,7 +53,12 @@ export class RegisterComponent implements OnInit {
       }, error => {
         this.alertify.error(error);
       }, () => {
-        console.log('loguj se');
+        const model: any = {};
+        model.password = this.user.password;
+        model.email = this.user.email;
+        this.authService.login(model).subscribe(() => {
+          console.log('logged in');
+        });
       });
     }
   }

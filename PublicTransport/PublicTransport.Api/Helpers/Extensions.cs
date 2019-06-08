@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PublicTransport.Api.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace PublicTransport.Api.Helpers
 {

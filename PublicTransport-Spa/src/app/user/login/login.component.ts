@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,8 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 export class LoginComponent implements OnInit {
   model: any = {};
 
-  constructor(private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService,
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -18,11 +20,11 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.model).subscribe(next => {
       this.alertify.success('Logged in succesfully');
-      // this.router.navigate(['/members']);
+      this.router.navigate(['/timetable']);
     }, error => {
       this.alertify.error(error);
     }, () => {
-      console.log('Ovo odradi i posel errora i  poslse uspeha');
+      console.log('This is where magic happens!');
     });
   }
 

@@ -5,6 +5,8 @@ import { HomeComponent } from './home/home.component';
 import { TicketsComponent } from './passenger/tickets/tickets.component';
 import { PricelistResolver } from './_resolvers/pricelist.resolver';
 import { TimetableComponent } from './passenger/timetable/timetable.component';
+import { UpdateAccountComponent } from './passenger/update-account/update-account.component';
+import { UpdateUserResolver } from './_resolvers/update-user.resolver';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -12,6 +14,7 @@ export const appRoutes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'timetable', component: TimetableComponent},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: PricelistResolver}},
+    {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 //     { path: '', component: HomeComponent},
 //     { path: '',

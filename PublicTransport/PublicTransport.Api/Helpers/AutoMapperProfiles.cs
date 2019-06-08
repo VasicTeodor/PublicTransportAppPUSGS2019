@@ -33,6 +33,11 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.Number); })
                 .ForPath(dest => dest.Address.Street,
                     opt => { opt.MapFrom(src => src.Street); });
+            CreateMap<PhotoUploadDto, User>()
+                .ForMember(dest => dest.DocumentUrl,
+                    opt => { opt.MapFrom(src => src.Url); })
+                .ForMember(dest => dest.PublicId,
+                    opt => { opt.MapFrom(src => src.PublicId); });
         }
     }
 }
