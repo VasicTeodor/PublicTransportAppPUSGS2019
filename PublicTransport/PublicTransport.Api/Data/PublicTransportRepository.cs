@@ -108,5 +108,15 @@ namespace PublicTransport.Api.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public Task ValidateUserAccount(int userId, bool valid)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ValidateUserTicket(int ticketId, bool valid)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

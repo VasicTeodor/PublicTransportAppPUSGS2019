@@ -174,12 +174,5 @@ namespace PublicTransport.Api.Controllers
 
             return BadRequest("Could not add the photo!");
         }
-
-        [Authorize(Roles = "Controller")]
-        [HttpPut]
-        public Task<IActionResult> ValidateUserAccount(int userId, bool valid)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

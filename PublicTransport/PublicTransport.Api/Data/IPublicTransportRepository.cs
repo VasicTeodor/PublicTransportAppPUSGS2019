@@ -14,5 +14,7 @@ namespace PublicTransport.Api.Data
         Task<IEnumerable<User>> GetUsers();
         Task<User> GetUser(int id);
         Task<bool> BuyTicketAsync(string ticketType, int userId = -1, string email = null);
+        Task ValidateUserAccount(int userId, bool valid);
+        Task ValidateUserTicket(int ticketId, bool valid);
     }
 }
