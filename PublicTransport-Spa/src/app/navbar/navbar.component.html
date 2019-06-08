@@ -1,4 +1,42 @@
-<nav class="navbar navbar-expand-md navbar-light bg-dark" style="height: 8vh">
+<div class="row jumbotron-fluid m-0 moiClassOrangeDiv"> <!--jumbotron-->
+  <img src="../assets/s5.jpg" class="img-fluid moiClassHomeImg" alt="Responsive image">
+  <div class="col-md-12 text-center my-5 moiClassCapture p-0">
+    <h1 style="color: white">Public Transport</h1>
+    <h4 style="color: white">Novi Sad</h4>
+    <div *ngIf="!loggedIn()" class=""> <!--hidden-->
+        <button (click)="openModalLogin()" class="btn btn-default moiClassButton">&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;</button>
+        <button (click)="openModalRegister()" class="btn btn-default moiClassButton">Registration</button>
+    </div>
+    <div *ngIf="loggedIn()" class="">
+      <button (click)="logout()" class="btn btn-default moiClassButton moiClassButtonLogout">Logout</button>
+  </div>
+  </div>
+</div>
+<div class="row m-0 moiClassWhiteDiv">
+  <div [routerLink]="['/timetable']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu" style="border: transparent">
+      <img class="moiClassButtonMenu" src="../assets/905668-512.png" alt="TimeTable">
+      <p style="color: orange">Timetable</p>
+  </div>
+  <div [routerLink]="['/map']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu">
+      <img class="moiClassButtonMenu" src="../assets/1291745-512.png" alt="Map">
+      <p style="color: orange">Map</p>
+  </div>
+  <div [routerLink]="['/tickets']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu">
+      <img class="moiClassButtonMenu" src="../assets/3545100-512.png" alt="Ticket">
+      <p style="color: orange">Buy a ticket</p>
+  </div>
+  <div [routerLink]="['/ticket']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="col text-center moiClassIconMenu">
+      <img class="moiClassButtonMenu" src="../assets/4544813-512.png" alt="Card">
+      <p style="color: orange">My card</p>
+  </div>
+  <div [routerLink]="['/updateAccount']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="col text-center moiClassIconMenu">
+    <img class="moiClassButtonMenu" src="../assets/2703063-512.png" alt="Card">
+    <p style="color: orange">My account</p>
+</div>
+</div>
+
+
+<nav hidden class="navbar navbar-expand-md navbar-light bg-dark" style="height: 8vh">
   <a [routerLink]="['/home']" class="navbar-brand"
     ><i class="fa fa-bus text-warning fa-2x"></i
   ></a>

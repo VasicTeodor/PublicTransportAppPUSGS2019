@@ -5,3 +5,12 @@
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import '../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css';
 
+.modal-content {
+    background-color: transparent;
+    border: transparent;
+}
+
+.modal {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+

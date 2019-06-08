@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { BsModalService, BsModalRef  } from 'ngx-bootstrap/modal';
+import { LoginComponent } from '../user/login/login.component';
+import { RegisterComponent } from '../user/register/register.component';
 
 @Component({
   selector: 'app-navbar',
@@ -9,8 +13,10 @@ import { AlertifyService } from '../_services/alertify.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  modalRef: BsModalRef;
 
-  constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService) { }
+  constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService, 
+              private modalService: BsModalService) { }
 
   ngOnInit() {
   }
@@ -28,11 +34,11 @@ export class NavbarComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  goToLogin() {
-    this.router.navigate(['/login']);
+  openModalLogin() {
+    this.modalRef = this.modalService.show(LoginComponent);
   }
 
-  goToRegister() {
-    this.router.navigate(['/register']);
+  openModalRegister() {
+    this.modalRef = this.modalService.show(RegisterComponent);
   }
 }

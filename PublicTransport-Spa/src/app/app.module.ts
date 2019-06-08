@@ -23,6 +23,7 @@ import { TimetableComponent } from './passenger/timetable/timetable.component';
 import { UpdateAccountComponent } from './passenger/update-account/update-account.component';
 import { UpdateUserResolver } from './_resolvers/update-user.resolver';
 import { MomentModule, DateFormatPipe } from 'ngx-moment';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -57,6 +58,7 @@ export function getToken() {
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
       ButtonsModule.forRoot(),
+      ModalModule.forRoot(),
   ],
   providers: [
      AuthService,
@@ -69,6 +71,7 @@ export function getToken() {
   ],
   bootstrap: [
      AppComponent
-   ]
+   ],
+   entryComponents: [LoginComponent, RegisterComponent]
 })
 export class AppModule { }

@@ -1,0 +1,84 @@
+.moiClassOrangeDiv {
+    background-color: rgba(255,165,0,1);
+    /* height: 50vh; */
+    height: auto;
+}
+
+.moiClassWhiteDiv {
+    background-color: white;
+    /*height: 50vh;*/
+    height: auto;
+    /* border-bottom: 5px solid orange; */
+}
+
+.moiClassCapture {
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+}
+
+.moiClassButtonColor {
+    color: orange;
+    padding: 2%;
+    font-size: 4em;
+}
+
+.moiClassHomeImg {
+    width: 100vw;
+    height: 50vh;
+    opacity: 0.3;
+    /*border: inset orange 10px;*/
+}
+
+.moiClassButton {
+    background-color: transparent;
+    color: white;
+    font-weight: bolder;
+    font-size: 1em;
+    border: solid white;
+    margin-top: 2%;
+    margin-left: 1%;
+}
+
+.moiClassButton:hover {
+    background-color: white;
+    color: orange;
+}
+
+a.moiClassButton:hover {
+    background-color: white;
+    color: orange;
+}
+
+.moiClassButtonLogout {
+  float: right;
+  border: transparent;
+  text-decoration: underline white;
+}
+
+.moiClassButtonMenu {
+    padding: 2%;
+    height: 60px;
+    width: 60px;
+}
+
+.moiClassIconMenu {
+    margin-left: 3%;
+    margin-top: 2%;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+.moiClassIconMenu:hover {
+    cursor: pointer;
+    font-style: inherit;
+    text-decoration: overline orange;
+}
+
+.moiClassHrMenu {
+    border-top: 5px solid white;
+}
+
+.moiClassIconMenu:active {
+    border: transparent;
+}
