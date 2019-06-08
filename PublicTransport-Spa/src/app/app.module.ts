@@ -24,6 +24,7 @@ import { UpdateAccountComponent } from './passenger/update-account/update-accoun
 import { UpdateUserResolver } from './_resolvers/update-user.resolver';
 import { MomentModule, DateFormatPipe } from 'ngx-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { MapComponent } from './passenger/map/map.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -38,7 +39,8 @@ export function getToken() {
       HomeComponent,
       TicketsComponent,
       TimetableComponent,
-      UpdateAccountComponent
+      UpdateAccountComponent,
+      MapComponent
    ],
    imports: [
       BrowserModule,

@@ -18,10 +18,7 @@ export class TicketsComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.pricelists = data.pricelists;
     });
-
-    console.log(this.pricelists[1].item.type);
-    console.log(this.pricelists[1].price);
-  }
+}
 
   getTickets() {
     this.userService.getPricelists().subscribe((res: any[]) => {
