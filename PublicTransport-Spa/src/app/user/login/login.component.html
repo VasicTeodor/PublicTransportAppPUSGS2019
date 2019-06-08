@@ -1,12 +1,18 @@
-<div class="container align-content-center mt-5" style="width: 70vh">
-  <h3 class="text font-weight-bolder text-center">Login:</h3>
-  <hr>
-  <form *ngIf="!loggedIn()" #loginForm="ngForm" (ngSubmit)="login()" class="p-2">
-    <input class="form-control mr-sm-2 mb-2" type="text" name="email" placeholder="Email" required [(ngModel)]="model.email">
-    <input class="form-control mr-sm-2" type="password" name="password" placeholder="Password" required [(ngModel)]="model.password"> 
-    <div class="container align-content-center text-center m-2">
-      <button [disabled]="!loginForm.valid" class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
-      <button class="btn btn-warning my-2 my-sm-0 ml-1" type="submit">Register</button>
-    </div>
-  </form>  
+<div class="container">
+  <div class="card card-container moiClassLoginBg">
+      <div>
+          <button type="button" class="close pull-right mr-10" style="color: white" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <img id="profile-img" class="profile-img-card" src="../../assets/2703063-512.png" />
+      <p id="profile-name" class="profile-name-card"></p>
+      <form #loginForm="ngForm" (ngSubmit)="login()" class="form-signin">
+          <span id="reauth-email" class="reauth-email"></span>
+          <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus [(ngModel)]="model.email">
+          <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required [(ngModel)]="model.password">
+          <br>
+          <button [disabled]="!loginForm.valid" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Sign in</button>
+      </form>
+  </div>
 </div>
