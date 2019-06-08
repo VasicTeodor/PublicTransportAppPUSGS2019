@@ -1,4 +1,8 @@
 <div class="container-fluid m-0 p-0">
-    <app-navbar></app-navbar>
-    <router-outlet></router-outlet>
+  <app-navbar></app-navbar>
+  <div [ngClass]="{ row: loggedIn() }">
+    <div [ngClass]="{ 'col-xl-10 col-lg-9 col-md-8 ml-auto': loggedIn() }">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </div>

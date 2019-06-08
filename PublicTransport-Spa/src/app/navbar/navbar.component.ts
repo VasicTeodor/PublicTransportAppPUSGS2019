@@ -15,7 +15,7 @@ import { RegisterComponent } from '../user/register/register.component';
 export class NavbarComponent implements OnInit {
   modalRef: BsModalRef;
 
-  constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService, 
+  constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService,
               private modalService: BsModalService) { }
 
   ngOnInit() {

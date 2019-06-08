@@ -47,6 +47,8 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    console.log('RADIIIIIIIIIIIIII');
+    console.log(this.registerForm);
     if (this.registerForm.valid) {
       this.user = Object.assign({}, this.registerForm.value);
       this.authService.register(this.user).subscribe(() => {
@@ -63,9 +65,4 @@ export class RegisterComponent implements OnInit {
       });
     }
   }
-
-  cancel() {
-    this.cancelRegister.emit(false);
-  }
-
 }

@@ -15,6 +15,12 @@
               placeholder="Surname" formControlName="surname" [ngClass]="{'is-invalid': registerForm.get('surname').errors && registerForm.get('surname').touched}">
             <div class="invalid-feedback" *ngIf="registerForm.get('surname').touched && registerForm.get('surname').hasError('required')">Surname is required</div> 
           </div>
+
+          <div class="form-group">
+              <input [ngClass]="{'is-invalid': registerForm.get('dateOfBirth').errors && registerForm.get('dateOfBirth').touched}" class="form-control"
+                placeholder="Date of Birth" formControlName="dateOfBirth" type="text" bsDatepicker [bsConfig]="bsConfig">
+              <div class="invalid-feedback" *ngIf="registerForm.get('dateOfBirth').touched && registerForm.get('dateOfBirth').hasError('required')">Date of Birth is required</div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -52,14 +58,14 @@
           <div class="col">
               <div class="form-group" style="color: white">
               <label class="radio-inline ml-3">
-                  <input class="mr-3" type="radio" value="senior" formControlName="userType">Student
+                  <input class="mr-3" type="radio" value="student" formControlName="userType">Student
                 </label>
                 </div>
           </div>
           <div class="col">
               <div class="form-group" style="color: white">
               <label class="radio-inline ml-3">
-                  <input class="mr-3" type="radio" value="student" formControlName="userType">Senior
+                  <input class="mr-3" type="radio" value="senior" formControlName="userType">Senior
                 </label>
                 </div>
           </div>
@@ -117,7 +123,7 @@
             </div>
       </div>
       <div class="col">
-          <button class="btn btn-lg btn-primary btn-block btn-signin" style="background-color: gray" type="submit">Cancel</button>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" style="background-color: gray" (click)="modalRef.hide()">Cancel</button>
       </div>
         
     </div>
