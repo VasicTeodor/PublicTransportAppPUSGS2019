@@ -5,21 +5,44 @@
         <div [ngClass]="{'row': loggedIn()}">
           <!-- SIDEBAR -->
           <div *ngIf="loggedIn()" class="col-xl-2 col-lg-3 col-md-4 sidebar fixed-top">
-            <a
+            <!-- <a
               href="#"
               class="navbar-brand text-white d-block 
               mx-auto text-center py-3 mb-4 bottom-border"
               >AdminDashboard</a
-            >
-            <div class="bottom-border pb-3">
+            > -->
+            <div class="row bottom-border pb-3 pt-3">
+              <div class="col-4">
               <img
-                src="../../assets/admin.jpeg"
+                src="../../assets/3018548-512.png"
                 alt="Admin image"
-                width="50"
-                class="rounded-circle mr-3"
+                width="70"
+                height="60"
+                class="mr-3"
               />
-              <a href="#" class="text-white">Hellen Smith</a>
             </div>
+            <div class="col-8">
+              <a href="#" class="text-white"><strong>Hellen Smith</strong></a>
+              <p class="text-white" style="font-size: 14px">Administrator</p>
+            </div>
+            </div>
+
+            <!-- <div class="sidebar-header">
+                <div class="user-pic">
+                  <img class="img-responsive img-rounded" src="../assets/3018548-512.png"
+                    alt="User picture">
+                </div>
+                <div class="user-info">
+                  <span class="user-name">
+                      <strong>Jhon Smith</strong>
+                  </span>
+                  <span class="user-role">Administrator</span>
+                  <span hidden class="user-status">
+                    <i class="fa fa-circle"></i>
+                    <span>Online</span>
+                  </span>
+                </div>
+              </div> -->
             <ul class="navbar-nav flex-column mt-4">
               <li class="nav-item">
                 <a href="#" class="nav-link text-white p-3 mb-2 current">
@@ -84,8 +107,11 @@
           
           
           <div class="row jumbotron-fluid m-0 moiClassOrangeDiv"> <!--jumbotron-->
-            <img src="../assets/s5.jpg" class="img-fluid moiClassHomeImg" alt="Responsive image">
-            <div class="col-md-12 text-center my-5 moiClassCapture p-0">
+            <img src="../assets/s5.jpg" *ngIf="!loggedIn()" class="img-fluid moiClassHomeImg" alt="Responsive image">
+            <div class="col-md-12 text-center p-0" 
+                [ngStyle]="{'margin-top': !loggedIn() ? 5 : (loggedIn() ? 0 : null), 
+                            'margin-bottom': !loggedIn() ? 5 : (loggedIn() ? 0 : null) }" 
+                [ngClass]="{'moiClassCapture': !loggedIn(), 'moiClassCaptureLogin': loggedIn()}">
               <h1 style="color: white">Public Transport</h1>
               <h4 style="color: white">Novi Sad</h4>
               <div *ngIf="!loggedIn()" class=""> <!--hidden-->
@@ -97,27 +123,29 @@
             </div>
             </div>
           </div>
-          <div class="row m-0 moiClassWhiteDiv">
-            <div [routerLink]="['/timetable']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu" style="border: transparent">
+          <div class="row moiClassWhiteDiv m-0 justify-content-center">
+              <!-- <div class="row m-0 justify-content-center" [ngClass]="{'moiClassCaptureLogin': loggedIn()}"> -->
+            <div [routerLink]="['/timetable']" routerLinkActive="router-link-active"  class="text-center moiClassIconMenu">
                 <img class="moiClassButtonMenu" src="../assets/905668-512.png" alt="TimeTable">
                 <p style="color: orange">Timetable</p>
             </div>
-            <div [routerLink]="['/map']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu">
+            <div [routerLink]="['/map']" routerLinkActive="router-link-active"  class="text-center moiClassIconMenu">
                 <img class="moiClassButtonMenu" src="../assets/1291745-512.png" alt="Map">
                 <p style="color: orange">Map</p>
             </div>
-            <div [routerLink]="['/tickets']" routerLinkActive="router-link-active"  class="col text-center moiClassIconMenu">
-                <img class="moiClassButtonMenu" src="../assets/3545100-512.png" alt="Ticket">
+            <div [routerLink]="['/tickets']" routerLinkActive="router-link-active"  class="text-center moiClassIconMenu">
+                <img class="moiClassButtonMenu" src="../assets/3545100-512.png" alt="Tickets">
                 <p style="color: orange">Buy a ticket</p>
             </div>
-            <div [routerLink]="['/ticket']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="col text-center moiClassIconMenu">
-                <img class="moiClassButtonMenu" src="../assets/4544813-512.png" alt="Card">
+            <div [routerLink]="['/ticket']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="text-center moiClassIconMenu">
+                <img class="moiClassButtonMenu" src="../assets/4544813-512.png" alt="Ticket">
                 <p style="color: orange">My card</p>
             </div>
-            <div [routerLink]="['/updateAccount']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="col text-center moiClassIconMenu">
+            <div [routerLink]="['/updateAccount']" routerLinkActive="router-link-active" *ngIf="loggedIn()" class="text-center moiClassIconMenu">
               <img class="moiClassButtonMenu" src="../assets/2703063-512.png" alt="Card">
               <p style="color: orange">My account</p>
           </div>
+          <!-- </div> -->
           </div>
           </div>
           </div>

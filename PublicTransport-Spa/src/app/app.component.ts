@@ -12,7 +12,8 @@ export class AppComponent {
   title = 'PublicTransport-Spa';
 
   loggedIn() {
-    return this.authService.loggedIn();
+    /* return this.authService.loggedIn(); */
+    return true;
   }
 
 }

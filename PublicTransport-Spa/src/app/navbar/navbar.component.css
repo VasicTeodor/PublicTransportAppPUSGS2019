@@ -9,12 +9,18 @@
     /*height: 50vh;*/
     height: auto;
     /* border-bottom: 5px solid orange; */
+    /* margin-top: 2%; */
+    /* width: 80vw; */
 }
 
 .moiClassCapture {
     position: absolute;
     top: 5%;
-    bottom: 5%;
+    /* bottom: 5%; */
+}
+
+.moiClassCaptureLogin {
+  width: 100vw;
 }
 
 .moiClassButtonColor {
@@ -51,9 +57,12 @@ a.moiClassButton:hover {
 }
 
 .moiClassButtonLogout {
-  float: right;
+  /* float: right; */
   border: transparent;
   text-decoration: underline white;
+  position: absolute;
+  bottom: 0%;
+  right: 2%;
 }
 
 .moiClassButtonMenu {
@@ -63,10 +72,14 @@ a.moiClassButton:hover {
 }
 
 .moiClassIconMenu {
-    margin-left: 3%;
-    margin-top: 2%;
+    margin-right: 5%;
+   /* margin-top: 2%; */
+    padding-top: 2%;
+    /* padding-right: 5%; */
     font-size: 20px;
     font-weight: bolder;
+    /* height: 80px;
+    width: 80px; */
 }
 
 .moiClassIconMenu:hover {
@@ -79,8 +92,20 @@ a.moiClassButton:hover {
     border-top: 5px solid white;
 }
 
-.moiClassIconMenu:active {
-    border: transparent;
+.router-link-active {
+  outline: none;
+  text-decoration: overline orange;
+}
+
+.router-link-active:focus,
+.router-link-active:active:focus{
+    outline:none;
+    text-decoration: overline orange;
+}
+
+.moiClassIconMenu:focus,
+.moiClassIconMenu:active:focus{
+    outline:none;
 }
 
 /* sakdoijiosahdajs */
@@ -93,12 +118,11 @@ body {
   /* navbar */
   .sidebar {
     height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)),
-      url(../../assets/img1.jpeg);
+    background: rgba(0, 0, 0, 0.9);  /*linear-gradient(rgba(0, 0, 0, 0.7), url(../../assets/img1.jpeg) */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    box-shadow: 5px 7px 25px #999;
+    /* box-shadow: 5px 7px 25px #999; */
   }
   
   .bottom-border {
