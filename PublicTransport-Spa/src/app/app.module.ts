@@ -25,6 +25,8 @@ import { UpdateUserResolver } from './_resolvers/update-user.resolver';
 import { MomentModule, DateFormatPipe } from 'ngx-moment';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { MapComponent } from './passenger/map/map.component';
+import { UserVerificationComponent } from './controller/userVerification/userVerification.component';
+import { UserVerificationResolver } from './_resolvers/userVerification.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -40,7 +42,8 @@ export function getToken() {
       TicketsComponent,
       TimetableComponent,
       UpdateAccountComponent,
-      MapComponent
+      MapComponent,
+      UserVerificationComponent
    ],
    imports: [
       BrowserModule,
@@ -69,7 +72,8 @@ export function getToken() {
      AdminService,
      AuthGuard,
      PricelistResolver,
-     UpdateUserResolver
+     UpdateUserResolver,
+     UserVerificationResolver
   ],
   bootstrap: [
      AppComponent

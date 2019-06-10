@@ -9,4 +9,6 @@ export interface UserRegister {
     street: string;
     number: string;
     dateOfBirth: Date;
+    documentUrl?: string;
+    accountStatus?: string;
 }

@@ -22,80 +22,45 @@
               />
             </div>
             <div class="col-8">
-              <a href="#" class="text-white"><strong>Hellen Smith</strong></a>
+              <p class="text-white"><strong>Hellen Smith</strong></p>
               <p class="text-white" style="font-size: 14px">Administrator</p>
             </div>
             </div>
-
-            <!-- <div class="sidebar-header">
-                <div class="user-pic">
-                  <img class="img-responsive img-rounded" src="../assets/3018548-512.png"
-                    alt="User picture">
-                </div>
-                <div class="user-info">
-                  <span class="user-name">
-                      <strong>Jhon Smith</strong>
-                  </span>
-                  <span class="user-role">Administrator</span>
-                  <span hidden class="user-status">
-                    <i class="fa fa-circle"></i>
-                    <span>Online</span>
-                  </span>
-                </div>
-              </div> -->
             <ul class="navbar-nav flex-column mt-4">
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 current">
-                  <i class="fas fa-home text-light fa-lg mr-3"></i>
-                  Dashboard</a
+                <a href="#" [routerLink]="['/userVerification']" routerLinkActive="router-link-active"  class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-user text-light fa-lg mr-3"></i>
+                  User Verification</a
                 >
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-user text-light fa-lg mr-3"></i>
-                  Profile</a
+                <a href="../../assets/103337-512.png" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-check-square text-light fa-lg mr-3"></i>
+                  Ticket Verification</a
                 >
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-envelope text-light fa-lg mr-3"></i>
-                  Inbox</a
+                <a href="#" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-list-ol text-light fa-lg mr-3"></i>
+                  Lines</a
                 >
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-shopping-cart text-light fa-lg mr-3"></i>
-                  Sales</a
+                <a href="#" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-map-marker text-light fa-lg mr-3"></i>
+                  Stations</a
                 >
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-chart-line text-light fa-lg mr-3"></i>
-                  Analytics</a
+                <a href="#" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-bus text-light fa-lg mr-3"></i>
+                  Timetables</a
                 >
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-chart-bar text-light fa-lg mr-3"></i>
-                  Charts</a
-                >
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-table text-light fa-lg mr-3"></i>
-                  Tables</a
-                >
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-wrench text-light fa-lg mr-3"></i>
-                  Settings</a
-                >
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
-                  <i class="fas fa-file-alt text-light fa-lg mr-3"></i>
-                  Documentation</a
+                <a href="#" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+                  <i class="fa fa-list text-light fa-lg mr-3"></i>
+                  Pricelist</a
                 >
               </li>
             </ul>
