@@ -12,6 +12,7 @@ import { UserVerificationComponent } from './controller/userVerification/userVer
 import { UserVerificationResolver } from './_resolvers/userVerification.resolver';
 import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
 import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
+import { PricelistComponent } from './passenger/pricelist/pricelist.component';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -20,6 +21,7 @@ export const appRoutes: Routes = [
     {path: 'timetable', component: TimetableComponent},
     {path: 'map', component: MapComponent},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: PricelistResolver}},
+    {path: 'pricelist', component: PricelistComponent},// resolve: {pricelists: PricelistResolver}},
     {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
     {path: 'userVerification', component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
     {path: 'ticketVerification', component: TicketVerificationComponent},// resolve: {tickets: TicketVerificationResolver}},

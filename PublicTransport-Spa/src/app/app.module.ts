@@ -30,6 +30,7 @@ import { UserVerificationResolver } from './_resolvers/userVerification.resolver
 import { ControllerService } from './_services/controller.service';
 import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
 import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
+import { PricelistComponent } from './passenger/pricelist/pricelist.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -47,7 +48,8 @@ export function getToken() {
       UpdateAccountComponent,
       MapComponent,
       UserVerificationComponent,
-      TicketVerificationComponent
+      TicketVerificationComponent,
+      PricelistComponent
    ],
    imports: [
       BrowserModule,
