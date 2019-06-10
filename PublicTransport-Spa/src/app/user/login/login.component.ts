@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.authService.login(this.model).subscribe(next => {
       this.alertify.success('Logged in succesfully');
-      this.router.navigate(['/timetable']);
+      this.router.navigate(['/home']);
+      this.modalRef.hide();
     }, error => {
       this.alertify.error(error);
     }, () => {

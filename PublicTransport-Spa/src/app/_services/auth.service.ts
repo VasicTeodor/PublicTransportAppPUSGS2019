@@ -35,9 +35,8 @@ login(model: any) {
 }
 
 loggedIn() {
-  /* const token = localStorage.getItem('token');
-  return !this.jwtHelper.isTokenExpired(token); */
-  return true;
+  const token = localStorage.getItem('token');
+  return !this.jwtHelper.isTokenExpired(token);
 }
 
 }

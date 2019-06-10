@@ -34,6 +34,7 @@ export class UpdateAccountComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
+    console.log(this.user);
     this.bsConfig = {
       containerClass: 'theme-orange'
     };
@@ -78,7 +79,7 @@ export class UpdateAccountComponent implements OnInit {
       userName: [this.user.userName, Validators.required],
       name: [this.user.name, Validators.required],
       surname: [this.user.surname, Validators.required],
-      dateOfBirth: [myMoment, Validators.required],
+      dateOfBirth: [myMoment.toDate(), Validators.required],
       email: [this.user.email, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       oldPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],

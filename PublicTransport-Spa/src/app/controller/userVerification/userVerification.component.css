@@ -33,12 +33,41 @@ table.moiClassTimeTable td, th {
 
 .moiClassButtonApproved {
     font-size: 20px;
+    color: white;
+    font-weight: bolder;
     padding-left: 3%;
     padding-right: 3%;
     padding-top: 1%;
     padding-bottom: 1%;
-    width: 200px;
+    width: 150px;
     background-color: orange;
+    margin-right: 2%;
+}
+
+.moiClassButtonApproved:hover {
+    background-color: rgb(212, 139, 3);
+}
+
+.moiClassButtonReject {
+    font-size: 20px;
+    padding-left: 3%;
+    color: white;
+    font-weight: bolder;
+    padding-right: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    width: 150px;
+    background-color: rgb(163, 163, 163);
+    margin-left: 2%;
+}
+
+.moiClassButtonReject:hover {
+    background-color: rgb(119, 119, 119);;
+}
+
+.moiClassUserDocument {
+    height: 500px;
+    width: 500px;
 }
 
 /* table.moiClassUserRequest tr {

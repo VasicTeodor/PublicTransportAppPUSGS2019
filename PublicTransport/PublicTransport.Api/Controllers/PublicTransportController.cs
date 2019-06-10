@@ -26,11 +26,11 @@ namespace PublicTransport.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("pricelists")]
-        public async Task<IActionResult> GetPricelists([FromQuery]bool active, [FromQuery]int userId = -1)
+        public async Task<IActionResult> GetPricelists([FromQuery]bool active, [FromQuery]int userId = -1, [FromQuery]bool pricelistForAll = false)
         {
             var pricelists = await _publicTransportRepository.GetPricelists(active, userId);
 
-            if (userId == -1)
+            if (pricelistForAll)
             {
                 var result = await _publicTransportRepository.CalculateAllPricelists(pricelists.ToList());
 

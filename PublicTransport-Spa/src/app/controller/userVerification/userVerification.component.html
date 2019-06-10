@@ -10,69 +10,13 @@
                   <th scope="col"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody *ngFor="let user of users" >
                 <tr>
-                  <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
-                </tr>
-                <tr>
-                    <th scope="row">1561</th>
-                  <td>Mika</td>
-                  <td>Radovic</td>
-                  <td>student</td>
-                  <td><button class="btn btn-default moiClassButton">Review</button></td>
+                  <th scope="row">{{user.id}}</th>
+                  <td>{{user.name}}</td>
+                  <td>{{user.surname}}</td>
+                  <td>{{user.userType}}</td>
+                  <td><button (click)="selectUser(user)" class="btn btn-default moiClassButton">Review</button></td>
                 </tr>
               </tbody>
             </table>
@@ -81,40 +25,43 @@
         <table class="table table-dark moiClassTimeTable moiClassUserRequest" style="font-size: 16px">
             <thead>
               <tr>
-                <th colspan="2" class="text-center" scope="col">1561 : User Request</th>
+                <th colspan="2" class="text-center" scope="col">User Request : {{selectedUser?.id}}</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <th scope="row">Name:</th>
-                <td>Mika</td>
+                <td>{{selectedUser?.name}}</td>
               </tr>
               <tr>
                   <th scope="row">Surname:</th>
-                <td>Radovic</td>
+                <td>{{selectedUser?.surname}}</td>
               </tr>
               <tr>
                   <th scope="row">Date of Birth:</th>
-                <td>25/05/1996</td>
+                <td>{{selectedUser?.dateOfBirth | date: 'dd/MM/yyyy'}}</td>
               </tr>
               <tr>
                   <th scope="row">Address:</th>
-                <td>Bulevar Kralja Petra I/51, Novi Sad</td>
+                <td>{{selectedUser?.address?.street}}/{{selectedUser?.address?.number}}, {{selectedUser?.address?.city}}</td>
               </tr>
               <tr>
                   <th scope="row">E-mail</th>
-                <td>mika@gmail.com</td>
+                <td>{{selectedUser?.email}}</td>
               </tr>
               <tr>
                   <th scope="row">User Type:</th>
-                <td>student</td>
+                <td>{{selectedUser?.userType}}</td>
               </tr>
               <tr>
                   <th scope="row">Document:</th>
-                <td>N <br> O <br> O <br> O <br></td>
+                <td><img src="{{selectedUser?.documentUrl}}" alt="User Document" class="moiClassUserDocument"></td>
               </tr>
               <tr>
-                <td colspan="2" class="text-center"><button class="btn btn-default moiClassButton moiClassButtonApproved">Approve</button></td>
+                <td colspan="2" class="text-center">
+                  <button (click)="verificateUserApprove()" class="btn btn-default moiClassButtonApproved">Approve</button>
+                  <button (click)="verificateUserReject()" class="btn btn-default moiClassButtonReject">Reject</button>
+                </td>
               </tr>
             </tbody>
           </table>

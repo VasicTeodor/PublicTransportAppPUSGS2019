@@ -19,7 +19,7 @@ export const appRoutes: Routes = [
     {path: 'map', component: MapComponent},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: PricelistResolver}},
     {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
-    {path: 'userVerification', component: UserVerificationComponent},  /* resolve: {users: UserVerificationResolver} */
+    {path: 'userVerification', component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 //     { path: '', component: HomeComponent},
 //     { path: '',

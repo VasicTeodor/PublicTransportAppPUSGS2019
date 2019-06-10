@@ -32,7 +32,7 @@ namespace PublicTransport.Api.Data
 
                 foreach (var role in roles)
                 {
-                    _roleManager.CreateAsync(role);
+                    _roleManager.CreateAsync(role).Wait();
                 }
 
                 var userList = new List<User>();

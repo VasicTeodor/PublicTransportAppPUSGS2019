@@ -40,7 +40,7 @@ namespace PublicTransport.Api.Data
         {
             if (userId == -1 && email != null)
             {
-                EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
+                //EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
                 return true;
             }
 
@@ -163,9 +163,9 @@ namespace PublicTransport.Api.Data
                 result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    EmailService.SendEmail(
-                        "In the name of PublicTransport, I'm happy to inform you that your account is ACTIVATED.",
-                        user.Email);
+                    //EmailService.SendEmail(
+                    //    "In the name of PublicTransport, I'm happy to inform you that your account is ACTIVATED.",
+                    //    user.Email);
                 }
             }
             else
@@ -176,7 +176,7 @@ namespace PublicTransport.Api.Data
                 result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
-                    EmailService.SendEmail("In the name of PublicTransport, I'am sorry to inform you that your account document is REJECTED.", user.Email);
+                    //EmailService.SendEmail("In the name of PublicTransport, I'am sorry to inform you that your account document is REJECTED.", user.Email);
                 }
             }
 

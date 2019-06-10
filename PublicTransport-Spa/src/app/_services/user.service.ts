@@ -26,8 +26,8 @@ getUser(id): Observable<User> {
   return this.http.get<User>(this.baseUrl + 'user/' + id);
 }
 
-getUsers(): Observable<UserRegister[]> {
-  return this.http.get<UserRegister[]>(this.baseUrl + 'user/');
+getUsers(): Observable<User[]> {
+  return this.http.get<User[]>(this.baseUrl + 'user/');
 }
 
 updateAccount(user: UserRegister, id: number) {

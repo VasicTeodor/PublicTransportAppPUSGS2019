@@ -11,7 +11,7 @@ export interface User {
     address?: Address;
     userType?: string;
     accountStatus?: string;
-    active?: string;
+    verified?: boolean;
     documentUrl?: string;
     publicId?: string;
     tickets?: Ticket[];

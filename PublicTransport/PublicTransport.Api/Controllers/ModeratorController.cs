@@ -45,7 +45,7 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> ValidateUserAccount(int userId, bool valid)
+        public async Task<IActionResult> ValidateUserAccount([FromForm]int userId, [FromForm]bool valid)
         {
             var result = await _publicTransportRepository.ValidateUserAccount(userId, valid);
 

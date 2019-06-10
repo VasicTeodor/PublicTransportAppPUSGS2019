@@ -27,6 +27,7 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { MapComponent } from './passenger/map/map.component';
 import { UserVerificationComponent } from './controller/userVerification/userVerification.component';
 import { UserVerificationResolver } from './_resolvers/userVerification.resolver';
+import { ControllerService } from './_services/controller.service';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -70,6 +71,7 @@ export function getToken() {
      UserService,
      AlertifyService,
      AdminService,
+     ControllerService,
      AuthGuard,
      PricelistResolver,
      UpdateUserResolver,

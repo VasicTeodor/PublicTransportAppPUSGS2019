@@ -42,12 +42,21 @@ namespace PublicTransport.Api.Controllers
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
             userToCreate.AccountStatus = "Pending activation";
+            userToCreate.DateOfBirth = userToCreate.DateOfBirth.AddDays(1);
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);
 
             if (result.Succeeded)
             {
-                return Ok(userToCreate);
+                var result2 = await _userManager.AddToRoleAsync(userToCreate, "Passenger");
+                if (result2.Succeeded)
+                {
+                    return Ok(userToCreate);
+                }
+                else
+                {
+                    return BadRequest(result2.Errors);
+                }
             }
             else
             {
