@@ -28,16 +28,50 @@ namespace PublicTransport.Api.Controllers
             _publicTransportRepository = publicTransportRepository;
             _userManager = userManager;
         }
-        [HttpPut]
-        public Task<IActionResult> ValidateUserAccount(int userId, bool valid)
+
+        [HttpGet]
+        public async Task<IActionResult> GetTickets()
         {
-            throw new NotImplementedException();
+            var tickets = await _publicTransportRepository.GetTickets();
+
+            if (tickets != null)
+            {
+                return Ok(tickets);
+            }
+            else
+            {
+                return BadRequest("Error while getting tickets!");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ValidateUserAccount(int userId, bool valid)
+        {
+            var result = await _publicTransportRepository.ValidateUserAccount(userId, valid);
+
+            if (result)
+            {
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPut("validateTicket")]
-        public Task<IActionResult> ValidateUserTicket(int ticketId, bool valid)
+        public async Task<IActionResult> ValidateUserTicket(int ticketId)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.ValidateUserTicket(ticketId);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }

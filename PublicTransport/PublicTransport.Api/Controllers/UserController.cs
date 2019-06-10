@@ -111,6 +111,22 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
+        [HttpPut("buyTicketUnRegistered")]
+        public async Task<IActionResult> BuyTicketUnregistered(string type, int userId = -1, string email = null)
+        {
+            userId = -1;
+            type = "Hourly";
+            var result = await _publicTransportRepository.BuyTicketAsync(type, userId, email);
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [Authorize(Roles = "Passenger")]
         [HttpPut("buyTicket")]
         public async Task<IActionResult> BuyTicket(string type,int userId = -1, string email = null)
@@ -161,15 +177,9 @@ namespace PublicTransport.Api.Controllers
 
             var result = await _userManager.UpdateAsync(userFromRepo);
 
-            //if (await _repo.SaveAll())
-            //{
-            //    var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
-            //    return CreatedAtRoute("GetPhoto", new { id = photo.Id }, photoToReturn);
-            //}
-
             if (result.Succeeded)
             {
-                return NoContent();
+                return Ok(photoForCreationDto);
             }
 
             return BadRequest("Could not add the photo!");

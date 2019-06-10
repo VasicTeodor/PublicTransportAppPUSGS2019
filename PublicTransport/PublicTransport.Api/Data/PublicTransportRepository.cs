@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PublicTransport.Api.Dtos;
 using PublicTransport.Api.Helpers;
 using PublicTransport.Api.Models;
 
@@ -15,15 +17,18 @@ namespace PublicTransport.Api.Data
         private readonly ITicketRepository _ticketRepository;
         private readonly IPricelistItemRepository _pricelistItemRepository;
         private readonly ITimeTableRepository _timeTableRepository;
+        private readonly IUserDiscountRepository _userDiscountRepository;
         private readonly UserManager<User> _userManager;
 
         public PublicTransportRepository(DataContext context, ITicketRepository ticketRepository,
-            IPricelistItemRepository pricelistItemRepository, ITimeTableRepository timeTableRepository, UserManager<User> userManager)
+            IPricelistItemRepository pricelistItemRepository, ITimeTableRepository timeTableRepository,
+            IUserDiscountRepository userDiscountRepository, UserManager<User> userManager)
         {
             _context = context;
             _ticketRepository = ticketRepository;
             _pricelistItemRepository = pricelistItemRepository;
             _timeTableRepository = timeTableRepository;
+            _userDiscountRepository = userDiscountRepository;
             _userManager = userManager;
         }
         public void Add<T>(T entity) where T : class
@@ -35,23 +40,8 @@ namespace PublicTransport.Api.Data
         {
             if (userId == -1 && email != null)
             {
-                var smtpClient = new SmtpClient
-                {
-                    Host = "smtp.gmail.com", // set your SMTP server name here
-                    Port = 587, // Port 
-                    EnableSsl = true,
-                    Credentials = new NetworkCredential("from@gmail.com", "blabla")
-                };
-
-                using (var message = new MailMessage("from@gmail.com", email)
-                {
-                    Subject = "Subject",
-                    Body = "Body"
-                })
-                {
-                    await smtpClient.SendMailAsync(message);
-                    return true;
-                }
+                EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
+                return true;
             }
 
             if (userId != -1)
@@ -65,7 +55,8 @@ namespace PublicTransport.Api.Data
                         User = userFromDatabase,
                         IsValid = true,
                         TicketType = ticketType,
-                        PriceInfo = prInfo
+                        PriceInfo = prInfo,
+                        DateOfIssue = DateTime.Now
                     };
 
                     Add(newTicket);
@@ -76,14 +67,64 @@ namespace PublicTransport.Api.Data
             return false;
         }
 
+        public async Task<AllPricelistsForUsersDto> CalculateAllPricelists(List<PricelistItem> pricelist)
+        {
+            var regularDiscount = await _userDiscountRepository.GetUserDiscountForType("Regular");
+            var studentDiscount = await _userDiscountRepository.GetUserDiscountForType("Student");
+            var seniorDiscount = await _userDiscountRepository.GetUserDiscountForType("Senior");
+
+            var allPricelists = new AllPricelistsForUsersDto()
+            {
+                SeniorPricelist = pricelist,
+                RegularUserPricelist = pricelist,
+                StudentPricelist = pricelist
+            };
+
+            foreach (var pricelistItem in allPricelists.SeniorPricelist)
+            {
+                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)seniorDiscount.Value);
+            }
+
+            foreach (var pricelistItem in allPricelists.StudentPricelist)
+            {
+                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)studentDiscount.Value);
+            }
+
+            foreach (var pricelistItem in allPricelists.RegularUserPricelist)
+            {
+                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)regularDiscount.Value);
+            }
+
+            return allPricelists;
+        }
+
         public void Delete<T>(T entity) where T : class
         {
             _context.Remove(entity);
         }
 
-        public async Task<IEnumerable<PricelistItem>> GetPricelists(bool active)
+        public async Task<IEnumerable<PricelistItem>> GetPricelists(bool active, int userId)
         {
-            return await _pricelistItemRepository.GetPricelistItemsByActive(active);
+            var pricelist = await _pricelistItemRepository.GetPricelistItemsByActive(active);
+
+            if (userId != -1)
+            {
+                var user = await _userManager.GetUserById(userId);
+
+                var discount = await _userDiscountRepository.GetUserDiscountForType(user.UserType);
+
+                foreach (var pricelistItem in pricelist)
+                {
+                    pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)discount.Value);
+                }
+            }
+
+            return pricelist;
+        }
+
+        public async Task<IEnumerable<Ticket>> GetTickets()
+        {
+            return await _ticketRepository.GetTickets();
         }
 
         public async Task<IEnumerable<TimeTable>> GetTimetables(string type, string dayInWeek)
@@ -109,14 +150,97 @@ namespace PublicTransport.Api.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public Task ValidateUserAccount(int userId, bool valid)
+        public async Task<bool> ValidateUserAccount(int userId, bool valid)
         {
-            throw new System.NotImplementedException();
+            var user = await _userManager.GetUserById(userId);
+            IdentityResult result = new IdentityResult();
+
+            if (valid)
+            {
+                user.AccountStatus = "Active";
+                user.Verified = true;
+
+                result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    EmailService.SendEmail(
+                        "In the name of PublicTransport, I'm happy to inform you that your account is ACTIVATED.",
+                        user.Email);
+                }
+            }
+            else
+            {
+                user.AccountStatus = "Rejected";
+                user.Verified = false;
+
+                result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    EmailService.SendEmail("In the name of PublicTransport, I'am sorry to inform you that your account document is REJECTED.", user.Email);
+                }
+            }
+
+
+            return result.Succeeded;
         }
 
-        public Task ValidateUserTicket(int ticketId, bool valid)
+        public async Task<Ticket> ValidateUserTicket(int ticketId)
         {
-            throw new System.NotImplementedException();
+            var ticket = await _ticketRepository.GetTicket(ticketId);
+
+            if (ticket.TicketType == "Daily")
+            {
+                if (DateTime.Now.Date < ticket.DateOfIssue.AddDays(1).Date)
+                {
+                    ticket.IsValid = true;
+                }
+                else
+                {
+                    ticket.IsValid = false;
+                }
+            }
+            else if (ticket.TicketType == "Hourly")
+            {
+                if (DateTime.Now < ticket.DateOfIssue.AddHours(1))
+                {
+                    ticket.IsValid = true;
+                }
+                else
+                {
+                    ticket.IsValid = false;
+                }
+            }
+            else if (ticket.TicketType == "Monthly")
+            {
+                if (DateTime.Now.Date < ticket.DateOfIssue.AddMonths(1).Date)
+                {
+                    ticket.IsValid = true;
+                }
+                else
+                {
+                    ticket.IsValid = false;
+                }
+            }
+            else if (ticket.TicketType == "Annual")
+            {
+                if (DateTime.Now.Date < ticket.DateOfIssue.AddYears(1).Date)
+                {
+                    ticket.IsValid = true;
+                }
+                else
+                {
+                    ticket.IsValid = false;
+                }
+            }
+
+            if (await SaveAll())
+            {
+                return ticket;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }
