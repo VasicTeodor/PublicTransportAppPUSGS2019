@@ -10,6 +10,8 @@ import { UpdateUserResolver } from './_resolvers/update-user.resolver';
 import { MapComponent } from './passenger/map/map.component';
 import { UserVerificationComponent } from './controller/userVerification/userVerification.component';
 import { UserVerificationResolver } from './_resolvers/userVerification.resolver';
+import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
+import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -20,6 +22,7 @@ export const appRoutes: Routes = [
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: PricelistResolver}},
     {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
     {path: 'userVerification', component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
+    {path: 'ticketVerification', component: TicketVerificationComponent},// resolve: {tickets: TicketVerificationResolver}},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 //     { path: '', component: HomeComponent},
 //     { path: '',

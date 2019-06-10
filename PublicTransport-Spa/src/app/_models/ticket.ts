@@ -8,4 +8,5 @@ export interface Ticket {
     isValid: boolean;
     user: User;
     priceInfo: PricelistItem;
+    checkResult?: string;
 }

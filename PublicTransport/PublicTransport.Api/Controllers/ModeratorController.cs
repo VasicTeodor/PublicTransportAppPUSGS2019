@@ -60,7 +60,7 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut("validateTicket")]
-        public async Task<IActionResult> ValidateUserTicket(int ticketId)
+        public async Task<IActionResult> ValidateUserTicket([FromForm]int ticketId)
         {
             var result = await _publicTransportRepository.ValidateUserTicket(ticketId);
 

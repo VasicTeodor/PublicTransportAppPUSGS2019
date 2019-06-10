@@ -28,6 +28,8 @@ import { MapComponent } from './passenger/map/map.component';
 import { UserVerificationComponent } from './controller/userVerification/userVerification.component';
 import { UserVerificationResolver } from './_resolvers/userVerification.resolver';
 import { ControllerService } from './_services/controller.service';
+import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
+import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -44,7 +46,8 @@ export function getToken() {
       TimetableComponent,
       UpdateAccountComponent,
       MapComponent,
-      UserVerificationComponent
+      UserVerificationComponent,
+      TicketVerificationComponent
    ],
    imports: [
       BrowserModule,
@@ -75,7 +78,8 @@ export function getToken() {
      AuthGuard,
      PricelistResolver,
      UpdateUserResolver,
-     UserVerificationResolver
+     UserVerificationResolver,
+     TicketVerificationResolver
   ],
   bootstrap: [
      AppComponent
