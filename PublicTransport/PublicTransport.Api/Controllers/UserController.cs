@@ -47,9 +47,9 @@ namespace PublicTransport.Api.Controllers
 
         [Authorize(Roles = "Controller, Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<IActionResult> GetUsers(string accountStatus = null)
         {
-            var users = await _publicTransportRepository.GetUsers();
+            var users = await _publicTransportRepository.GetUsers(accountStatus);
 
             if (users != null)
             {

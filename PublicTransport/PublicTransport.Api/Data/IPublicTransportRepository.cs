@@ -12,7 +12,7 @@ namespace PublicTransport.Api.Data
         Task<bool> SaveAll();
         Task<IEnumerable<PricelistItem>> GetPricelists(bool active, int userId);
         Task<IEnumerable<TimeTable>> GetTimetables(string type, string dayInWeek);
-        Task<IEnumerable<User>> GetUsers();
+        Task<IEnumerable<User>> GetUsers(string accountStatus);
         Task<User> GetUser(int id);
         Task<bool> BuyTicketAsync(string ticketType, int userId = -1, string email = null);
         Task<bool> ValidateUserAccount(int userId, bool valid);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -137,12 +138,23 @@ namespace PublicTransport.Api.Data
             return await _userManager.GetUserById(id);
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<IEnumerable<User>> GetUsers(string accountStatus)
         {
-            return await _userManager.Users.Include(u => u.Address)
-                .Include(u => u.Tickets)
-                .ThenInclude(t => t.PriceInfo)
-                .ToListAsync();
+            if (accountStatus != null)
+            {
+                return await _userManager.Users.Include(u => u.Address)
+                    .Include(u => u.Tickets)
+                    .ThenInclude(t => t.PriceInfo)
+                    .Where(u => u.AccountStatus == accountStatus)
+                    .ToListAsync();
+            }
+            else
+            {
+                return await _userManager.Users.Include(u => u.Address)
+                    .Include(u => u.Tickets)
+                    .ThenInclude(t => t.PriceInfo)
+                    .ToListAsync();
+            }
         }
 
         public async Task<bool> SaveAll()

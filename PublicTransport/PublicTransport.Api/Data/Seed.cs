@@ -44,7 +44,16 @@ namespace PublicTransport.Api.Data
                         UserName = $"User{i}",
                         Name = $"Pera {i}",
                         Surname = $"Peric {i}",
-                        Email = $"user{i}@gmail.com"
+                        Email = $"user{i}@gmail.com",
+                        UserType = "Regular",
+                        Address = new Address()
+                        {
+                            City = "Grad",
+                            Street = "Ulica",
+                            Number = "Broj"
+                        },
+                        Verified = false,
+                        AccountStatus = "Pending activation"
                     };
 
                     userList.Add(user);
@@ -104,7 +113,7 @@ namespace PublicTransport.Api.Data
                 Name = "Lutrija"
             };
 
-            //_context.Add(station);
+            _context.Add(station);
 
             TimeTable timeTable1 = new TimeTable()
             {
