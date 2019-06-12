@@ -25,6 +25,7 @@ import { AdminGuard } from './_guards/admin.guard';
 import { AuthGuard } from './_guards/auth.guard';
 import { TicketResolver } from './_resolvers/ticket.resolver';
 import { ControllerGuard } from './_guards/controller.guard';
+import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -47,5 +48,6 @@ export const appRoutes: Routes = [
     {path: 'newTimetable', component: NewTimetableComponent},
     {path: 'viewTimetables', component: ViewTimetablesComponent},
     {path: 'viewPricelist', component: ViewPricelistComponent},
+    {path: 'newPricelist', component: NewPricelistComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 ];

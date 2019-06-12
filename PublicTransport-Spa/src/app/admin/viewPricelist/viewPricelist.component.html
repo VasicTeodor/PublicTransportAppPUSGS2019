@@ -1,3 +1,55 @@
-<p>
-  viewPricelist works!
-</p>
+<div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
+    <div class="col">
+      <table class="table table-striped table-dark moiClassTimeTable" style="font-size: 16px">
+        <thead>
+          <tr>
+            <th scope="col" colspan="7" style="font-size: 20px">Pricelists</th>
+          </tr>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">From</th>
+            <th scope="col">To</th>
+            <th scope="col">Active</th>
+            <th scope="col">Type of Ticket</th>
+            <th scope="col">Price</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">4342</th>
+            <td>07/10/2018</td>
+            <td>07/10/2019</td>
+            <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
+            <td>Hourly</td>
+            <td>65 RSD</td>
+            <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
+                class="btn btn-default moiClassButton">Edit</button></td>
+            <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+          </tr>
+          <tr>
+              <th scope="row">4342</th>
+              <td>07/10/2018</td>
+              <td>07/10/2019</td>
+              <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
+              <td>Monthly</td>
+              <td>1000 RSD</td>
+              <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
+                  class="btn btn-default moiClassButton">Edit</button></td>
+              <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+            </tr>
+            <tr>
+                <th scope="row">4342</th>
+                <td>07/10/2018</td>
+                <td>07/10/2019</td>
+                <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
+                <td>Daily</td>
+                <td>650 RSD</td>
+                <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
+                    class="btn btn-default moiClassButton">Edit</button></td>
+                <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+              </tr>
+      </table>
+    </div>
+  </div>
