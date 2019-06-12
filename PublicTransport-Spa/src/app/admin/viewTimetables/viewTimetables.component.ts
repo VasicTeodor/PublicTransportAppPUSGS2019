@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./viewTimetables.component.css']
 })
 export class ViewTimetablesComponent implements OnInit {
+  isCollapsedStations = true;
+  isCollapsedBuses = true;
 
   constructor() { }
 

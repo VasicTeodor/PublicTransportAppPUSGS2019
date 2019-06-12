@@ -1,3 +1,98 @@
-<p>
-  newTimetable works!
-</p>
+<div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
+  <div class="col">
+    <form [formGroup]="registerForm">
+      <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
+        <thead>
+          <tr>
+            <th scope="col" colspan="4" style="font-size: 20px">New Timetable</th>
+          </tr>
+          <tr>
+            <th colspan="4" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="form-group">
+            <th scope="row">Type: </th>
+            <td><select class="custom-select mr-sm-4" style="font-size: 14px">
+                <option selected>In City</option>
+                <option>Out of City</option>
+              </select>
+            </td>
+            <th scope="row">Line: </th>
+            <td><select class="custom-select mr-sm-4" size="4" style="font-size: 14px">
+                <option>8. Novo naselje - Centar - Liman 4</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" colspan="3">Departures for: </th>
+            <td style="float: left">
+                <select class="custom-select mr-sm-4" style="font-size: 14px; width: 200px;">
+                    <option selected>Working day</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                  </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              <table class="p-4">
+                  <tr class="p-4">
+                      <th scope="row">00</th>    
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                      <td><input type="text" style="width: 30px;" maxlength="2"></td>
+                  </tr>
+                  <tr>
+                      <th scope="row">01</th>    
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+                      <td><input type="text" style="width: 30px;"></td>   
+  
+                  </tr>        
+              </table>
+            </td>
+          </tr>
+              
+          <tr>
+            <th scope="row" colspan="7">
+              <button class="btn btn-default moiClassButton">Add Timetable</button>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

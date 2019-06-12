@@ -1,3 +1,61 @@
-<p>
-  viewTimetables works!
-</p>
+<div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
+  <div class="col">
+    <table class="table table-striped table-dark moiClassTimeTable" style="font-size: 16px">
+      <thead>
+        <tr>
+          <th scope="col" colspan="6" style="font-size: 20px">Timetables</th>
+        </tr>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Type</th>
+          <th scope="col">Line</th>
+          <th scope="col" class="moiClassShowLines">
+            <a (click)="isCollapsedStations = !isCollapsedStations" [attr.aria-expanded]="!isCollapsedStations"
+              aria-controls="collapseBasic">
+              Show Departures</a>
+          </th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">4342</th>
+          <td>City</td>
+          <td style="font-size: 12px">7. NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
+          <td>Working Day</td>
+          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
+              class="btn btn-default moiClassButton">Edit</button></td>
+          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+        </tr>
+        <tr>
+          <td colspan="6">
+            <div id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white"
+              style="font-size: 14px; width: 100%; text-align: left">
+              <span style="color: rgb(255, 174, 0)"> 05: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
+                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
+              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
