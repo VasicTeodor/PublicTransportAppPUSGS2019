@@ -298,6 +298,10 @@ namespace PublicTransport.Api.Data
             }
             else
             {
+                if (ticket != null)
+                {
+                    return ticket;
+                }
                 return null;
             }
         }

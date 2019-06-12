@@ -16,4 +16,11 @@ export class AppComponent {
     /* return true; */
   }
 
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  isController() {
+    return this.authService.isController();
+  }
 }
