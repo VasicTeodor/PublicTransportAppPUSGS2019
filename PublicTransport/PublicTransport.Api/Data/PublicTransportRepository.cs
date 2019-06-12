@@ -23,11 +23,12 @@ namespace PublicTransport.Api.Data
         private readonly IStationRepository _stationRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
+        private readonly ILineRepository _lineRepository;
 
         public PublicTransportRepository(DataContext context, ITicketRepository ticketRepository,
             IPricelistItemRepository pricelistItemRepository, ITimeTableRepository timeTableRepository,
             IUserDiscountRepository userDiscountRepository, IStationRepository stationRepository,
-            IMapper mapper, UserManager<User> userManager)
+            IMapper mapper, UserManager<User> userManager, ILineRepository lineRepository)
         {
             _context = context;
             _ticketRepository = ticketRepository;
@@ -37,10 +38,39 @@ namespace PublicTransport.Api.Data
             _stationRepository = stationRepository;
             _mapper = mapper;
             _userManager = userManager;
+            _lineRepository = lineRepository;
         }
         public void Add<T>(T entity) where T : class
         {
             _context.Add(entity);
+        }
+
+        public async Task<Line> AddLine(Line line)
+        {
+            Add(line);
+
+            if (await SaveAll())
+            {
+                return line;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<PricelistItem> AddPricelist(PricelistItem pricelist)
+        {
+            Add(pricelist);
+
+            if (await SaveAll())
+            {
+                return pricelist;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Station> AddStation(Station station)
@@ -50,6 +80,20 @@ namespace PublicTransport.Api.Data
             if (await SaveAll())
             {
                 return station;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<TimeTable> AddTimetable(TimeTable timetable)
+        {
+            Add(timetable);
+
+            if (await SaveAll())
+            {
+                return timetable;
             }
             else
             {
@@ -171,6 +215,16 @@ namespace PublicTransport.Api.Data
             _context.Remove(entity);
         }
 
+        public async Task<IEnumerable<Line>> GetLines()
+        {
+            return await _lineRepository.GetLines();
+        }
+
+        public async Task<IEnumerable<PricelistItem>> GetPriceListove()
+        {
+            return await _pricelistItemRepository.GetPricelistItems();
+        }
+
         public async Task<IEnumerable<PricelistItem>> GetPricelists(bool active, int userId)
         {
             var pricelist = await _pricelistItemRepository.GetPricelistItemsByActive(active);
@@ -198,6 +252,11 @@ namespace PublicTransport.Api.Data
         public async Task<IEnumerable<Ticket>> GetTickets()
         {
             return await _ticketRepository.GetTickets();
+        }
+
+        public async Task<IEnumerable<TimeTable>> GetTimetableove()
+        {
+            return await _timeTableRepository.GetTimeTables();
         }
 
         public async Task<IEnumerable<TimeTable>> GetTimetables(string type, string dayInWeek)
@@ -229,6 +288,48 @@ namespace PublicTransport.Api.Data
             }
         }
 
+        public async Task<bool> RemoveLine(int lineId)
+        {
+            var line = await _lineRepository.GetLine(lineId);
+
+            if (line != null)
+            {
+                Delete(line);
+
+                if (await SaveAll())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
+        public async Task<bool> RemovePricelist(int pricelistId)
+        {
+            var pricelist = await _pricelistItemRepository.GetPriceListItem(pricelistId);
+
+            if (pricelist != null)
+            {
+                Delete(pricelist);
+
+                if (await SaveAll())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
         public async Task<bool> RemoveStation(int stationId)
         {
             var station = await _stationRepository.GetStation(stationId);
@@ -250,9 +351,62 @@ namespace PublicTransport.Api.Data
             return false;
         }
 
+        public async Task<bool> RemoveTimetable(int timetableId)
+        {
+            var timetable = await _timeTableRepository.GetTimeTable(timetableId);
+
+            if (timetable != null)
+            {
+                Delete(timetable);
+
+                if (await SaveAll())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<Line> UpdateLine(int lineId, Line line)
+        {
+            var lineForUpdate = await _lineRepository.GetLine(lineId);
+
+            _mapper.Map(line, lineForUpdate);
+
+            if (await SaveAll())
+            {
+                return lineForUpdate;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<PricelistItem> UpdatePricelist(int pricelistId, PricelistItem pricelist)
+        {
+            var pricelistForUpdate = await _pricelistItemRepository.GetPriceListItem(pricelistId);
+
+            _mapper.Map(pricelist, pricelistForUpdate);
+
+            if (await SaveAll())
+            {
+                return pricelistForUpdate;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<Station> UpdateStation(int stationId, Station station)
@@ -264,6 +418,22 @@ namespace PublicTransport.Api.Data
             if (await SaveAll())
             {
                 return stationForUpdate;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<TimeTable> UpdateTimetable(int timetableId, TimeTable timetable)
+        {
+            var timetableForUpdate = await _timeTableRepository.GetTimeTable(timetableId);
+
+            _mapper.Map(timetable, timetableForUpdate);
+
+            if (await SaveAll())
+            {
+                return timetableForUpdate;
             }
             else
             {
