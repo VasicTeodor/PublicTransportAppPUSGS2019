@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   isCollapsedLines = true;
   isCollapsedStations = true;
   isCollapsedTimetables = true;
+  isCollapsedPricelist = true;
 
   constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService,
               private modalService: BsModalService) { }

@@ -60,9 +60,14 @@
               </ul>
             </li>
             <li class="nav-item" *ngIf="isAdmin()">
-              <a [routerLink]="['/viewPricelist']" routerLinkActive="router-link-active" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
+              <a (click)="isCollapsedPricelist = !isCollapsedPricelist" [attr.aria-expanded]="!isCollapsedPricelist" aria-controls="collapseBasic" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">
                 <i class="fa fa-list text-light fa-lg mr-3"></i>
                 Pricelist</a>
+                <ul id="collapseBasic" [collapse]="isCollapsedPricelist" [isAnimated]="true" class="text-white">
+                    <li><a [routerLink]="['/newPricelist']" routerLinkActive="router-link-active" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">New PriceList</a> </li>
+                    <li><a [routerLink]="['/viewPricelist']" routerLinkActive="router-link-active" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">View Pricelists</a></li>
+                    <li><a [routerLink]="['/pricelist']" routerLinkActive="router-link-active" class="nav-link text-white p-0 pt-3 pb-3 pl-1 mb-2 sidebar-link">Current Pricelist</a></li>
+                  </ul>
             </li>
           </ul>
         </div>

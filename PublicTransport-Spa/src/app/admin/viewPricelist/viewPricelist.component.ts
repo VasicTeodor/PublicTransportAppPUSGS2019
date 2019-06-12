@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./viewPricelist.component.css']
 })
 export class ViewPricelistComponent implements OnInit {
+  isCollapsedPrices = true;
 
   constructor() { }
 

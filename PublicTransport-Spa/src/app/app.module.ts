@@ -40,6 +40,7 @@ import { NewTimetableComponent } from './admin/newTimetable/newTimetable.compone
 import { ViewTimetablesComponent } from './admin/viewTimetables/viewTimetables.component';
 import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.component';
 import { TicketResolver } from './_resolvers/ticket.resolver';
+import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -65,7 +66,8 @@ export function getToken() {
       ViewStationsComponent,
       NewTimetableComponent,
       ViewTimetablesComponent,
-      ViewPricelistComponent
+      ViewPricelistComponent,
+      NewPricelistComponent
    ],
    imports: [
       BrowserModule,
