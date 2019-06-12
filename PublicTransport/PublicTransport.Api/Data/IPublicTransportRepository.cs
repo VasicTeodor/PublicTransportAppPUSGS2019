@@ -35,5 +35,10 @@ namespace PublicTransport.Api.Data
         Task<PricelistItem> AddPricelist(PricelistItem pricelist);
         Task<bool> RemovePricelist(int pricelistId);
         Task<PricelistItem> UpdatePricelist(int pricelistId, PricelistItem pricelist);
+        Task<Station> GetStation(int stationId);
+        Task<Line> GetLine(int lineId);
+        Task<TimeTable> GetTimetable(int timetableId);
+        Task<PricelistItem> GetPricelist(int pricelistId);
+
     }
 }

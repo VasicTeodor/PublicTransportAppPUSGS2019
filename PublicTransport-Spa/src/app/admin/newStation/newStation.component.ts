@@ -36,6 +36,9 @@ export class NewStationComponent implements OnInit {
         this.editStation.stationLines.forEach(element => {
          this.newStationLines.push(element.line);
         });
+        this.createStationFormForUpdate();
+      }, error => {
+        this.alertify.error('Error while getting station');
       });
     }
   }
@@ -53,12 +56,12 @@ export class NewStationComponent implements OnInit {
 
   createStationFormForUpdate() {
     this.stationForm = this.fb.group({
-      name: ['', Validators.required],
-      street: ['', Validators.required],
-      number: ['', Validators.required],
-      city: ['', Validators.required],
-      x: ['', Validators.required],
-      y: ['', Validators.required],
+      name: [this.editStation.name, Validators.required],
+      street: [this.editStation.address.street, Validators.required],
+      number: [this.editStation.address.number, Validators.required],
+      city: [this.editStation.address.city, Validators.required],
+      x: [this.editStation.location.x, Validators.required],
+      y: [this.editStation.location.y, Validators.required],
     });
   }
 

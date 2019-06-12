@@ -215,9 +215,19 @@ namespace PublicTransport.Api.Data
             _context.Remove(entity);
         }
 
+        public async Task<Line> GetLine(int lineId)
+        {
+            return await _lineRepository.GetLine(lineId);
+        }
+
         public async Task<IEnumerable<Line>> GetLines()
         {
             return await _lineRepository.GetLines();
+        }
+
+        public async Task<PricelistItem> GetPricelist(int pricelistId)
+        {
+            return await _pricelistItemRepository.GetPriceListItem(pricelistId);
         }
 
         public async Task<IEnumerable<PricelistItem>> GetPriceListove()
@@ -244,6 +254,11 @@ namespace PublicTransport.Api.Data
             return pricelist;
         }
 
+        public async Task<Station> GetStation(int stationId)
+        {
+            return await _stationRepository.GetStation(stationId);
+        }
+
         public async Task<IEnumerable<Station>> GetStations()
         {
             return await _stationRepository.GetStations();
@@ -252,6 +267,11 @@ namespace PublicTransport.Api.Data
         public async Task<IEnumerable<Ticket>> GetTickets()
         {
             return await _ticketRepository.GetTickets();
+        }
+
+        public async Task<TimeTable> GetTimetable(int timetableId)
+        {
+            return await _timeTableRepository.GetTimeTable(timetableId);
         }
 
         public async Task<IEnumerable<TimeTable>> GetTimetableove()

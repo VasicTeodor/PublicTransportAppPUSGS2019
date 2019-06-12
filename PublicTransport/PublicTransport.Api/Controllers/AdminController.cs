@@ -71,10 +71,70 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
-        [HttpGet("getPricelist")]
+        [HttpGet("getPricelists")]
         public async Task<IActionResult> GetPricelists()
         {
             var pricelists = await _publicTransportRepository.GetPriceListove();
+
+            if (pricelists != null)
+            {
+                return Ok(pricelists);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getStation")]
+        public async Task<IActionResult> GetStation(int stationId)
+        {
+            var stations = await _publicTransportRepository.GetStation(stationId);
+
+            if (stations != null)
+            {
+                return Ok(stations);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getLine")]
+        public async Task<IActionResult> GetLine(int lineId)
+        {
+            var lines = await _publicTransportRepository.GetLine(lineId);
+
+            if (lines != null)
+            {
+                return Ok(lines);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getTimetable")]
+        public async Task<IActionResult> GetTimetable(int timetableId)
+        {
+            var timetables = await _publicTransportRepository.GetTimetable(timetableId);
+
+            if (timetables != null)
+            {
+                return Ok(timetables);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getPricelist")]
+        public async Task<IActionResult> GetPricelist(int pricelistId)
+        {
+            var pricelists = await _publicTransportRepository.GetPricelist(pricelistId);
 
             if (pricelists != null)
             {
