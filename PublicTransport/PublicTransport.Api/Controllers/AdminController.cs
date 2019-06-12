@@ -42,21 +42,48 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpGet("getLines")]
-        public Task<IActionResult> GetLines()
+        public async Task<IActionResult> GetLines()
         {
-            throw new NotImplementedException();
+            var lines = await _publicTransportRepository.GetLines();
+
+            if (lines != null)
+            {
+                return Ok(lines);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("getTimetables")]
-        public Task<IActionResult> GetTimetables()
+        public async Task<IActionResult> GetTimetables()
         {
-            throw new NotImplementedException();
+            var timetables = await _publicTransportRepository.GetTimetableove();
+
+            if (timetables != null)
+            {
+                return Ok(timetables);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("getPricelist")]
-        public Task<IActionResult> GetPricelist()
+        public async Task<IActionResult> GetPricelists()
         {
-            throw new NotImplementedException();
+            var pricelists = await _publicTransportRepository.GetPriceListove();
+
+            if (pricelists != null)
+            {
+                return Ok(pricelists);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpPost("addStation")]
@@ -78,21 +105,48 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPost("addLine")]
-        public Task<IActionResult> AddLine()
+        public async Task<IActionResult> AddLine(Line line)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.AddLine(line);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed while creating new line");
+            }
         }
 
         [HttpPost("addTimetable")]
-        public Task<IActionResult> AddTimetable()
+        public async Task<IActionResult> AddTimetable(TimeTable timetable)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.AddTimetable(timetable);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed while creating new timetable");
+            }
         }
 
         [HttpPost("addPricelist")]
-        public Task<IActionResult> AddPricelist()
+        public async Task<IActionResult> AddPricelist(PricelistItem pricelist)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.AddPricelist(pricelist);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed while creating new pricelist");
+            }
         }
 
         [HttpPut("updateStation")]
@@ -111,21 +165,48 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut("updateLine")]
-        public Task<IActionResult> UpdateLine()
+        public async Task<IActionResult> UpdateLine(int lineId, Line line)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.UpdateLine(lineId, line);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed to update line");
+            }
         }
 
         [HttpPut("updateTimetable")]
-        public Task<IActionResult> UpdateTimetable()
+        public async Task<IActionResult> UpdateTimetable(int timetableId, TimeTable timetable)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.UpdateTimetable(timetableId, timetable);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed to update timetable");
+            }
         }
 
         [HttpPut("updatePricelist")]
-        public Task<IActionResult> UpdatePricelist()
+        public async Task<IActionResult> UpdatePricelist(int pricelistId, PricelistItem pricelist)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.UpdatePricelist(pricelistId, pricelist);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed to update pricelist");
+            }
         }
 
         [HttpDelete("removeStation")]
@@ -144,21 +225,48 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpDelete("removeLine")]
-        public Task<IActionResult> RemoveLine()
+        public async Task<IActionResult> RemoveLine(int lineId)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.RemoveLine(lineId);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest($"Failed while deleting line with id {lineId}");
+            }
         }
 
         [HttpDelete("removeTimetable")]
-        public Task<IActionResult> RemoveTimetable()
+        public async Task<IActionResult> RemoveTimetable(int timetableId)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.RemoveTimetable(timetableId);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest($"Failed while deleting timetable with id {timetableId}");
+            }
         }
 
         [HttpDelete("removePricelist")]
-        public Task<IActionResult> RemovePricelist()
+        public async Task<IActionResult> RemovePricelist(int pricelistId)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.RemovePricelist(pricelistId);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest($"Failed while deleting pricelist with id {pricelistId}");
+            }
         }
     }
 }

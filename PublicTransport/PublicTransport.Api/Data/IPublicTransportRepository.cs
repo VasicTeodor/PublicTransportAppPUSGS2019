@@ -23,5 +23,17 @@ namespace PublicTransport.Api.Data
         Task<Station> AddStation(Station station);
         Task<bool> RemoveStation(int stationId);
         Task<Station> UpdateStation(int stationId, Station station);
+        Task<IEnumerable<Line>> GetLines();
+        Task<Line> AddLine(Line line);
+        Task<bool> RemoveLine(int lineId);
+        Task<Line> UpdateLine(int lineId, Line line);
+        Task<IEnumerable<TimeTable>> GetTimetableove();
+        Task<TimeTable> AddTimetable(TimeTable timetable);
+        Task<bool> RemoveTimetable(int timetableId);
+        Task<TimeTable> UpdateTimetable(int timetableId, TimeTable timetable);
+        Task<IEnumerable<PricelistItem>> GetPriceListove();
+        Task<PricelistItem> AddPricelist(PricelistItem pricelist);
+        Task<bool> RemovePricelist(int pricelistId);
+        Task<PricelistItem> UpdatePricelist(int pricelistId, PricelistItem pricelist);
     }
 }
