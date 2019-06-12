@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { Line } from 'src/app/_models/line';
+import { AdminService } from 'src/app/_services/admin.service';
+import { Station } from 'src/app/_models/station';
+import { StationLine } from 'src/app/_models/stationLine';
+import { NewStation } from 'src/app/_models/newStation';
 
 @Component({
   selector: 'app-newStation',
@@ -10,24 +15,21 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 })
 export class NewStationComponent implements OnInit {
   isCollapsed = true;
-  registerForm: FormGroup;
+  stationForm: FormGroup;
+  station: NewStation;
+  newStationLines: Line[];
+  allLines: Line[];
 
-  constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService) { }
+  constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
+              private adminService: AdminService) { }
 
   ngOnInit() {
     this.createRegiserForm();
   }
 
   createRegiserForm() {
-    this.registerForm = this.fb.group({
-      userType: ['regular'],
-      userName: ['', Validators.required],
+    this.stationForm = this.fb.group({
       name: ['', Validators.required],
-      surname: ['', Validators.required],
-      dateOfBirth: [null, Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
       street: ['', Validators.required],
       number: ['', Validators.required],
       city: ['', Validators.required],
@@ -36,4 +38,9 @@ export class NewStationComponent implements OnInit {
     });
   }
 
+  createStation() {
+    if (this.stationForm.valid) {
+      this.station = Object.assign({}, this.stationForm.value);
+    }
+  }
 }

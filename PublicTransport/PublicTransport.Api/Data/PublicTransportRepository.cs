@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PublicTransport.Api.Dtos;
@@ -19,22 +20,41 @@ namespace PublicTransport.Api.Data
         private readonly IPricelistItemRepository _pricelistItemRepository;
         private readonly ITimeTableRepository _timeTableRepository;
         private readonly IUserDiscountRepository _userDiscountRepository;
+        private readonly IStationRepository _stationRepository;
+        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
 
         public PublicTransportRepository(DataContext context, ITicketRepository ticketRepository,
             IPricelistItemRepository pricelistItemRepository, ITimeTableRepository timeTableRepository,
-            IUserDiscountRepository userDiscountRepository, UserManager<User> userManager)
+            IUserDiscountRepository userDiscountRepository, IStationRepository stationRepository,
+            IMapper mapper, UserManager<User> userManager)
         {
             _context = context;
             _ticketRepository = ticketRepository;
             _pricelistItemRepository = pricelistItemRepository;
             _timeTableRepository = timeTableRepository;
             _userDiscountRepository = userDiscountRepository;
+            _stationRepository = stationRepository;
+            _mapper = mapper;
             _userManager = userManager;
         }
         public void Add<T>(T entity) where T : class
         {
             _context.Add(entity);
+        }
+
+        public async Task<Station> AddStation(Station station)
+        {
+            Add(station);
+
+            if (await SaveAll())
+            {
+                return station;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> BuyTicketAsync(string ticketType, int userId = -1, string email = null)
@@ -170,6 +190,11 @@ namespace PublicTransport.Api.Data
             return pricelist;
         }
 
+        public async Task<IEnumerable<Station>> GetStations()
+        {
+            return await _stationRepository.GetStations();
+        }
+
         public async Task<IEnumerable<Ticket>> GetTickets()
         {
             return await _ticketRepository.GetTickets();
@@ -204,9 +229,46 @@ namespace PublicTransport.Api.Data
             }
         }
 
+        public async Task<bool> RemoveStation(int stationId)
+        {
+            var station = await _stationRepository.GetStation(stationId);
+
+            if (station != null)
+            {
+                Delete(station);
+
+                if (await SaveAll())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            return false;
+        }
+
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<Station> UpdateStation(int stationId, Station station)
+        {
+            var stationForUpdate = await _stationRepository.GetStation(stationId);
+
+            _mapper.Map(station, stationForUpdate);
+
+            if (await SaveAll())
+            {
+                return stationForUpdate;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<bool> ValidateUserAccount(int userId, bool valid)

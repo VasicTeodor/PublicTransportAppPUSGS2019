@@ -19,5 +19,9 @@ namespace PublicTransport.Api.Data
         Task<Ticket> ValidateUserTicket(int ticketId);
         Task<IEnumerable<Ticket>> GetTickets();
         Task<AllPricelistsForUsersDto> CalculateAllPricelists(List<PricelistItem> pricelist);
+        Task<IEnumerable<Station>> GetStations();
+        Task<Station> AddStation(Station station);
+        Task<bool> RemoveStation(int stationId);
+        Task<Station> UpdateStation(int stationId, Station station);
     }
 }

@@ -1,6 +1,6 @@
 <div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
   <div class="col">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="stationForm" (ngSubmit)="createStation()">
       <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
         <thead>
           <tr>
@@ -14,9 +14,9 @@
           <tr class="form-group">
             <th scope="row">Station Name: </th>
             <td colspan="6"><input class="form-control" formControlName="name"
-                [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}">
+                [ngClass]="{'is-invalid': stationForm.get('name').errors && stationForm.get('name').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('name').touched && registerForm.get('name').hasError('required')">Station Name
+                *ngIf="stationForm.get('name').touched && stationForm.get('name').hasError('required')">Station Name
                 is
                 required</div>
             </td>
@@ -25,41 +25,41 @@
             <th scope="row">Address</th>
             <th scope="row">City: </th>
             <td><input class="form-control" formControlName="city"
-                [ngClass]="{'is-invalid': registerForm.get('city').errors && registerForm.get('city').touched}">
+                [ngClass]="{'is-invalid': stationForm.get('city').errors && stationForm.get('city').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('city').touched && registerForm.get('city').hasError('required')">City is
+                *ngIf="stationForm.get('city').touched && stationForm.get('city').hasError('required')">City is
                 required
               </div>
             </td>
             <th scope="row">Street: </th>
             <td><input class="form-control" formControlName="street"
-                [ngClass]="{'is-invalid': registerForm.get('street').errors && registerForm.get('street').touched}">
+                [ngClass]="{'is-invalid': stationForm.get('street').errors && stationForm.get('street').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('street').touched && registerForm.get('street').hasError('required')">Street is
+                *ngIf="stationForm.get('street').touched && stationForm.get('street').hasError('required')">Street is
                 required</div>
             </td>
             <th scope="row">Number: </th>
             <td><input class="form-control" formControlName="number"
-                [ngClass]="{'is-invalid': registerForm.get('number').errors && registerForm.get('number').touched}">
+                [ngClass]="{'is-invalid': stationForm.get('number').errors && stationForm.get('number').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('number').touched && registerForm.get('number').hasError('required')">Number is
+                *ngIf="stationForm.get('number').touched && stationForm.get('number').hasError('required')">Number is
                 required</div>
             </td>
           </tr>
           <tr class="form-group">
             <th scope="row">Location</th>
             <th scope="row">X: </th>
-            <td><input class="form-control" formControlName="x"
-                [ngClass]="{'is-invalid': registerForm.get('x').errors && registerForm.get('x').touched}">
+            <td><input class="form-control" type="number" formControlName="x"
+                [ngClass]="{'is-invalid': stationForm.get('x').errors && stationForm.get('x').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('x').touched && registerForm.get('x').hasError('required')">X is required
+                *ngIf="stationForm.get('x').touched && stationForm.get('x').hasError('required')">X is required
               </div>
             </td>
             <th scope="row">Y: </th>
-            <td><input class="form-control" formControlName="y"
-                [ngClass]="{'is-invalid': registerForm.get('y').errors && registerForm.get('y').touched}">
+            <td><input class="form-control" type="number" formControlName="y"
+                [ngClass]="{'is-invalid': stationForm.get('y').errors && stationForm.get('y').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('y').touched && registerForm.get('y').hasError('required')">Y is
+                *ngIf="stationForm.get('y').touched && stationForm.get('y').hasError('required')">Y is
                 required</div>
             </td>
             <td colspan="2" class="moiClassChooseLocation"><a (click)="isCollapsed = !isCollapsed"
@@ -110,7 +110,7 @@
           </tr>
           <tr>
             <th scope="row" colspan="7">
-              <button class="btn btn-default moiClassButton">Add Station</button>
+              <button class="btn btn-default moiClassButton" type="submit" >Add Station</button>
             </th>
           </tr>
         </tbody>

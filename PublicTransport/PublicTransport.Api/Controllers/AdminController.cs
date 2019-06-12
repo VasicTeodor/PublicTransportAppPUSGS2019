@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublicTransport.Api.Data;
+using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
 {
@@ -25,9 +26,18 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpGet("getStations")]
-        public Task<IActionResult> GetStations()
+        public async Task<IActionResult> GetStations()
         {
-            throw new NotImplementedException();
+            var stations = await _publicTransportRepository.GetStations();
+
+            if (stations != null)
+            {
+                return Ok(stations);
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet("getLines")]
@@ -49,9 +59,18 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPost("addStation")]
-        public Task<IActionResult> AddStation()
+        public async Task<IActionResult> AddStation(Station station)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.AddStation(station);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed while creating new station");
+            }
         }
 
         [HttpPost("addLine")]
@@ -72,34 +91,52 @@ namespace PublicTransport.Api.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPut("addStation")]
-        public Task<IActionResult> UpdateStation()
+        [HttpPut("updateStation")]
+        public async Task<IActionResult> UpdateStation(int stationId, Station station)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.UpdateStation(stationId, station);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed to update station");
+            }
         }
 
-        [HttpPut("addLine")]
+        [HttpPut("updateLine")]
         public Task<IActionResult> UpdateLine()
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("addTimetable")]
+        [HttpPut("updateTimetable")]
         public Task<IActionResult> UpdateTimetable()
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut("addPricelist")]
+        [HttpPut("updatePricelist")]
         public Task<IActionResult> UpdatePricelist()
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("removeStation")]
-        public Task<IActionResult> RemoveStation()
+        public async Task<IActionResult> RemoveStation(int stationId)
         {
-            throw new NotImplementedException();
+            var result = await _publicTransportRepository.RemoveStation(stationId);
+
+            if (result)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest($"Failed while deleting station with id {stationId}");
+            }
         }
 
         [HttpDelete("removeLine")]
