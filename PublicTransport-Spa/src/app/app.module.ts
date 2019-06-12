@@ -4,7 +4,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './user/register/register.component';
-import { BsDropdownModule, BsDatepickerModule, ButtonsModule } from 'ngx-bootstrap';
+import { BsDropdownModule, BsDatepickerModule, ButtonsModule, CollapseModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
@@ -31,6 +31,14 @@ import { ControllerService } from './_services/controller.service';
 import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
 import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
 import { PricelistComponent } from './passenger/pricelist/pricelist.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NewLineComponent } from './admin/newLine/newLine.component';
+import { ViewLinesComponent } from './admin/viewLines/viewLines.component';
+import { NewStationComponent } from './admin/newStation/newStation.component';
+import { ViewStationsComponent } from './admin/viewStations/viewStations.component';
+import { NewTimetableComponent } from './admin/newTimetable/newTimetable.component';
+import { ViewTimetablesComponent } from './admin/viewTimetables/viewTimetables.component';
+import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.component';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -49,7 +57,14 @@ export function getToken() {
       MapComponent,
       UserVerificationComponent,
       TicketVerificationComponent,
-      PricelistComponent
+      PricelistComponent,
+      NewLineComponent,
+      ViewLinesComponent,
+      NewStationComponent,
+      ViewStationsComponent,
+      NewTimetableComponent,
+      ViewTimetablesComponent,
+      ViewPricelistComponent
    ],
    imports: [
       BrowserModule,
@@ -70,6 +85,8 @@ export function getToken() {
       BsDatepickerModule.forRoot(),
       ButtonsModule.forRoot(),
       ModalModule.forRoot(),
+      BrowserAnimationsModule,
+      CollapseModule.forRoot()
   ],
   providers: [
      AuthService,

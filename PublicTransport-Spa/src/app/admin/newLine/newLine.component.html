@@ -1,0 +1,105 @@
+<div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
+  <div class="col">
+    <form [formGroup]="registerForm">
+      <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
+        <thead>
+          <tr>
+            <th scope="col" colspan="7" style="font-size: 20px">New Line</th>
+          </tr>
+          <tr>
+            <th colspan="9" scope="col">&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="form-group">
+            <th scope="row">Line Number: </th>
+            <td><input class="form-control" formControlName="number"
+                [ngClass]="{'is-invalid': registerForm.get('number').errors && registerForm.get('number').touched}">
+              <div class="invalid-feedback"
+                *ngIf="registerForm.get('number').touched && registerForm.get('number').hasError('required')">Number is
+                required</div>
+            </td>
+            <th scope="row">Name: </th>
+            <td><input class="form-control" formControlName="name"
+                [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}">
+              <div class="invalid-feedback"
+                *ngIf="registerForm.get('name').touched && registerForm.get('name').hasError('required')">Name is
+                required</div>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" colspan="2">Stations: </th>
+            <th scope="row" colspan="2">Add Stations: </th>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <div class="form-group">
+                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option>Lutrija</option>
+                  <option>Mercator</option>
+                  <option>Centar</option>
+                </select>
+                <button class="btn btn-default moiClassButtonRemove">Remove</button>
+              </div>
+            </td>
+            <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
+            <td colspan="2">
+              <div class="form-group">
+                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option>Lutrija</option>
+                  <option>Mercator</option>
+                  <option>Centar</option>
+                  <option>Lutrija</option>
+                  <option>Mercator</option>
+                  <option>Centar</option>
+                  <option>Lutrija</option>
+                  <option>Mercator</option>
+                  <option>Centar</option>
+                </select>
+                <button class="btn btn-default moiClassButtonRemove">Add</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+              <th scope="row" colspan="2">Buses: </th>
+              <th scope="row" colspan="2">Add Buses: </th>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div class="form-group">
+                  <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                    <option>5195</option>
+                    <option>51</option>
+                    <option>899</option>
+                  </select>
+                  <button class="btn btn-default moiClassButtonRemove">Remove</button>
+                </div>
+              </td>
+              <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
+              <td colspan="2">
+                <div class="form-group">
+                  <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                    <option>34</option>
+                    <option>5453</option>
+                    <option>345</option>
+                    <option>45435</option>
+                    <option>534</option>
+                    <option>75</option>
+                    <option>87</option>
+                    <option>6567</option>
+                    <option>787</option>
+                  </select>
+                  <button class="btn btn-default moiClassButtonRemove">Add</button>
+                </div>
+              </td>
+            </tr>
+          <tr>
+            <th scope="row" colspan="7">
+              <button class="btn btn-default moiClassButton">Add Line</button>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>

@@ -14,6 +14,9 @@ import { RegisterComponent } from '../user/register/register.component';
 })
 export class NavbarComponent implements OnInit {
   modalRef: BsModalRef;
+  isCollapsedLines = true;
+  isCollapsedStations = true;
+  isCollapsedTimetables = true;
 
   constructor(private router: Router, private authService: AuthService, private alertify: AlertifyService,
               private modalService: BsModalService) { }

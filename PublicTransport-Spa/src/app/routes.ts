@@ -13,6 +13,14 @@ import { UserVerificationResolver } from './_resolvers/userVerification.resolver
 import { TicketVerificationComponent } from './controller/ticketVerification/ticketVerification.component';
 import { TicketVerificationResolver } from './_resolvers/ticketVerification.resolver';
 import { PricelistComponent } from './passenger/pricelist/pricelist.component';
+import { NewLineComponent } from './admin/newLine/newLine.component';
+import { ViewChild } from '@angular/core';
+import { ViewLinesComponent } from './admin/viewLines/viewLines.component';
+import { NewStationComponent } from './admin/newStation/newStation.component';
+import { ViewStationsComponent } from './admin/viewStations/viewStations.component';
+import { NewTimetableComponent } from './admin/newTimetable/newTimetable.component';
+import { ViewTimetablesComponent } from './admin/viewTimetables/viewTimetables.component';
+import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.component';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -25,6 +33,13 @@ export const appRoutes: Routes = [
     {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
     {path: 'userVerification', component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
     {path: 'ticketVerification', component: TicketVerificationComponent},// resolve: {tickets: TicketVerificationResolver}},
+    {path: 'newLine', component: NewLineComponent},
+    {path: 'viewLines', component: ViewLinesComponent},
+    {path: 'newStation', component: NewStationComponent},
+    {path: 'viewStations', component: ViewStationsComponent},
+    {path: 'newTimetable', component: NewTimetableComponent},
+    {path: 'viewTimetables', component: ViewTimetablesComponent},
+    {path: 'viewPricelist', component: ViewPricelistComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 //     { path: '', component: HomeComponent},
 //     { path: '',
