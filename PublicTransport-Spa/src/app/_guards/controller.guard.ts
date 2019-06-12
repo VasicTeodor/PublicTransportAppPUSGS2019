@@ -6,12 +6,12 @@ import { AlertifyService } from '../_services/alertify.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard implements CanActivate {
+export class ControllerGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router, private alertify: AlertifyService) {}
 
   canActivate(next: ActivatedRouteSnapshot): boolean {
 
-    if (this.authService.loggedIn() && this.authService.isPassenger()) {
+    if (this.authService.loggedIn() && this.authService.isController()) {
       return true;
     }
 

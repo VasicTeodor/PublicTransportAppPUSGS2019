@@ -14,7 +14,7 @@ export class TicketVerificationComponent implements OnInit {
   tickets: Ticket[];
 
   constructor(private route: ActivatedRoute, private alertify: AlertifyService,
-    private controllerService: ControllerService, private authService: AuthService) { }
+              private controllerService: ControllerService, private authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {

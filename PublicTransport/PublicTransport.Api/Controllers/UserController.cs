@@ -113,7 +113,7 @@ namespace PublicTransport.Api.Controllers
 
         [AllowAnonymous]
         [HttpPut("buyTicketUnRegistered")]
-        public async Task<IActionResult> BuyTicketUnregistered(string type, int userId = -1, string email = null)
+        public async Task<IActionResult> BuyTicketUnregistered([FromForm]string type, [FromForm]int userId = -1, [FromForm]string email = null)
         {
             userId = -1;
             type = "Hourly";
@@ -129,7 +129,7 @@ namespace PublicTransport.Api.Controllers
 
         [Authorize(Roles = "Passenger")]
         [HttpPut("buyTicket")]
-        public async Task<IActionResult> BuyTicket(string type,int userId = -1, string email = null)
+        public async Task<IActionResult> BuyTicket([FromForm]string type, [FromForm]int userId = -1, [FromForm]string email = null)
         {
             var result = await _publicTransportRepository.BuyTicketAsync(type, userId, email);
 

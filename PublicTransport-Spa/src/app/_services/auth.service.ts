@@ -13,6 +13,7 @@ baseUrl = environment.apiUrl + 'authorization/';
 jwtHelper = new JwtHelperService();
 decodedToken: any;
 currentUser: any;
+userRoles: any;
 
 constructor(private http: HttpClient) { }
 
@@ -29,15 +30,45 @@ login(model: any) {
         localStorage.setItem('user', JSON.stringify(user.user));
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
         this.currentUser = user.user;
+        this.userRoles = this.decodedToken.role as Array<string>;
       }
     })
   );
 }
 
 loggedIn() {
-  /* const token = localStorage.getItem('token');
-  return !this.jwtHelper.isTokenExpired(token); */
-  return true;
+  const token = localStorage.getItem('token');
+  const user = localStorage.getItem('user');
+  if (token != null) {
+    this.decodedToken = this.jwtHelper.decodeToken(token);
+    this.currentUser = JSON.parse(user);
+    this.userRoles = this.decodedToken.role as Array<string>;
+  }
+  return !this.jwtHelper.isTokenExpired(token);
+  // return true;
 }
 
+isAdmin() {
+  if (this.userRoles != null) {
+    const result = this.userRoles.includes('Admin');
+    return result;
+  }
+  return false;
+}
+
+isController() {
+  if (this.userRoles != null) {
+    const result = this.userRoles.includes('Controller');
+    return result;
+  }
+  return false;
+}
+
+isPassenger() {
+  if (this.userRoles != null) {
+    const result = this.userRoles.includes('Passenger');
+    return result;
+  }
+  return false;
+}
 }

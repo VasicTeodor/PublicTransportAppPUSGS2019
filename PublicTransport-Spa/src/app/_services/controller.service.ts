@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class ControllerService {
   baseUrl = environment.apiUrl;
-  
+
   constructor(private http: HttpClient) { }
 
   verificateUser(userId: number, valid: boolean) {
