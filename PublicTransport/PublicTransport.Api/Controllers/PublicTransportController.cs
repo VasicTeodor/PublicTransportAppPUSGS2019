@@ -34,7 +34,7 @@ namespace PublicTransport.Api.Controllers
             {
                 var result = await _publicTransportRepository.CalculateAllPricelists(pricelists.ToList());
 
-               return Ok(pricelists);
+               return Ok(result);
             }
             else
             {

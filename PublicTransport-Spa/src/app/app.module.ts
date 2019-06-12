@@ -39,6 +39,7 @@ import { ViewStationsComponent } from './admin/viewStations/viewStations.compone
 import { NewTimetableComponent } from './admin/newTimetable/newTimetable.component';
 import { ViewTimetablesComponent } from './admin/viewTimetables/viewTimetables.component';
 import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.component';
+import { TicketResolver } from './_resolvers/ticket.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -98,7 +99,8 @@ export function getToken() {
      PricelistResolver,
      UpdateUserResolver,
      UserVerificationResolver,
-     TicketVerificationResolver
+     TicketVerificationResolver,
+     TicketResolver
   ],
   bootstrap: [
      AppComponent

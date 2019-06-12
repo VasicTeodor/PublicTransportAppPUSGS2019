@@ -21,6 +21,10 @@ import { ViewStationsComponent } from './admin/viewStations/viewStations.compone
 import { NewTimetableComponent } from './admin/newTimetable/newTimetable.component';
 import { ViewTimetablesComponent } from './admin/viewTimetables/viewTimetables.component';
 import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.component';
+import { AdminGuard } from './_guards/admin.guard';
+import { AuthGuard } from './_guards/auth.guard';
+import { TicketResolver } from './_resolvers/ticket.resolver';
+import { ControllerGuard } from './_guards/controller.guard';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -28,11 +32,14 @@ export const appRoutes: Routes = [
     {path: 'register', component: RegisterComponent},
     {path: 'timetable', component: TimetableComponent},
     {path: 'map', component: MapComponent},
-    {path: 'tickets', component: TicketsComponent, resolve: {pricelists: PricelistResolver}},
-    {path: 'pricelist', component: PricelistComponent},// resolve: {pricelists: PricelistResolver}},
-    {path: 'updateAccount', component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
-    {path: 'userVerification', component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
-    {path: 'ticketVerification', component: TicketVerificationComponent},// resolve: {tickets: TicketVerificationResolver}},
+    {path: 'tickets', component: TicketsComponent, resolve: {pricelists: TicketResolver}},
+    {path: 'pricelist', component: PricelistComponent, resolve: {allPricelists: PricelistResolver}},
+    {path: 'updateAccount', runGuardsAndResolvers: 'always',
+     canActivate: [AuthGuard], component: UpdateAccountComponent, resolve: {user: UpdateUserResolver}},
+    {path: 'userVerification', runGuardsAndResolvers: 'always',
+    canActivate: [ControllerGuard], component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
+    {path: 'ticketVerification', runGuardsAndResolvers: 'always',
+    canActivate: [ControllerGuard], component: TicketVerificationComponent, resolve: {tickets: TicketVerificationResolver}},
     {path: 'newLine', component: NewLineComponent},
     {path: 'viewLines', component: ViewLinesComponent},
     {path: 'newStation', component: NewStationComponent},
@@ -41,18 +48,4 @@ export const appRoutes: Routes = [
     {path: 'viewTimetables', component: ViewTimetablesComponent},
     {path: 'viewPricelist', component: ViewPricelistComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
-//     { path: '', component: HomeComponent},
-//     { path: '',
-//         runGuardsAndResolvers: 'always',
-//         canActivate: [AuthGuard],
-//         children: [
-//             { path: 'members', component: MemberListComponent, resolve: {users: MemberListResolver}},
-//             { path: 'members/:id', component: MemberDetailComponent, resolve: {user: MemberDetailResolver}},
-//             { path: 'member/edit', component: MemberEditComponent, resolve: {user: MemberEditResolver},
-//                 canDeactivate: [PreventUnsavedChanges]},
-//             { path: 'messages', component: MessagesComponent},
-//             { path: 'lists', component: ListsComponent, resolve: {users: ListsResolver}},
-//             { path: 'admin', component: AdminPanelComponent, data: {roles: ['Admin', 'Moderator']}}
-//         ]
-//     },
 ];

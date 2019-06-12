@@ -29,11 +29,24 @@ export class NavbarComponent implements OnInit {
     /* return true; */
   }
 
+  isPassenger() {
+    return this.authService.isPassenger();
+  }
+
+  isAdmin() {
+    return this.authService.isAdmin();
+  }
+
+  isController() {
+    return this.authService.isController();
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
+    this.authService.userRoles = null;
     this.alertify.message('logged out');
     this.router.navigate(['/home']);
   }

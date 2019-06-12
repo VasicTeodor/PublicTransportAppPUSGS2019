@@ -66,8 +66,8 @@ table.moiClassTimeTable td, th {
 }
 
 .moiClassUserDocument {
-    height: 500px;
-    width: 500px;
+    height: 200px;
+    width: 250px;
 }
 
 /* table.moiClassUserRequest tr {

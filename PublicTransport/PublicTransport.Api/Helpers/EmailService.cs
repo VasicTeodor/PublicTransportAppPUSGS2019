@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Diagnostics;
+using System.Net;
 using System.Net.Mail;
 
 namespace PublicTransport.Api.Helpers
@@ -21,7 +23,14 @@ namespace PublicTransport.Api.Helpers
                 Body = text
             })
             {
-                await smtpClient.SendMailAsync(message);
+                try
+                {
+                    await smtpClient.SendMailAsync(message);
+                }
+                catch (Exception e)
+                {
+                    Trace.WriteLine($"Error while sedding mail: {e.Message}");
+                }
             }
         }
     }

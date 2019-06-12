@@ -41,8 +41,25 @@ namespace PublicTransport.Api.Data
         {
             if (userId == -1 && email != null)
             {
-                //EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
-                return true;
+                PricelistItem prInfo = await _pricelistItemRepository.GetPriceListItemForTicketType(ticketType);
+                Ticket newTicket = new Ticket()
+                {
+                    IsValid = true,
+                    TicketType = ticketType,
+                    PriceInfo = prInfo,
+                    DateOfIssue = DateTime.Now
+                };
+
+                Add(newTicket);
+                var result = await SaveAll();
+
+                if (result)
+                {
+                    EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
+                    return true;
+                }
+
+                return false;
             }
 
             if (userId != -1)
@@ -76,24 +93,54 @@ namespace PublicTransport.Api.Data
 
             var allPricelists = new AllPricelistsForUsersDto()
             {
-                SeniorPricelist = pricelist,
-                RegularUserPricelist = pricelist,
-                StudentPricelist = pricelist
+                SeniorPricelist = new List<PricelistItem>(){},
+                RegularUserPricelist = new List<PricelistItem>(){},
+                StudentPricelist = new List<PricelistItem>() { }
             };
 
-            foreach (var pricelistItem in allPricelists.SeniorPricelist)
+            if (seniorDiscount.Value != 0)
             {
-                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)seniorDiscount.Value);
+                foreach (var pricelistItem in pricelist)
+                {
+                    allPricelists.SeniorPricelist.Add(new PricelistItem()
+                    {
+                        Price = pricelistItem.Price - (pricelistItem.Price * ((decimal)seniorDiscount.Value / 100))
+                    }); 
+                }
+            }
+            else
+            {
+                allPricelists.SeniorPricelist.AddRange(pricelist);
             }
 
-            foreach (var pricelistItem in allPricelists.StudentPricelist)
+            if (studentDiscount.Value != 0)
             {
-                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)studentDiscount.Value);
+                foreach (var pricelistItem in pricelist)
+                {
+                    allPricelists.StudentPricelist.Add(new PricelistItem()
+                    {
+                        Price = pricelistItem.Price - (pricelistItem.Price * ((decimal) studentDiscount.Value / 100))
+                    });
+                }
+            }
+            else
+            {
+                allPricelists.StudentPricelist.AddRange(pricelist);
             }
 
-            foreach (var pricelistItem in allPricelists.RegularUserPricelist)
+            if (regularDiscount.Value != 0)
             {
-                pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)regularDiscount.Value);
+                foreach (var pricelistItem in pricelist)
+                {
+                    allPricelists.RegularUserPricelist.Add(new PricelistItem()
+                    {
+                        Price = pricelistItem.Price - (pricelistItem.Price * ((decimal)regularDiscount.Value / 100))
+                    }); 
+                }
+            }
+            else
+            {
+                allPricelists.RegularUserPricelist.AddRange(pricelist);
             }
 
             return allPricelists;
@@ -251,6 +298,10 @@ namespace PublicTransport.Api.Data
             }
             else
             {
+                if (ticket != null)
+                {
+                    return ticket;
+                }
                 return null;
             }
         }
