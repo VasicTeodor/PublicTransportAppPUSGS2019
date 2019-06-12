@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublicTransport.Api.Data;
+using PublicTransport.Api.Dtos;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
@@ -59,9 +60,12 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPost("addStation")]
-        public async Task<IActionResult> AddStation(Station station)
+        public async Task<IActionResult> AddStation(NewStationDto station)
         {
-            var result = await _publicTransportRepository.AddStation(station);
+            Station newStation = new Station();
+            _mapper.Map(station, newStation);
+
+            var result = await _publicTransportRepository.AddStation(newStation);
 
             if (result != null)
             {

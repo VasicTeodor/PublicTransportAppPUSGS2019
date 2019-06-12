@@ -10,5 +10,7 @@ namespace PublicTransport.Api.Dtos
         public string City { get; set; }
         public string Number { get; set; }
         public List<Line> Lines { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
     }
 }

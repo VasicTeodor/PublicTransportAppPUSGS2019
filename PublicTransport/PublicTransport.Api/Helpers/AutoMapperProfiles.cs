@@ -38,6 +38,17 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.Url); })
                 .ForMember(dest => dest.PublicId,
                     opt => { opt.MapFrom(src => src.PublicId); });
+            CreateMap<NewStationDto, Station>()
+                .ForPath(dest => dest.Address.City,
+                    opt => { opt.MapFrom(src => src.City); })
+                .ForPath(dest => dest.Address.Street,
+                    opt => { opt.MapFrom(src => src.Street); })
+                .ForPath(dest => dest.Address.Number,
+                    opt => { opt.MapFrom(src => src.Number); })
+                .ForPath(dest => dest.Location.X,
+                    opt => { opt.MapFrom(src => src.X); })
+                .ForPath(dest => dest.Location.Y,
+                    opt => { opt.MapFrom(src => src.Y); });
         }
     }
 }

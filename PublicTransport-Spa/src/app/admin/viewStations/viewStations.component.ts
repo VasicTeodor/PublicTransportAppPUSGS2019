@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AdminService } from 'src/app/_services/admin.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
+import { ActivatedRoute } from '@angular/router';
+import { Station } from 'src/app/_models/station';
 
 @Component({
   selector: 'app-viewStations',
@@ -7,10 +11,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ViewStationsComponent implements OnInit {
   isCollapsed = true;
+  allStations: Station[];
 
-  constructor() { }
+  constructor(private adminService: AdminService, private alertify: AlertifyService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.allStations = data.stations;
+    });
+  }
+
+  deleteStation(stationId: number) {
+    this.adminService.deleteStation(stationId).subscribe(next => {
+      this.alertify.success('Station deleted');
+    }, error => {
+      this.alertify.error('Failed to delete station');
+    })
   }
 
 }

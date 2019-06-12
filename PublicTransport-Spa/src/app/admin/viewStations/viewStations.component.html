@@ -12,117 +12,27 @@
           <th scope="col">Location</th>
           <th scope="col" class="moiClassShowLines">
             <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">
-              Show Lines</a>
+                Show Lines</a>
           </th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">4342</th>
-          <td>Lutrija</td>
-          <td>Bulevar Kralja Petra I/32, Novi Sad</td>
-          <td>(342.3435, 234.546)</td>
+        <tr *ngFor="let station of allStations">
+          <th scope="row">{{station?.id}}</th>
+          <td>{{station?.name}}</td>
+          <td>{{station?.address?.street}}&nbsp;{{station?.address?.number}},{{station?.address?.city}}</td>
+          <td>({{station?.location?.x}}, {{station?.location?.y}})</td>
           <td>
-            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white">
-              <li><a>7A</a> </li>
-              <li><a>8</a></li>
+            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white" *ngFor="let line of station?.stationLines">
+              <li><a>{{line?.line?.number}}</a></li>
             </ul>
           </td>
-          <td><button [routerLink]="['/newStation']" routerLinkActive="router-link-active"  class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+          <td><button [routerLink]="['/newStation',{stationId: station.id}]" routerLinkActive="router-link-active"  class="btn btn-default moiClassButton">Edit</button></td>
+          <td><i class="fa fa-trash moiClassButtonTable" (click)="deleteStation(station?.id)"></i></td>
         </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>Lutrija</td>
-          <td>Bulevar Kralja Petra I/32, Novi Sad</td>
-          <td>(342.3435, 234.546)</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white">
-              <li><a>7A</a></li>
-              <li><a>8</a></li>
-            </ul>
-          </td>
-          <td><button class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>Lutrija</td>
-          <td>Bulevar Kralja Petra I/32, Novi Sad</td>
-          <td>(342.3435, 234.546)</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white">
-              <li><a>7A</a> </li>
-              <li><a>8</a></li>
-            </ul>
-          </td>
-          <td><button class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>Lutrija</td>
-          <td>Bulevar Kralja Petra I/32, Novi Sad</td>
-          <td>(342.3435, 234.546)</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white">
-              <li><a>7A</a> </li>
-              <li><a>8</a></li>
-            </ul>
-          </td>
-          <td><button class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>Lutrija</td>
-          <td>Bulevar Kralja Petra I/32, Novi Sad</td>
-          <td>(342.3435, 234.546)</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white">
-              <li><a>7A</a> </li>
-              <li><a>8</a></li>
-            </ul>
-          </td>
-          <td><button class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-
       </tbody>
     </table>
   </div>
-  <!--  <div class="col-4">
-      <table class="table table-dark moiClassUserRequest" style="font-size: 16px">
-          <thead>
-            <tr>
-              <th colspan="2" class="text-center" scope="col">Check Ticket Validation For Id</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">Enter Id:</th>
-              <td><input type="text"></td>
-            </tr>
-            <tr>
-                <th scope="row">Ticket Type:</th>
-              <td>Daily</td>
-            </tr>
-            <tr>
-                <th scope="row">Date of Issue:</th>
-              <td>01/06/2019</td>
-            </tr>
-            <tr>
-                <th scope="row">Status:</th>
-              <td>Valid</td>
-            </tr>
-            <tr>
-              <td colspan="2" class="text-center">
-                <button (click)="verificateUserApprove()" class="btn btn-default moiClassButtonApproved">Check</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-  </div> -->
 </div>

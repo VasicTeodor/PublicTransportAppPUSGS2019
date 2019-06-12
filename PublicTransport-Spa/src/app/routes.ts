@@ -26,6 +26,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { TicketResolver } from './_resolvers/ticket.resolver';
 import { ControllerGuard } from './_guards/controller.guard';
 import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
+import { StationListResolver } from './_resolvers/stationList.resolver';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -44,7 +45,8 @@ export const appRoutes: Routes = [
     {path: 'newLine', component: NewLineComponent},
     {path: 'viewLines', component: ViewLinesComponent},
     {path: 'newStation', component: NewStationComponent},
-    {path: 'viewStations', component: ViewStationsComponent},
+    {path: 'viewStations', component: ViewStationsComponent, runGuardsAndResolvers: 'always',
+    canActivate: [AdminGuard], resolve: {stations: StationListResolver}},
     {path: 'newTimetable', component: NewTimetableComponent},
     {path: 'viewTimetables', component: ViewTimetablesComponent},
     {path: 'viewPricelist', component: ViewPricelistComponent},
