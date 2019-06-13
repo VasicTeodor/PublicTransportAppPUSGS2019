@@ -6,7 +6,7 @@ import { NewLine } from 'src/app/_models/newLine';
 import { Line } from 'src/app/_models/line';
 import { Station } from 'src/app/_models/station';
 import { AdminService } from 'src/app/_services/admin.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Bus } from 'src/app/_models/bus';
 
 @Component({
@@ -29,10 +29,15 @@ export class NewLineComponent implements OnInit {
   selectedBusToAdd: number;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
-              private adminService: AdminService, private router: ActivatedRoute) { }
+              private adminService: AdminService, private router: ActivatedRoute, private route: Router) { }
 
   ngOnInit() {
     this.createLineForm();
+
+    this.router.data.subscribe(data => {
+      this.allBuses = data.busses;
+      this.allStations = data.stations;
+    });
 
     const id = this.router.snapshot.paramMap.get('lineId');
 
@@ -47,6 +52,7 @@ export class NewLineComponent implements OnInit {
           });
         this.createLineFormForUpdate();
       }, error => {
+        this.route.navigate(['/viewLines']);
         this.alertify.error('Error while getting line');
       });
     }
@@ -55,14 +61,14 @@ export class NewLineComponent implements OnInit {
   createLineForm() {
     this.lineForm = this.fb.group({
       name: ['', Validators.required],
-      number: ['', Validators.required]
+      lineNumber: ['', Validators.required]
     });
   }
 
   createLineFormForUpdate() {
     this.lineForm = this.fb.group({
       name: [this.editLine.name, Validators.required],
-      number: [this.editLine.lineNumber, Validators.required]
+      lineNumber: [this.editLine.lineNumber, Validators.required]
     });
   }
 
@@ -73,6 +79,7 @@ export class NewLineComponent implements OnInit {
       this.line.buses = this.newLineBuses;
       this.adminService.createNewLine(this.line).subscribe(next => {
         this.alertify.success('New line added!');
+        this.route.navigate(['/viewLines']);
       }, error => {
         this.alertify.error('Error while adding new line');
       });

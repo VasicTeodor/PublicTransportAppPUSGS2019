@@ -24,117 +24,24 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">4342</th>
-          <td>7</td>
-          <td style="font-size: 12px">NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
+        <tr *ngFor="let line of allLines">
+          <th scope="row">{{line?.id}}</th>
+          <td>{{line.lineNumber}}</td>
+          <td style="font-size: 12px">{{line?.name}}</td>
           <td>
             <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li><a>Lutrija</a> </li>
-              <li><a>Mercator</a></li>
+              <li *ngFor="let station of line.stations"><a>{{station.name}}</a> </li>
             </ul>
           </td>
           <td>
             <ul id="collapseBasic" [collapse]="isCollapsedBuses" [isAnimated]="true" class="text-white">
-              <li><a>155</a> </li>
-              <li><a>540</a></li>
-              <li><a>68</a></li>
-              <li><a>12</a></li>
+              <li *ngFor="let bus of line.buses" (click)="deleteLine(line?.id)"><a>{{bus.busNumber}}</a> </li>
             </ul>
           </td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
+          <td><button [routerLink]="['/newLine',{lineId: line.id}]" routerLinkActive="router-link-active"
               class="btn btn-default moiClassButton">Edit</button></td>
           <td><i class="fa fa-trash moiClassButtonTable"></i></td>
         </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>7</td>
-          <td style="font-size: 12px">NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li><a>Lutrija</a> </li>
-              <li><a>Mercator</a></li>
-            </ul>
-          </td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedBuses" [isAnimated]="true" class="text-white">
-              <li><a>155</a> </li>
-              <li><a>540</a></li>
-              <li><a>68</a></li>
-              <li><a>12</a></li>
-            </ul>
-          </td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
-              class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>7</td>
-          <td style="font-size: 12px">NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li><a>Lutrija</a> </li>
-              <li><a>Mercator</a></li>
-            </ul>
-          </td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedBuses" [isAnimated]="true" class="text-white">
-              <li><a>155</a> </li>
-              <li><a>540</a></li>
-              <li><a>68</a></li>
-              <li><a>12</a></li>
-            </ul>
-          </td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
-              class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>7</td>
-          <td style="font-size: 12px">NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li><a>Lutrija</a> </li>
-              <li><a>Mercator</a></li>
-            </ul>
-          </td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedBuses" [isAnimated]="true" class="text-white">
-              <li><a>155</a> </li>
-              <li><a>540</a></li>
-              <li><a>68</a></li>
-              <li><a>12</a></li>
-            </ul>
-          </td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
-              class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-        <tr>
-          <th scope="row">4342</th>
-          <td>7</td>
-          <td style="font-size: 12px">NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li><a>Lutrija</a> </li>
-              <li><a>Mercator</a></li>
-            </ul>
-          </td>
-          <td>
-            <ul id="collapseBasic" [collapse]="isCollapsedBuses" [isAnimated]="true" class="text-white">
-              <li><a>155</a> </li>
-              <li><a>540</a></li>
-              <li><a>68</a></li>
-              <li><a>12</a></li>
-            </ul>
-          </td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
-              class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-        </tr>
-
       </tbody>
     </table>
   </div>

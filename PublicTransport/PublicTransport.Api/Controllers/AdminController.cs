@@ -41,6 +41,21 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
+        [HttpGet("getBusses")]
+        public async Task<IActionResult> GetBusses()
+        {
+            var busses = await _publicTransportRepository.GetBuses();
+
+            if (busses != null)
+            {
+                return Ok(busses.Where(b => b.InUse == false));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
         [HttpGet("getLines")]
         public async Task<IActionResult> GetLines()
         {
@@ -173,12 +188,23 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPost("addLine")]
-        public async Task<IActionResult> AddLine(Line line)
+        public async Task<IActionResult> AddLine(NewLineDto line)
         {
-            var result = await _publicTransportRepository.AddLine(line);
+            var lineToAdd = new Line();
+
+            _mapper.Map(line, lineToAdd);
+
+            var result = await _publicTransportRepository.AddLine(lineToAdd);
 
             if (result != null)
             {
+                if (line.Stations != null)
+                {
+                    foreach (var station in line.Stations)
+                    {
+                        await _publicTransportRepository.AddStationToLine(station.Id, result.Id);
+                    }
+                }
                 return Ok(result);
             }
             else

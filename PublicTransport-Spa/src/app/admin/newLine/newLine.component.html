@@ -13,17 +13,17 @@
         <tbody>
           <tr class="form-group">
             <th scope="row">Line Number: </th>
-            <td><input class="form-control" formControlName="number"
-                [ngClass]="{'is-invalid': registerForm.get('number').errors && registerForm.get('number').touched}">
+            <td><input class="form-control" formControlName="lineNumber" type="number"
+                [ngClass]="{'is-invalid': lineForm.get('lineNumber').errors && lineForm.get('lineNumber').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('number').touched && registerForm.get('number').hasError('required')">Number is
+                *ngIf="lineForm.get('lineNumber').touched && lineForm.get('lineNumber').hasError('required')">Number is
                 required</div>
             </td>
             <th scope="row">Name: </th>
-            <td><input class="form-control" formControlName="name"
-                [ngClass]="{'is-invalid': registerForm.get('name').errors && registerForm.get('name').touched}">
+            <td><input class="form-control" formControlName="name" type="text"
+                [ngClass]="{'is-invalid': lineForm.get('name').errors && lineForm.get('name').touched}">
               <div class="invalid-feedback"
-                *ngIf="registerForm.get('name').touched && registerForm.get('name').hasError('required')">Name is
+                *ngIf="lineForm.get('name').touched && lineForm.get('name').hasError('required')">Name is
                 required</div>
             </td>
           </tr>
@@ -58,7 +58,7 @@
               <td colspan="2">
                 <div class="form-group">
                   <select *ngFor="let bus of newLineBuses" (change)="busChanged($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                    <option value="bus.id">{{bus.number}}</option>
+                    <option value="bus.id">{{bus.busNumber}}</option>
                   </select>
                   <button (click)="removeBus()" class="btn btn-default moiClassButtonRemove">Remove</button>
                 </div>
@@ -67,7 +67,7 @@
               <td colspan="2">
                 <div class="form-group">
                   <select *ngFor="let bus of allBuses" (change)="busChangedAdd($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                    <option value="bus.id">{{bus.number}}</option>
+                    <option value="bus.id">{{bus.busNumber}}</option>
                   </select>
                   <button (click)="addBus()" class="btn btn-default moiClassButtonRemove">Add</button>
                 </div>

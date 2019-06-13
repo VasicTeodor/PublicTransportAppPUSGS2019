@@ -18,12 +18,16 @@ namespace PublicTransport.Api.Data
 
         public async Task<Line> GetLine(int id)
         {
-            return await _context.Lines.Include(s => s.Stations).Include(b => b.Buses).FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Lines.Include(s => s.Stations)
+                .ThenInclude(sl => sl.Station).Include(b => b.Buses)
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<IEnumerable<Line>> GetLines()
         {
-            return await _context.Lines.Include(s => s.Stations).Include(b => b.Buses).ToListAsync();
+            return await _context.Lines.Include(s => s.Stations).
+                ThenInclude(sl => sl.Station)
+                .Include(b => b.Buses).ToListAsync();
         }
     }
 }

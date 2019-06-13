@@ -44,6 +44,7 @@ import { NewPricelistComponent } from './admin/newPricelist/newPricelist.compone
 import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
 import { AgmCoreModule } from '@agm/core';
+import { BusListResolver } from './_resolvers/busList.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -110,7 +111,8 @@ export function getToken() {
      TicketVerificationResolver,
      StationListResolver,
      TicketResolver,
-     LineListResolver
+     LineListResolver,
+     BusListResolver
   ],
   bootstrap: [
      AppComponent

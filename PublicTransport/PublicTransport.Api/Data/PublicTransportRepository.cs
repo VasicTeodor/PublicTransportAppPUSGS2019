@@ -465,8 +465,18 @@ namespace PublicTransport.Api.Data
 
             _mapper.Map(station, stationForUpdate);
 
+            stationForUpdate.StationLines = null;
+
             if (await SaveAll())
             {
+                stationForUpdate = await _stationRepository.GetStation(stationId);
+                if (stationForUpdate.StationLines == null)
+                {
+                    foreach (var lines in station.Lines)
+                    {
+                        await AddLineToStation(stationForUpdate.Id, lines.Id);
+                    }
+                }
                 return stationForUpdate;
             }
             else
@@ -584,6 +594,48 @@ namespace PublicTransport.Api.Data
                 {
                     return ticket;
                 }
+                return null;
+            }
+        }
+
+        public async Task<IEnumerable<Bus>> GetBuses()
+        {
+            return await _context.Busses.ToListAsync();
+        }
+
+        public async Task<Bus> AddBus(Bus bus)
+        {
+            Add(bus);
+
+            if (await SaveAll())
+            {
+                return bus;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        public async Task<bool> RemoveBus(int busId)
+        {
+            var busForDelete = await _context.Busses.FirstOrDefaultAsync(b => b.Id == busId);
+
+            Delete(busForDelete);
+
+            return await SaveAll();
+        }
+        public async Task<Bus> UpdateBus(int busId, Bus bus)
+        {
+            var busForUpdate = await _context.Busses.FirstOrDefaultAsync(b => b.Id == busId);
+
+            _mapper.Map(bus, busForUpdate);
+
+            if (await SaveAll())
+            {
+                return busForUpdate;
+            }
+            else
+            {
                 return null;
             }
         }

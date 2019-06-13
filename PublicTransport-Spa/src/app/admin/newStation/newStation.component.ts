@@ -19,7 +19,7 @@ export class NewStationComponent implements OnInit {
   stationForm: FormGroup;
   station: NewStation;
   editStation: Station;
-  newStationLines: Line[];
+  newStationLines: Line[] = new Array<Line>();
   allLines: Line[];
   selectedLine: number;
   selectedLineToAdd: number;
@@ -28,10 +28,14 @@ export class NewStationComponent implements OnInit {
   locationChosen = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
-              private adminService: AdminService, private router: ActivatedRoute, private rote: Router) { }
+              private adminService: AdminService, private router: ActivatedRoute, private route: Router) { }
 
   ngOnInit() {
     this.createStationForm();
+
+    this.router.data.subscribe(data => {
+      this.allLines = data.lines;
+    });
 
     const id = this.router.snapshot.paramMap.get('stationId');
 
@@ -43,7 +47,7 @@ export class NewStationComponent implements OnInit {
         });
         this.createStationFormForUpdate();
       }, error => {
-        this.rote.navigate(['/viewStations']);
+        this.route.navigate(['/viewStations']);
         this.alertify.error('Error while getting station');
       });
     }
@@ -72,13 +76,13 @@ export class NewStationComponent implements OnInit {
   }
 
   createStation() {
-    if (this.editStation !== null) {
+    if (this.editStation !== null && this.editStation !== undefined) {
       if (this.stationForm.valid) {
         this.station = Object.assign({}, this.stationForm.value);
         this.station.lines = this.newStationLines;
         this.adminService.updateStation(this.editStation.id, this.station).subscribe(next => {
           this.alertify.success('Station updated!');
-          this.rote.navigate(['/viewStations']);
+          this.route.navigate(['/viewStations']);
         }, error => {
           this.alertify.error('Error while adding new station');
         });
@@ -89,7 +93,7 @@ export class NewStationComponent implements OnInit {
         this.station.lines = this.newStationLines;
         this.adminService.createNewStation(this.station).subscribe(next => {
           this.alertify.success('New station added!');
-          this.rote.navigate(['/viewStations']);
+          this.route.navigate(['/viewStations']);
         }, error => {
           this.alertify.error('Error while adding new station');
         });
@@ -102,16 +106,18 @@ export class NewStationComponent implements OnInit {
   }
 
   removeLine() {
-    const index = this.newStationLines.indexOf(this.newStationLines.find(line => line.id === this.selectedLine));
+    const index = this.newStationLines.indexOf(this.newStationLines.find(line => +line.id === +this.selectedLine));
     this.newStationLines.splice(index, 1);
   }
 
   lineChangedAdd(id: number) {
     this.selectedLineToAdd = id;
+    console.log(id);
+    console.log(this.selectedLineToAdd);
   }
 
   addLine() {
-    const index = this.allLines.indexOf(this.allLines.find(line => line.id === this.selectedLineToAdd));
+    const index = this.allLines.indexOf(this.allLines.find(line => +line.id === +this.selectedLineToAdd));
     this.newStationLines.push(this.allLines[index]);
   }
 

@@ -97,209 +97,215 @@ namespace PublicTransport.Api.Data
 
         public void SeedStations()
         {
-            Station station = new Station()
+            if (!_context.Stations.Any())
             {
-                Address = new Address()
+                Station station = new Station()
                 {
-                    City = "Novi Sad",
-                    Number = "122",
-                    Street = "Bul Oslobodjenja"
-                },
-                Location = new Location()
-                {
-                    X = 223.12333,
-                    Y = 123.44221
-                },
-                Name = "Lutrija"
-            };
-
-            _context.Add(station);
-
-            TimeTable timeTable1 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
-                {
-                    Name = "7A:Stanica-Lutrija-Liman",
-                    LineNumber = 7,
-                    Buses = new List<Bus>()
+                    Address = new Address()
                     {
-                        new Bus()
+                        City = "Novi Sad",
+                        Number = "122",
+                        Street = "Bul Oslobodjenja"
+                    },
+                    Location = new Location()
+                    {
+                        X = 223.12333,
+                        Y = 123.44221
+                    },
+                    Name = "Lutrija"
+                };
+
+                _context.Add(station);
+            }
+
+            if (!_context.TimeTables.Any())
+            {
+                TimeTable timeTable1 = new TimeTable()
+                {
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
+                    {
+                        Name = "7A:Stanica-Lutrija-Liman",
+                        LineNumber = 7,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 244,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 222,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 234,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 244,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 222,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 234,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable1);
+                };
+                _context.Add(timeTable1);
 
-            TimeTable timeTable2 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
+                TimeTable timeTable2 = new TimeTable()
                 {
-                    Name = "7B:Liman-Lutrija-Stanica",
-                    LineNumber = 7,
-                    Buses = new List<Bus>()
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
                     {
-                        new Bus()
+                        Name = "7B:Liman-Lutrija-Stanica",
+                        LineNumber = 7,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 241,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 221,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 231,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 241,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 221,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 231,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable2);
+                };
+                _context.Add(timeTable2);
 
-            TimeTable timeTable3 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
+                TimeTable timeTable3 = new TimeTable()
                 {
-                    Name = "12:Centar-Telep",
-                    LineNumber = 12,
-                    Buses = new List<Bus>()
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
                     {
-                        new Bus()
+                        Name = "12:Centar-Telep",
+                        LineNumber = 12,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 111,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 112,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 113,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 111,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 112,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 113,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable3);
+                };
+                _context.Add(timeTable3);
 
-            TimeTable timeTable4 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
+                TimeTable timeTable4 = new TimeTable()
                 {
-                    Name = "12:Telep-Centar",
-                    LineNumber = 12,
-                    Buses = new List<Bus>()
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
                     {
-                        new Bus()
+                        Name = "12:Telep-Centar",
+                        LineNumber = 12,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 241,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 221,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 231,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 241,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 221,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 231,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable4);
+                };
+                _context.Add(timeTable4);
 
-            TimeTable timeTable5 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
+                TimeTable timeTable5 = new TimeTable()
                 {
-                    Name = "8:Novo Naselje-Centar-Liman",
-                    LineNumber = 8,
-                    Buses = new List<Bus>()
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
                     {
-                        new Bus()
+                        Name = "8:Novo Naselje-Centar-Liman",
+                        LineNumber = 8,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 1,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 2,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 3,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 1,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 2,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 3,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable5);
+                };
+                _context.Add(timeTable5);
 
-            TimeTable timeTable6 = new TimeTable()
-            {
-                Day = "Working days",
-                Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
-                Type = "In City",
-                Line = new Line()
+                TimeTable timeTable6 = new TimeTable()
                 {
-                    Name = "8:Liman-Centar-Novo Naselje",
-                    LineNumber = 8,
-                    Buses = new List<Bus>()
+                    Day = "Working days",
+                    Departures = "12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32 12:32",
+                    Type = "In City",
+                    Line = new Line()
                     {
-                        new Bus()
+                        Name = "8:Liman-Centar-Novo Naselje",
+                        LineNumber = 8,
+                        Buses = new List<Bus>()
                         {
-                            BusNumber = 11,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 12,
-                            InUse = true,
-                        },
-                        new Bus()
-                        {
-                            BusNumber = 13,
-                            InUse = true,
+                            new Bus()
+                            {
+                                BusNumber = 11,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 12,
+                                InUse = true,
+                            },
+                            new Bus()
+                            {
+                                BusNumber = 13,
+                                InUse = true,
+                            }
                         }
                     }
-                }
-            };
-            _context.Add(timeTable6);
+                };
+                _context.Add(timeTable6);
+            }
 
             if (!_context.PricelistItems.Any())
             {
@@ -327,26 +333,30 @@ namespace PublicTransport.Api.Data
 
                 Item it1 = new Item()
                 {
-                    Type = "Hourly"
+                    Type = "Hourly",
+                    Description = "This ticket is valid just for one hour"
                 };
                 _context.Add(it1);
 
                 Item it2 = new Item()
                 {
-                    Type = "Daily"
+                    Type = "Daily",
+                    Description = "This ticket is valid until 00:00 next day"
                 };
                 _context.Add(it2);
 
 
                 Item it3 = new Item()
                 {
-                    Type = "Monthly"
+                    Type = "Monthly",
+                    Description = "This ticket is valid for one month"
                 };
                 _context.Add(it3);
 
                 Item it4 = new Item()
                 {
-                    Type = "Annual"
+                    Type = "Annual",
+                    Description = "This ticket is valid for one year"
                 };
                 _context.Add(it4);
                 _context.SaveChanges();

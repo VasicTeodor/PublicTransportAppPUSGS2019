@@ -49,6 +49,13 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.X); })
                 .ForPath(dest => dest.Location.Y,
                     opt => { opt.MapFrom(src => src.Y); });
+            CreateMap<NewLineDto, Line>()
+                .ForMember(dest => dest.Name,
+                    opt => { opt.MapFrom(src => src.Name); })
+                .ForMember(dest => dest.LineNumber,
+                    opt => { opt.MapFrom(src => src.LineNumber); })
+                .ForMember(dest => dest.Buses,
+                    opt => { opt.MapFrom(src => src.Buses); });
         }
     }
 }

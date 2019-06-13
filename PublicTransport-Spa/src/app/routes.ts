@@ -28,6 +28,7 @@ import { ControllerGuard } from './_guards/controller.guard';
 import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
 import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
+import { BusListResolver } from './_resolvers/busList.resolver';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
@@ -43,10 +44,12 @@ export const appRoutes: Routes = [
     canActivate: [ControllerGuard], component: UserVerificationComponent, resolve: {users: UserVerificationResolver}},
     {path: 'ticketVerification', runGuardsAndResolvers: 'always',
     canActivate: [ControllerGuard], component: TicketVerificationComponent, resolve: {tickets: TicketVerificationResolver}},
-    {path: 'newLine', component: NewLineComponent},
+    {path: 'newLine', component: NewLineComponent, runGuardsAndResolvers: 'always',
+    canActivate: [AdminGuard], resolve: {stations: StationListResolver, busses: BusListResolver}},
     {path: 'viewLines', component: ViewLinesComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
-    {path: 'newStation', component: NewStationComponent},
+    {path: 'newStation', component: NewStationComponent, runGuardsAndResolvers: 'always',
+    canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
     {path: 'viewStations', component: ViewStationsComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {stations: StationListResolver}},
     {path: 'newTimetable', component: NewTimetableComponent},

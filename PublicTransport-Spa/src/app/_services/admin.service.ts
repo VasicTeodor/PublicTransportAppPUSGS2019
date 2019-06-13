@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Station } from '../_models/station';
 import { NewLine } from '../_models/newLine';
 import { Line } from '../_models/line';
+import { Bus } from '../_models/bus';
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +54,9 @@ deleteLine(lineId) {
 
 updateLine(line: NewLine, lineId: number) {
   return this.http.put(this.baseUrl + 'admin/updateLine?lineId=' + lineId, line);
+}
+
+getBusses() {
+  return this.http.get<Observable<Bus[]>>(this.baseUrl + 'admin/getBusses');
 }
 }

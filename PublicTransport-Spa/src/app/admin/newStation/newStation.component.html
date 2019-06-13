@@ -67,10 +67,10 @@
                 Choose Location</a></td>
           </tr>
           <tr>
-            <td colspan="6">
+            <td colspan="7">
               <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white"
-                class="moiClassComponentView">
-                <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="onChoseLocation($event)">
+                class="moiClassComponentView justify-content-center">
+                <agm-map [latitude]="latitude" [longitude]="longitude" style="height: 400px; width: 100%" (mapClick)="onChoseLocation($event)">
                   <agm-marker
                     [latitude]="latitude"
                     [longitude]="longitude"
@@ -86,21 +86,21 @@
           <tr style="vertical-align: top">
             <td colspan="3" style="vertical-align: top">
               <div class="form-group">
-                <select *ngFor="let line of newStationLines" (change)="lineChanged($event.target.value)"
-                 multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option value="line.id">{{line.lineNumber}}. {{line.name}}</option>
+                <select (change)="lineChanged($event.target.value)"
+                  class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option *ngFor="let line of newStationLines" value={{line.id}}>{{line?.lineNumber}}. {{line?.name}}</option>
                 </select>
-                <button (click)="removeLine()" class="btn btn-default moiClassButtonRemove">Remove</button>
+                <button (click)="removeLine()" class="btn btn-default moiClassButtonRemove" type="button">Remove Line</button>
               </div>
             </td>
             <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
             <td colspan="3" style="vertical-align: top">
               <div class="form-group">
-                <select *ngFor="let line of allLines" (change)="lineChangedAdd($event.target.value)"
-                 multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option value="line.id">{{line.id}}. {{line.name}}</option>
+                <select (change)="lineChangedAdd($event.target.value)"
+                  class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option *ngFor="let line of allLines" value={{line.id}}>{{line.id}}. {{line.name}}</option>
                 </select>
-                <button (click)="addLine()" class="btn btn-default moiClassButtonRemove">Add</button>
+                <button (click)="addLine()" class="btn btn-default moiClassButtonRemove" type="button">Add Line</button>
               </div>
             </td>
           </tr>

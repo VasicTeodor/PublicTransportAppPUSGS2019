@@ -41,5 +41,9 @@ namespace PublicTransport.Api.Data
         Task<PricelistItem> GetPricelist(int pricelistId);
         Task AddLineToStation(int stationId, int lineId);
         Task AddStationToLine(int stationId, int lineId);
+        Task<IEnumerable<Bus>> GetBuses();
+        Task<Bus> AddBus(Bus bus);
+        Task<bool> RemoveBus(int busId);
+        Task<Bus> UpdateBus(int busId, Bus bus);
     }
 }
