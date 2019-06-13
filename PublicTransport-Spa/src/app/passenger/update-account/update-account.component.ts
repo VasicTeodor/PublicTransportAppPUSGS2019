@@ -38,7 +38,8 @@ export class UpdateAccountComponent implements OnInit {
     this.bsConfig = {
       containerClass: 'theme-orange'
     };
-    this.createRegiserForm();
+    //this.createRegiserForm();
+    this.createUpdateForm();
     this.initializeUploader();
   }
 
@@ -71,7 +72,7 @@ export class UpdateAccountComponent implements OnInit {
     };
   }
 
-  createRegiserForm() {
+  createUpdateForm() {
     const myMoment: moment.Moment = moment(this.user.dateOfBirth);
 
     this.updateForm = this.fb.group({
@@ -89,6 +90,23 @@ export class UpdateAccountComponent implements OnInit {
       city: [this.user.address.city, Validators.required],
     }, {validator: this.passwordMatchValidator});
   }
+
+  /* createUpdateForm() {
+    this.updateForm = this.fb.group({
+      userType: ['regular'],
+      userName: ['', Validators.required],
+      name: ['', Validators.required],
+      surname: ['', Validators.required],
+      dateOfBirth: [null, Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      oldPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(8)]],
+      street: ['', Validators.required],
+      number: ['', Validators.required],
+      city: ['', Validators.required],
+    }, {validator: this.passwordMatchValidator});
+  } */
 
   passwordMatchValidator(g: FormGroup) {
     return g.get('password').value === g.get('confirmPassword').value ? null : {mismatch : true};
