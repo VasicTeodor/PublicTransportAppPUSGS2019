@@ -42,6 +42,7 @@ import { ViewPricelistComponent } from './admin/viewPricelist/viewPricelist.comp
 import { TicketResolver } from './_resolvers/ticket.resolver';
 import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
 import { StationListResolver } from './_resolvers/stationList.resolver';
+import { LineListResolver } from './_resolvers/lineList.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -104,7 +105,8 @@ export function getToken() {
      UserVerificationResolver,
      TicketVerificationResolver,
      StationListResolver,
-     TicketResolver
+     TicketResolver,
+     LineListResolver
   ],
   bootstrap: [
      AppComponent

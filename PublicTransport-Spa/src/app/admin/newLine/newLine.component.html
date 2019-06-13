@@ -1,6 +1,6 @@
 <div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
   <div class="col">
-    <form [formGroup]="registerForm">
+    <form [formGroup]="lineForm" (ngSubmit)="createLine()">
       <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
         <thead>
           <tr>
@@ -34,29 +34,19 @@
           <tr>
             <td colspan="2">
               <div class="form-group">
-                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option>Lutrija</option>
-                  <option>Mercator</option>
-                  <option>Centar</option>
+                <select *ngFor="let station of newLineStations" (change)="stationChanged($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option value="station.id">{{station.name}}</option>
                 </select>
-                <button class="btn btn-default moiClassButtonRemove">Remove</button>
+                <button (click)="removeStation()" class="btn btn-default moiClassButtonRemove">Remove</button>
               </div>
             </td>
             <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
             <td colspan="2">
               <div class="form-group">
-                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option>Lutrija</option>
-                  <option>Mercator</option>
-                  <option>Centar</option>
-                  <option>Lutrija</option>
-                  <option>Mercator</option>
-                  <option>Centar</option>
-                  <option>Lutrija</option>
-                  <option>Mercator</option>
-                  <option>Centar</option>
+                <select *ngFor="let station of allStations" (change)="stationChangedAdd($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option value="station.id">{{station.name}}</option>
                 </select>
-                <button class="btn btn-default moiClassButtonRemove">Add</button>
+                <button (click)="addStation()" class="btn btn-default moiClassButtonRemove">Add</button>
               </div>
             </td>
           </tr>
@@ -67,35 +57,25 @@
             <tr>
               <td colspan="2">
                 <div class="form-group">
-                  <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                    <option>5195</option>
-                    <option>51</option>
-                    <option>899</option>
+                  <select *ngFor="let bus of newLineBuses" (change)="busChanged($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                    <option value="bus.id">{{bus.number}}</option>
                   </select>
-                  <button class="btn btn-default moiClassButtonRemove">Remove</button>
+                  <button (click)="removeBus()" class="btn btn-default moiClassButtonRemove">Remove</button>
                 </div>
               </td>
               <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
               <td colspan="2">
                 <div class="form-group">
-                  <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                    <option>34</option>
-                    <option>5453</option>
-                    <option>345</option>
-                    <option>45435</option>
-                    <option>534</option>
-                    <option>75</option>
-                    <option>87</option>
-                    <option>6567</option>
-                    <option>787</option>
+                  <select *ngFor="let bus of allBuses" (change)="busChangedAdd($event.target.value)" multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                    <option value="bus.id">{{bus.number}}</option>
                   </select>
-                  <button class="btn btn-default moiClassButtonRemove">Add</button>
+                  <button (click)="addBus()" class="btn btn-default moiClassButtonRemove">Add</button>
                 </div>
               </td>
             </tr>
           <tr>
             <th scope="row" colspan="7">
-              <button class="btn btn-default moiClassButton">Add Line</button>
+              <button class="btn btn-default moiClassButton" type="submit">Add Line</button>
             </th>
           </tr>
         </tbody>
