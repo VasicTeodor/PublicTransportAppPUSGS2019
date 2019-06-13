@@ -25,9 +25,11 @@ export class ViewStationsComponent implements OnInit {
   deleteStation(stationId: number) {
     this.adminService.deleteStation(stationId).subscribe(next => {
       this.alertify.success('Station deleted');
+      const indx = this.allStations.indexOf(this.allStations.find(station => station.id === stationId));
+      this.allStations.splice(indx, 1);
     }, error => {
       this.alertify.error('Failed to delete station');
-    })
+    });
   }
 
 }

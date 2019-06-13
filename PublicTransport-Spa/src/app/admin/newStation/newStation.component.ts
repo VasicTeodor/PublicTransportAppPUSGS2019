@@ -23,7 +23,7 @@ export class NewStationComponent implements OnInit {
   allLines: Line[];
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
-              private adminService: AdminService, private router: ActivatedRoute) { }
+              private adminService: AdminService, private router: ActivatedRoute, private rote: Router) { }
 
   ngOnInit() {
     this.createStationForm();
@@ -38,6 +38,7 @@ export class NewStationComponent implements OnInit {
         });
         this.createStationFormForUpdate();
       }, error => {
+        this.rote.navigate(['/viewStations']);
         this.alertify.error('Error while getting station');
       });
     }
@@ -66,14 +67,28 @@ export class NewStationComponent implements OnInit {
   }
 
   createStation() {
-    if (this.stationForm.valid) {
-      this.station = Object.assign({}, this.stationForm.value);
-      this.station.lines = this.newStationLines;
-      this.adminService.createNewStation(this.station).subscribe(next => {
-        this.alertify.success('New station added!');
-      }, error => {
-        this.alertify.error('Error while adding new station');
-      });
+    if (this.editStation !== null) {
+      if (this.stationForm.valid) {
+        this.station = Object.assign({}, this.stationForm.value);
+        this.station.lines = this.newStationLines;
+        this.adminService.updateStation(this.editStation.id, this.station).subscribe(next => {
+          this.alertify.success('Station updated!');
+          this.rote.navigate(['/viewStations']);
+        }, error => {
+          this.alertify.error('Error while adding new station');
+        });
+      }
+    } else {
+      if (this.stationForm.valid) {
+        this.station = Object.assign({}, this.stationForm.value);
+        this.station.lines = this.newStationLines;
+        this.adminService.createNewStation(this.station).subscribe(next => {
+          this.alertify.success('New station added!');
+          this.rote.navigate(['/viewStations']);
+        }, error => {
+          this.alertify.error('Error while adding new station');
+        });
+      }
     }
   }
 }
