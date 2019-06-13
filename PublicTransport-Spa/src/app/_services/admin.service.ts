@@ -31,6 +31,10 @@ deleteStation(stationId) {
   return this.http.delete(this.baseUrl + 'admin/removeStation?stationId=' + stationId);
 }
 
+updateStation(stationId: number, station: NewStation) {
+  return this.http.put(this.baseUrl + 'admin/updateStation?stationId=' + stationId, station);
+}
+
 createNewLine(line: NewLine) {
   return this.http.post(this.baseUrl + 'admin/addLine', line);
 }
