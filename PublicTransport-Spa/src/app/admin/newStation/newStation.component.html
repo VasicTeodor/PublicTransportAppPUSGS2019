@@ -69,7 +69,14 @@
           <tr>
             <td colspan="6">
               <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white"
-                class="moiClassComponentView">Mapa.</div>
+                class="moiClassComponentView">
+                <agm-map [latitude]="latitude" [longitude]="longitude" (mapClick)="onChoseLocation($event)">
+                  <agm-marker
+                    [latitude]="latitude"
+                    [longitude]="longitude"
+                    *ngIf="locationChosen"></agm-marker>
+                </agm-map>
+              </div>
             </td>
           </tr>
           <tr>
@@ -79,32 +86,21 @@
           <tr style="vertical-align: top">
             <td colspan="3" style="vertical-align: top">
               <div class="form-group">
-                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>3. DETELINARA - PETROVARADIN</option>
-                  <option>4. ZELEZNICKA STANICA - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
+                <select *ngFor="let line of newStationLines" (change)="lineChanged($event.target.value)"
+                 multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option value="line.id">{{line.lineNumber}}. {{line.name}}</option>
                 </select>
-                <button class="btn btn-default moiClassButtonRemove">Remove</button>
+                <button (click)="removeLine()" class="btn btn-default moiClassButtonRemove">Remove</button>
               </div>
             </td>
             <td><i class="fa fa-arrow-left text-white" style="font-size: 2em"></i></td>
             <td colspan="3" style="vertical-align: top">
               <div class="form-group">
-                <select multiple class="form-control" size="6" id="exampleFormControlSelect2">
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>3. DETELINARA - PETROVARADIN</option>
-                  <option>4. ZELEZNICKA STANICA - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>3. DETELINARA - PETROVARADIN</option>
-                  <option>4. ZELEZNICKA STANICA - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
-                  <option>8. NOVO NASELJE - CENTAR - LIMAN 4</option>
+                <select *ngFor="let line of allLines" (change)="lineChangedAdd($event.target.value)"
+                 multiple class="form-control" size="6" id="exampleFormControlSelect2">
+                  <option value="line.id">{{line.id}}. {{line.name}}</option>
                 </select>
-                <button class="btn btn-default moiClassButtonRemove">Add</button>
+                <button (click)="addLine()" class="btn btn-default moiClassButtonRemove">Add</button>
               </div>
             </td>
           </tr>

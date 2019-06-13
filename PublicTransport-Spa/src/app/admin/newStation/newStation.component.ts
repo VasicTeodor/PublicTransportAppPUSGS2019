@@ -21,6 +21,11 @@ export class NewStationComponent implements OnInit {
   editStation: Station;
   newStationLines: Line[];
   allLines: Line[];
+  selectedLine: number;
+  selectedLineToAdd: number;
+  latitude = 51.678418;
+  longitude = 7.809007;
+  locationChosen = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
               private adminService: AdminService, private router: ActivatedRoute, private rote: Router) { }
@@ -91,4 +96,31 @@ export class NewStationComponent implements OnInit {
       }
     }
   }
+
+  lineChanged(id: number) {
+    this.selectedLine = id;
+  }
+
+  removeLine() {
+    const index = this.newStationLines.indexOf(this.newStationLines.find(line => line.id === this.selectedLine));
+    this.newStationLines.splice(index, 1);
+  }
+
+  lineChangedAdd(id: number) {
+    this.selectedLineToAdd = id;
+  }
+
+  addLine() {
+    const index = this.allLines.indexOf(this.allLines.find(line => line.id === this.selectedLineToAdd));
+    this.newStationLines.push(this.allLines[index]);
+  }
+
+  onChoseLocation(event) {
+    this.latitude = event.coords.lat;
+    this.longitude = event.coords.lng;
+    this.locationChosen = true;
+
+    this.stationForm.controls.x.setValue(this.latitude);
+    this.stationForm.controls.y.setValue(this.longitude);
+}
 }

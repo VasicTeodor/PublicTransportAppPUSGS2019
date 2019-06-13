@@ -43,6 +43,7 @@ import { TicketResolver } from './_resolvers/ticket.resolver';
 import { NewPricelistComponent } from './admin/newPricelist/newPricelist.component';
 import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
+import { AgmCoreModule } from '@agm/core';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -81,6 +82,9 @@ export function getToken() {
             blacklistedRoutes: ['localhost:5000/api/authorization']
          }
       }),
+      AgmCoreModule.forRoot({
+         apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'
+       }),
       HttpClientModule,
       MomentModule,
       FormsModule,
