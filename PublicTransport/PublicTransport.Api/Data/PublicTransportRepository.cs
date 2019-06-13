@@ -59,6 +59,21 @@ namespace PublicTransport.Api.Data
             }
         }
 
+        public async Task AddLineToStation(int stationId, int lineId)
+        {
+            if (!(await _context.StationLines.AnyAsync(sl => sl.LineId == lineId && sl.StationId == stationId)))
+            {
+                var statLine = new StationLine()
+                {
+                    LineId = lineId,
+                    StationId = stationId
+                };
+
+                Add(statLine);
+                await SaveAll();
+            }
+        }
+
         public async Task<PricelistItem> AddPricelist(PricelistItem pricelist)
         {
             Add(pricelist);
@@ -84,6 +99,21 @@ namespace PublicTransport.Api.Data
             else
             {
                 return null;
+            }
+        }
+
+        public async Task AddStationToLine(int stationId, int lineId)
+        {
+            if (!(await _context.StationLines.AnyAsync(sl => sl.LineId == lineId && sl.StationId == stationId)))
+            {
+                var statLine = new StationLine()
+                {
+                    LineId = lineId,
+                    StationId = stationId
+                };
+
+                Add(statLine);
+                await SaveAll();
             }
         }
 
@@ -429,7 +459,7 @@ namespace PublicTransport.Api.Data
             }
         }
 
-        public async Task<Station> UpdateStation(int stationId, Station station)
+        public async Task<Station> UpdateStation(int stationId, NewStationDto station)
         {
             var stationForUpdate = await _stationRepository.GetStation(stationId);
 

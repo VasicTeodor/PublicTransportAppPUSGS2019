@@ -156,6 +156,14 @@ namespace PublicTransport.Api.Controllers
 
             if (result != null)
             {
+                if (station.Lines != null)
+                {
+                    foreach (var line in station.Lines)
+                    {
+                        await _publicTransportRepository.AddLineToStation(result.Id, line.Id);
+                    }
+                }
+                
                 return Ok(result);
             }
             else
@@ -210,12 +218,19 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut("updateStation")]
-        public async Task<IActionResult> UpdateStation(int stationId, Station station)
+        public async Task<IActionResult> UpdateStation(int stationId, NewStationDto station)
         {
             var result = await _publicTransportRepository.UpdateStation(stationId, station);
 
             if (result != null)
             {
+                if (station.Lines != null)
+                {
+                    foreach (var line in station.Lines)
+                    {
+                        await _publicTransportRepository.AddLineToStation(result.Id, line.Id);
+                    }
+                }
                 return Ok(result);
             }
             else

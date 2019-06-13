@@ -22,7 +22,7 @@ namespace PublicTransport.Api.Data
         Task<IEnumerable<Station>> GetStations();
         Task<Station> AddStation(Station station);
         Task<bool> RemoveStation(int stationId);
-        Task<Station> UpdateStation(int stationId, Station station);
+        Task<Station> UpdateStation(int stationId, NewStationDto station);
         Task<IEnumerable<Line>> GetLines();
         Task<Line> AddLine(Line line);
         Task<bool> RemoveLine(int lineId);
@@ -39,6 +39,7 @@ namespace PublicTransport.Api.Data
         Task<Line> GetLine(int lineId);
         Task<TimeTable> GetTimetable(int timetableId);
         Task<PricelistItem> GetPricelist(int pricelistId);
-
+        Task AddLineToStation(int stationId, int lineId);
+        Task AddStationToLine(int stationId, int lineId);
     }
 }
