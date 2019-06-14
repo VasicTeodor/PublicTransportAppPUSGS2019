@@ -59,7 +59,9 @@ export const appRoutes: Routes = [
     canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
     {path: 'viewTimetables', component: ViewTimetablesComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver, lines: LineListResolver}},
-    {path: 'viewPricelist', component: ViewPricelistComponent, resolve: {pricelists: PriceListAdminResolver}},
-    {path: 'newPricelist', component: NewPricelistComponent},
+    {path: 'viewPricelist', component: ViewPricelistComponent, runGuardsAndResolvers: 'always',
+    canActivate: [AdminGuard], resolve: {pricelists: PriceListAdminResolver}},
+    {path: 'newPricelist', component: NewPricelistComponent, runGuardsAndResolvers: 'always',
+    canActivate: [AdminGuard]},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 ];

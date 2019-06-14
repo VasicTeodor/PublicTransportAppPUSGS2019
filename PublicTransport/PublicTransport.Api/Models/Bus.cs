@@ -1,4 +1,6 @@
-﻿namespace PublicTransport.Api.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PublicTransport.Api.Models
 {
     public class Bus
     {
@@ -8,5 +10,8 @@
         public bool InUse { get; set; }
         public Line Line { get; set; }
         public int? LineId { get; set; }
+
+        [Timestamp]
+        public byte[] TableVersion { get; set; }
     }
 }

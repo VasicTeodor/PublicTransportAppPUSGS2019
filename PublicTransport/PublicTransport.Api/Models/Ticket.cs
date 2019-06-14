@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PublicTransport.Api.Models
 {
@@ -15,5 +16,7 @@ namespace PublicTransport.Api.Models
         {
             DateOfIssue = DateTime.Now;
         }
+        [Timestamp]
+        public byte[] TableVersion { get; set; }
     }
 }

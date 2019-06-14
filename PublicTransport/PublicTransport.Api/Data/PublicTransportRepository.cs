@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -467,7 +468,15 @@ namespace PublicTransport.Api.Data
 
         public async Task<bool> SaveAll()
         {
-            return await _context.SaveChangesAsync() > 0;
+            try
+            {
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                Trace.WriteLine(e.Message);
+                return false;
+            }
         }
 
         public async Task<Line> UpdateLine(int lineId, NewLineDto line)

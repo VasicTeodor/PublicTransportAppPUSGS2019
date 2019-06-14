@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PublicTransport.Api.Models
 {
@@ -9,5 +10,7 @@ namespace PublicTransport.Api.Models
         public Address Address { get; set; }
         public Location Location { get; set; }
         public ICollection<StationLine> StationLines { get; set; }
+        [Timestamp]
+        public byte[] TableVersion { get; set; }
     }
 }
