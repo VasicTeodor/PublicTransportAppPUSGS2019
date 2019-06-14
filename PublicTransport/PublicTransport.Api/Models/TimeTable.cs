@@ -10,5 +10,6 @@ namespace PublicTransport.Api.Models
         public string Day { get; set; }
         public Line Line { get; set; }
         public string Departures { get; set; }
+        public int? LineId { get; set; }
     }
 }

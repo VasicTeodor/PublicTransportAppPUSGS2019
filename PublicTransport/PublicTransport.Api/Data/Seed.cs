@@ -81,7 +81,7 @@ namespace PublicTransport.Api.Data
                 if (result.Succeeded)
                 {
                     var adm = _userManager.FindByNameAsync("Admin").Result;
-                    _userManager.AddToRolesAsync(adm, new[] { "Admin", "Controller" }).Wait();
+                    _userManager.AddToRoleAsync(adm, "Admin").Wait();
                 }
 
                 var controller = new User { UserName = "Controller", Email = "controller@publictransport.com"};

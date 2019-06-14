@@ -37,7 +37,7 @@ export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
-    {path: 'timetable', component: TimetableComponent},
+    {path: 'timetable', component: TimetableComponent, resolve: {timetables: TimetableListResolver, lines: LineListResolver}},
     {path: 'map', component: MapComponent, resolve: {lines: LineListResolver, stations: StationListResolver}},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: TicketResolver}},
     {path: 'pricelist', component: PricelistComponent, resolve: {allPricelists: PricelistResolver}},
@@ -58,7 +58,7 @@ export const appRoutes: Routes = [
     {path: 'newTimetable', component: NewTimetableComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
     {path: 'viewTimetables', component: ViewTimetablesComponent, runGuardsAndResolvers: 'always',
-    canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver}},
+    canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver, lines: LineListResolver}},
     {path: 'viewPricelist', component: ViewPricelistComponent, resolve: {pricelists: PriceListAdminResolver}},
     {path: 'newPricelist', component: NewPricelistComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
