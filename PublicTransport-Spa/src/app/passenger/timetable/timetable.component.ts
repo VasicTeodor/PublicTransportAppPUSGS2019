@@ -4,11 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Line } from 'src/app/_models/line';
 import { TimeTable } from 'src/app/_models/timeTable';
 import { Departures } from 'src/app/_models/departures';
+import { Directions } from 'src/app/_models/directions';
+import { Station } from 'src/app/_models/station';
 
 @Component({
   selector: 'app-timetable',
   templateUrl: './timetable.component.html',
-  styleUrls: ['./timetable.component.css']
+  styleUrls: ['./timetable.component.css'],
+  styles: ['agm-map {height: 100%; width: 100%;}']
 })
 export class TimetableComponent implements OnInit {
   allTimetables: TimeTable[];
@@ -20,6 +23,13 @@ export class TimetableComponent implements OnInit {
   timetable= {} as TimeTable;
   isInitialized: boolean = false;
   departures: Departures[] = new Array(24);
+  allDir: Directions[] = new Array<Directions>();
+  dir = undefined;
+  allStations: Station[];
+  options = {
+      suppressMarkers: true,
+  };
+
 
   constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router) { }
 
@@ -44,7 +54,15 @@ export class TimetableComponent implements OnInit {
   lineChanged(id: number) {
     this.selectedLine = id;
     console.log(this.selectedLine);
+    this.allStations = null;
+    this.allStations = new Array<Station>();
+    this.allDir.forEach(element => {
+      element.show = false;
+    });
+    this.allDir = null;
+    this.allDir = new Array<Directions>();
     this.showTimetable();
+    this.initializeRoutes();
   }
 
   showTimetable() {
@@ -95,4 +113,24 @@ export class TimetableComponent implements OnInit {
     }
   }
 
+  initializeRoutes() {
+    console.table(this.allLines);
+    if (this.line.stations !== null || this.line.stations !== undefined || this.line.stations.length > 0) {
+      let dir = new Directions();
+      dir.waypoints = new Array<any>();
+      if (this.line.stations[0] !== undefined) {
+        console.log(this.line.stations[0]);
+        dir.origin = {lat: this.line.stations[0].station.location.x, lng: this.line.stations[0].station.location.y};
+        dir.destination = {lat: this.line.stations[this.line.stations.length - 1].station.location.x,
+            lng: this.line.stations[this.line.stations.length - 1].station.location.y};
+        this.line.stations.forEach(stl => {
+          dir.waypoints.push({ location: { lat:  stl.station.location.x, lng: stl.station.location.y }, stopover: true });
+          this.allStations.push(stl.station);
+        });
+        this.allDir.push(dir);
+      }
+    }
+
+    console.log(this.allDir);
+  }
 }
