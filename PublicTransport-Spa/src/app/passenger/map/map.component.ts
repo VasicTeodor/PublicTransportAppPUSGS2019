@@ -23,6 +23,28 @@ export class MapComponent implements OnInit {
   allLines: Line[];
   allStations: Station[];
 
+  public dirsRenderOpt: Array<any> = [{
+    renderOptions: { polylineOptions: { strokeColor: '#ff960c' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#0cff38' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#f9188d' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#5508ad' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#04cc1e' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#f9ff00' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#37bbe8' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#7f3c26' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#0f0' }, suppressMarkers: true },
+  }, {
+    renderOptions: { polylineOptions: { strokeColor: '#0f0' }, suppressMarkers: true },
+  }];
+
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.allLines = data.lines;

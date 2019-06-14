@@ -21,8 +21,8 @@
       
           <!-- <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
           </agm-marker> -->
-          <div *ngFor="let dir of allDir">
-            <agm-direction [waypoints]="dir.waypoints"  [origin]="dir.origin" [destination]="dir.destination"></agm-direction>
+          <div *ngFor="let dir of allDir, let i = index">
+            <agm-direction [waypoints]="dir.waypoints"  [origin]="dir.origin" [destination]="dir.destination" [renderOptions]="dirsRenderOpt[i].renderOptions"></agm-direction>
           </div>
       </agm-map>
   </div>
