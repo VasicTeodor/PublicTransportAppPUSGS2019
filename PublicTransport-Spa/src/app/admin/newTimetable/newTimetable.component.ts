@@ -47,7 +47,6 @@ export class NewTimetableComponent implements OnInit {
         this.type = this.editTimetable.type;
         this.line = this.editTimetable.line;
         this.day = this.editTimetable.day;
-        /* this.timetable.departures = this.editTimetable.departures; */
 
         /* sjeckacu linije */
         if (!this.isInitialized)

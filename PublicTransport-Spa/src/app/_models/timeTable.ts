@@ -6,4 +6,5 @@ export interface TimeTable {
     day: string;
     line: Line;
     departures: string;
+    lineId: number;
 }

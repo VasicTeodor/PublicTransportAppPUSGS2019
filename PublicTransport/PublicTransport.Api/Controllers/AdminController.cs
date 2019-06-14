@@ -73,6 +73,7 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("getTimetables")]
         public async Task<IActionResult> GetTimetables()
         {

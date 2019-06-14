@@ -3,6 +3,7 @@ import { TimeTable } from 'src/app/_models/timeTable';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { Line } from 'src/app/_models/line';
 
 @Component({
   selector: 'app-viewTimetables',
@@ -12,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewTimetablesComponent implements OnInit {
   isCollapsed = true;
   allTimetables: TimeTable[];
+  allLines: Line[];
   departures: string[];
 
   constructor(private adminService: AdminService, private alertify: AlertifyService,
@@ -20,7 +22,14 @@ export class ViewTimetablesComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.allTimetables = data.timetables;
+      this.allLines = data.lines;
     });
+
+    this.allTimetables.forEach(tmt => {
+      let line = this.allLines.find(l => l.id === tmt.lineId);
+      tmt.line = line;
+    });
+
   }
 
   deleteTimetable(timetableId: number) {

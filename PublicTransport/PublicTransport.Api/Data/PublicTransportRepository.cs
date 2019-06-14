@@ -145,10 +145,18 @@ namespace PublicTransport.Api.Data
 
         public async Task<TimeTable> AddTimetable(TimeTable timetable)
         {
+            var lineId = timetable.Line.Id;
+            timetable.Line = null;
             Add(timetable);
-
             if (await SaveAll())
             {
+                if (timetable.LineId != null)
+                {
+                    //var line = await _context.Lines.FirstOrDefaultAsync(l => l.Id == lineId);
+                    var line = await _lineRepository.GetLine(lineId);
+                    line.TimetableId = timetable.Id;
+                }
+                await SaveAll();
                 return timetable;
             }
             else
@@ -568,9 +576,14 @@ namespace PublicTransport.Api.Data
             var timetableForUpdate = await _timeTableRepository.GetTimeTable(timetableId);
 
             _mapper.Map(timetable, timetableForUpdate);
-
+            var lineId = timetableForUpdate.Line.Id;
+            timetableForUpdate.Line = null;
             if (await SaveAll())
             {
+                //var line = await _context.Lines.FirstOrDefaultAsync(l => l.Id == lineId);
+                var line = await _lineRepository.GetLine(lineId);
+                line.TimetableId = timetable.Id;
+                await SaveAll();
                 return timetableForUpdate;
             }
             else

@@ -39,6 +39,30 @@ namespace PublicTransport.Api.Data
 
         public async Task<IEnumerable<TimeTable>> GetTimeTables()
         {
+            //return await (from t in _context.TimeTables
+            //              join l in _context.Lines
+            //              on t.Id equals l.TimetableId
+            //              join s in _context.StationLines
+            //              on l.Id equals s.LineId
+            //              select new TimeTable
+            //              {
+            //                  Id = t.Id,
+            //                  Type = t.Type,
+            //                  Day = t.Day,
+            //                  Departures = t.Departures,
+            //                  Line = new Line
+            //                  {
+            //                      Id = l.Id,
+            //                      Name = l.Name,
+            //                      LineNumber = l.LineNumber,
+            //                      TimetableId = t.Id,
+            //                      Stations = new List<StationLine>
+            //                      {
+            //                          new StationLine {Line = l, LineId = l.Id, Station = s.Station, StationId = s.Station.Id}
+            //                      }
+            //                  }
+            //              }).ToListAsync();
+
             return await _context.TimeTables.Include(t => t.Line).ThenInclude(s => s.Stations)
                                             .Include(t => t.Line).ThenInclude(b => b.Buses).ToListAsync();
         }

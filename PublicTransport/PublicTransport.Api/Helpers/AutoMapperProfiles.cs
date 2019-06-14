@@ -55,7 +55,11 @@ namespace PublicTransport.Api.Helpers
                 .ForMember(dest => dest.LineNumber,
                     opt => { opt.MapFrom(src => src.LineNumber); })
                 .ForMember(dest => dest.Buses,
-                    opt => { opt.MapFrom(src => src.Buses); });
+                    opt => { opt.MapFrom(src => src.Buses); })
+                //.ForMember(dest => dest.Timetable,
+                //    opt => { opt.Ignore(); })
+                .ForMember(dest => dest.TimetableId,
+                    opt => { opt.Ignore(); });
             CreateMap<NewLineDto, Line>()
                 .ForMember(dest => dest.Buses,
                     opt => { opt.MapFrom(src => src.Buses); })
@@ -97,7 +101,9 @@ namespace PublicTransport.Api.Helpers
                 .ForMember(dest => dest.Type,
                     opt => { opt.MapFrom(src => src.Type); })
                 .ForMember(dest => dest.Line,
-                    opt => { opt.MapFrom(src => src.Line); });
+                    opt => { opt.MapFrom(src => src.Line); })
+                .ForMember(dest => dest.LineId,
+                        opt => { opt.MapFrom(src => src.Line.Id); });
 
 
 
