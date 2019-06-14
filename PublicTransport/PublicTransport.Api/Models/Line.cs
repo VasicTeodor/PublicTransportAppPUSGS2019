@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PublicTransport.Api.Models
 {
@@ -10,6 +11,8 @@ namespace PublicTransport.Api.Models
         public ICollection<StationLine> Stations { get; set; }
         public ICollection<Bus> Buses { get; set; }
         public int? TimetableId { get; set; }
+        [Timestamp]
+        public byte[] TableVersion { get; set; }
         //public TimeTable Timetable { get; set; }
     }
 }

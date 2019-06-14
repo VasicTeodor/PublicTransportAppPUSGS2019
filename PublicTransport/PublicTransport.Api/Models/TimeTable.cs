@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PublicTransport.Api.Models
 {
@@ -11,5 +12,7 @@ namespace PublicTransport.Api.Models
         public Line Line { get; set; }
         public string Departures { get; set; }
         public int? LineId { get; set; }
+        [Timestamp]
+        public byte[] TableVersion { get; set; }
     }
 }
