@@ -26,6 +26,7 @@ namespace PublicTransport.Api.Controllers
             _publicTransportRepository = publicTransportRepository;
         }
 
+        [AllowAnonymous]
         [HttpGet("getStations")]
         public async Task<IActionResult> GetStations()
         {

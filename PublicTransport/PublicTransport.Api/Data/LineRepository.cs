@@ -26,7 +26,9 @@ namespace PublicTransport.Api.Data
         public async Task<IEnumerable<Line>> GetLines()
         {
             return await _context.Lines.Include(s => s.Stations).
-                ThenInclude(sl => sl.Station)
+                ThenInclude(sl => sl.Station).ThenInclude(sl => sl.Address)
+                .Include(s => s.Stations).
+                ThenInclude(sl => sl.Station).ThenInclude(sl => sl.Location)
                 .Include(b => b.Buses).ToListAsync();
         }
     }

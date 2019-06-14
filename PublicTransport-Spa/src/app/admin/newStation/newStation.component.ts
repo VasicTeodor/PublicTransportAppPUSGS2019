@@ -23,8 +23,8 @@ export class NewStationComponent implements OnInit {
   allLines: Line[];
   selectedLine: number;
   selectedLineToAdd: number;
-  latitude = 51.678418;
-  longitude = 7.809007;
+  latitude = 45.261705;
+  longitude = 19.837223;
   locationChosen = false;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
