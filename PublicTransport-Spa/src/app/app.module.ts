@@ -45,6 +45,8 @@ import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
 import { AgmCoreModule } from '@agm/core';
 import { BusListResolver } from './_resolvers/busList.resolver';
+import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
+import { AgmDirectionModule } from 'agm-direction';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -86,6 +88,7 @@ export function getToken() {
       AgmCoreModule.forRoot({
          apiKey: 'AIzaSyDnihJyw_34z5S1KZXp90pfTGAqhFszNJk'
        }),
+      AgmDirectionModule,
       HttpClientModule,
       MomentModule,
       FormsModule,
@@ -112,7 +115,8 @@ export function getToken() {
      StationListResolver,
      TicketResolver,
      LineListResolver,
-     BusListResolver
+     BusListResolver,
+     PriceListAdminResolver
   ],
   bootstrap: [
      AppComponent

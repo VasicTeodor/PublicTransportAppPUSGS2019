@@ -14,7 +14,7 @@ export class PriceListAdminResolver implements Resolve<PricelistItem[]> {
     constructor(private router: Router, private alertify: AlertifyService, private adminService: AdminService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<PricelistItem[]> {
-        return this.adminService.getStations().pipe(
+        return this.adminService.getPricelists().pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);

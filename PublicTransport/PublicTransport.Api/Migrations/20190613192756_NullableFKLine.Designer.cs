@@ -10,8 +10,8 @@ using PublicTransport.Api.Data;
 namespace PublicTransport.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190607141728_ChangedUserModel")]
-    partial class ChangedUserModel
+    [Migration("20190613192756_NullableFKLine")]
+    partial class NullableFKLine
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -453,7 +453,7 @@ namespace PublicTransport.Api.Migrations
 
             modelBuilder.Entity("PublicTransport.Api.Models.Bus", b =>
                 {
-                    b.HasOne("PublicTransport.Api.Models.Line")
+                    b.HasOne("PublicTransport.Api.Models.Line", "Line")
                         .WithMany("Buses")
                         .HasForeignKey("LineId");
 

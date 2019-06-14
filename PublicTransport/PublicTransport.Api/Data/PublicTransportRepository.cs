@@ -47,10 +47,24 @@ namespace PublicTransport.Api.Data
 
         public async Task<Line> AddLine(Line line)
         {
+            var buses = new List<Bus>(line.Buses);
+
+            line.Buses.Clear();
+
             Add(line);
 
             if (await SaveAll())
             {
+                foreach (var bus in buses)
+                {
+                    var busToUpdate = await _context.Busses.FirstOrDefaultAsync(b => b.Id == bus.Id);
+                    busToUpdate.InUse = true;
+                    busToUpdate.LineId = line.Id;
+                    _context.Update(busToUpdate);
+                    line.Buses.Add(busToUpdate);
+
+                    await SaveAll();
+                }
                 return line;
             }
             else
@@ -76,10 +90,22 @@ namespace PublicTransport.Api.Data
 
         public async Task<PricelistItem> AddPricelist(PricelistItem pricelist)
         {
+            var item = await _context.Items.FirstOrDefaultAsync(i => i.Type == pricelist.Item.Type);
+
+            var pricelistFromDb = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist)
+                .FirstOrDefaultAsync(pr => pr.Item.Type == item.Type);
+
+            pricelist.Item = item;
+
             Add(pricelist);
 
             if (await SaveAll())
             {
+                pricelistFromDb.Pricelist.Active = false;
+
+                _context.Update(pricelistFromDb);
+
+                await SaveAll();
                 return pricelist;
             }
             else
@@ -344,10 +370,19 @@ namespace PublicTransport.Api.Data
 
             if (line != null)
             {
+                var buses = new List<Bus>(line.Buses);
+                
                 Delete(line);
 
                 if (await SaveAll())
                 {
+                    foreach (Bus bus in buses)
+                    {
+                        var busForUpdate = await _context.Busses.FirstOrDefaultAsync(b => b.Id == bus.Id);
+                        busForUpdate.InUse = false;
+                        _context.Update(busForUpdate);
+                        await SaveAll();
+                    }
                     return true;
                 }
                 else
@@ -427,14 +462,57 @@ namespace PublicTransport.Api.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<Line> UpdateLine(int lineId, Line line)
+        public async Task<Line> UpdateLine(int lineId, NewLineDto line)
         {
             var lineForUpdate = await _lineRepository.GetLine(lineId);
 
+            var busesInDb = new List<Bus>(lineForUpdate.Buses);
+
             _mapper.Map(line, lineForUpdate);
+
+            var busesToUpdate = new List<Bus>(lineForUpdate.Buses);
+
+            lineForUpdate.Buses.Clear();
+
+            lineForUpdate.Stations = null;
 
             if (await SaveAll())
             {
+                lineForUpdate = await _lineRepository.GetLine(lineId);
+
+                foreach (var bus in busesToUpdate)
+                {
+                    busesInDb.Remove(busesInDb.FirstOrDefault(b => b.Id == bus.Id));
+                }
+
+                foreach (var bus in busesInDb)
+                {
+                    var busToUpdate = await _context.Busses.FirstOrDefaultAsync(b => b.Id == bus.Id);
+                    busToUpdate.InUse = false;
+                    lineForUpdate.Buses.Remove(busToUpdate);
+                    _context.Update(busToUpdate);
+
+                    await SaveAll();
+                }
+
+                foreach (var bus in busesToUpdate)
+                {
+                    var busToUpdate = await _context.Busses.FirstOrDefaultAsync(b => b.Id == bus.Id);
+                    busToUpdate.InUse = true;
+                    busToUpdate.LineId = lineForUpdate.Id;
+                    _context.Update(busToUpdate);
+                    lineForUpdate.Buses.Add(busToUpdate);
+
+                    await SaveAll();
+                }
+
+                if (lineForUpdate.Stations == null)
+                {
+                    foreach (var station in line.Stations)
+                    {
+                        await AddStationToLine(station.Id, lineId);
+                    }
+                }
                 return lineForUpdate;
             }
             else

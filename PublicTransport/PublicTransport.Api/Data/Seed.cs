@@ -321,14 +321,14 @@ namespace PublicTransport.Api.Data
                     Type = "Regular",
                     Value = 0
                 };
-                _context.Add(ud1);
+                _context.Add(ud2);
 
                 UserDiscount ud3 = new UserDiscount()
                 {
                     Type = "Senior",
                     Value = 35
                 };
-                _context.Add(ud1);
+                _context.Add(ud3);
 
 
                 Item it1 = new Item()

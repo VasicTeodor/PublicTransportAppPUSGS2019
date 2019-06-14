@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PublicTransport.Api.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class NewInitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,7 +44,8 @@ namespace PublicTransport.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Type = table.Column<string>(nullable: true)
+                    Type = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,7 +58,8 @@ namespace PublicTransport.Api.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LineNumber = table.Column<int>(nullable: false)
+                    LineNumber = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -85,11 +87,26 @@ namespace PublicTransport.Api.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     From = table.Column<DateTime>(nullable: false),
-                    To = table.Column<DateTime>(nullable: false)
+                    To = table.Column<DateTime>(nullable: false),
+                    Active = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pricelists", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserDiscounts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Type = table.Column<string>(nullable: true),
+                    Value = table.Column<double>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDiscounts", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -115,17 +132,19 @@ namespace PublicTransport.Api.Migrations
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
                     DateOfBirth = table.Column<DateTime>(nullable: false),
-                    AdressId = table.Column<int>(nullable: true),
+                    AddressId = table.Column<int>(nullable: true),
                     UserType = table.Column<string>(nullable: true),
-                    Active = table.Column<string>(nullable: true),
-                    DocumentUrl = table.Column<string>(nullable: true)
+                    AccountStatus = table.Column<string>(nullable: true),
+                    DocumentUrl = table.Column<string>(nullable: true),
+                    PublicId = table.Column<string>(nullable: true),
+                    Verified = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_Adresses_AdressId",
-                        column: x => x.AdressId,
+                        name: "FK_AspNetUsers_Adresses_AddressId",
+                        column: x => x.AddressId,
                         principalTable: "Adresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -209,15 +228,15 @@ namespace PublicTransport.Api.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
-                    AdressId = table.Column<int>(nullable: true),
+                    AddressId = table.Column<int>(nullable: true),
                     LocationId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stations_Adresses_AdressId",
-                        column: x => x.AdressId,
+                        name: "FK_Stations_Adresses_AddressId",
+                        column: x => x.AddressId,
                         principalTable: "Adresses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -230,7 +249,7 @@ namespace PublicTransport.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PricelistItem",
+                name: "PricelistItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -241,15 +260,15 @@ namespace PublicTransport.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PricelistItem", x => x.Id);
+                    table.PrimaryKey("PK_PricelistItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PricelistItem_Items_ItemId",
+                        name: "FK_PricelistItems_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_PricelistItem_Pricelists_PricelistId",
+                        name: "FK_PricelistItems_Pricelists_PricelistId",
                         column: x => x.PricelistId,
                         principalTable: "Pricelists",
                         principalColumn: "Id",
@@ -381,9 +400,9 @@ namespace PublicTransport.Api.Migrations
                 {
                     table.PrimaryKey("PK_Tickets", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tickets_PricelistItem_PriceInfoId",
+                        name: "FK_Tickets_PricelistItems_PriceInfoId",
                         column: x => x.PriceInfoId,
-                        principalTable: "PricelistItem",
+                        principalTable: "PricelistItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -422,9 +441,9 @@ namespace PublicTransport.Api.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_AdressId",
+                name: "IX_AspNetUsers_AddressId",
                 table: "AspNetUsers",
-                column: "AdressId");
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -449,13 +468,13 @@ namespace PublicTransport.Api.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PricelistItem_ItemId",
-                table: "PricelistItem",
+                name: "IX_PricelistItems_ItemId",
+                table: "PricelistItems",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PricelistItem_PricelistId",
-                table: "PricelistItem",
+                name: "IX_PricelistItems_PricelistId",
+                table: "PricelistItems",
                 column: "PricelistId");
 
             migrationBuilder.CreateIndex(
@@ -464,9 +483,9 @@ namespace PublicTransport.Api.Migrations
                 column: "StationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stations_AdressId",
+                name: "IX_Stations_AddressId",
                 table: "Stations",
-                column: "AdressId");
+                column: "AddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stations_LocationId",
@@ -519,13 +538,16 @@ namespace PublicTransport.Api.Migrations
                 name: "TimeTables");
 
             migrationBuilder.DropTable(
+                name: "UserDiscounts");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Stations");
 
             migrationBuilder.DropTable(
-                name: "PricelistItem");
+                name: "PricelistItems");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

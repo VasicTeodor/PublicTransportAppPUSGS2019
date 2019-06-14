@@ -6,5 +6,7 @@
         public Location Location { get; set; }
         public int BusNumber { get; set; }
         public bool InUse { get; set; }
+        public Line Line { get; set; }
+        public int? LineId { get; set; }
     }
 }

@@ -26,11 +26,11 @@
       <tbody>
         <tr *ngFor="let line of allLines">
           <th scope="row">{{line?.id}}</th>
-          <td>{{line.lineNumber}}</td>
+          <td>{{line?.lineNumber}}</td>
           <td style="font-size: 12px">{{line?.name}}</td>
           <td>
             <ul id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white">
-              <li *ngFor="let station of line.stations"><a>{{station.name}}</a> </li>
+              <li *ngFor="let station of line.stations"><a>{{station.station.name}}</a> </li>
             </ul>
           </td>
           <td>
@@ -40,7 +40,7 @@
           </td>
           <td><button [routerLink]="['/newLine',{lineId: line.id}]" routerLinkActive="router-link-active"
               class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+          <td><i class="fa fa-trash moiClassButtonTable" (click)="deleteLine(line.id)"></i></td>
         </tr>
       </tbody>
     </table>

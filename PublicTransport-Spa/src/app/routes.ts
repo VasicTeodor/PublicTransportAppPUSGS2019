@@ -29,13 +29,14 @@ import { NewPricelistComponent } from './admin/newPricelist/newPricelist.compone
 import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
 import { BusListResolver } from './_resolvers/busList.resolver';
+import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
     {path: 'timetable', component: TimetableComponent},
-    {path: 'map', component: MapComponent},
+    {path: 'map', component: MapComponent, resolve: {lines: LineListResolver, stations: StationListResolver}},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: TicketResolver}},
     {path: 'pricelist', component: PricelistComponent, resolve: {allPricelists: PricelistResolver}},
     {path: 'updateAccount', runGuardsAndResolvers: 'always',
@@ -54,7 +55,7 @@ export const appRoutes: Routes = [
     canActivate: [AdminGuard], resolve: {stations: StationListResolver}},
     {path: 'newTimetable', component: NewTimetableComponent},
     {path: 'viewTimetables', component: ViewTimetablesComponent},
-    {path: 'viewPricelist', component: ViewPricelistComponent},
+    {path: 'viewPricelist', component: ViewPricelistComponent, resolve: {pricelists: PriceListAdminResolver}},
     {path: 'newPricelist', component: NewPricelistComponent},
     { path: '**', redirectTo: '', pathMatch: 'full'} // order is important and this need to be last
 ];

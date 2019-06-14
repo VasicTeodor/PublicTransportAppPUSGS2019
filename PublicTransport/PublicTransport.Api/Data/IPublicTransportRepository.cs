@@ -26,7 +26,7 @@ namespace PublicTransport.Api.Data
         Task<IEnumerable<Line>> GetLines();
         Task<Line> AddLine(Line line);
         Task<bool> RemoveLine(int lineId);
-        Task<Line> UpdateLine(int lineId, Line line);
+        Task<Line> UpdateLine(int lineId, NewLineDto line);
         Task<IEnumerable<TimeTable>> GetTimetableove();
         Task<TimeTable> AddTimetable(TimeTable timetable);
         Task<bool> RemoveTimetable(int timetableId);

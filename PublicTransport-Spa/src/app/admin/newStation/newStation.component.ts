@@ -112,8 +112,6 @@ export class NewStationComponent implements OnInit {
 
   lineChangedAdd(id: number) {
     this.selectedLineToAdd = id;
-    console.log(id);
-    console.log(this.selectedLineToAdd);
   }
 
   addLine() {

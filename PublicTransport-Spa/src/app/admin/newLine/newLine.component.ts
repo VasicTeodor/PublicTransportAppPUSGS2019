@@ -19,9 +19,9 @@ export class NewLineComponent implements OnInit {
   lineForm: FormGroup;
   line: NewLine;
   editLine: Line;
-  newLineStations: Station[];
+  newLineStations: Station[] = new Array<Station>();
   allStations: Station[];
-  newLineBuses: Bus[];
+  newLineBuses: Bus[] = new Array<Bus>();
   allBuses: Bus[];
   selectedStation: number;
   selectedBus: number;
@@ -73,16 +73,30 @@ export class NewLineComponent implements OnInit {
   }
 
   createLine() {
-    if (this.lineForm.valid) {
-      this.line = Object.assign({}, this.lineForm.value);
-      this.line.stations = this.newLineStations;
-      this.line.buses = this.newLineBuses;
-      this.adminService.createNewLine(this.line).subscribe(next => {
-        this.alertify.success('New line added!');
-        this.route.navigate(['/viewLines']);
-      }, error => {
-        this.alertify.error('Error while adding new line');
-      });
+    if (this.editLine !== null && this.editLine !== undefined) {
+      if (this.lineForm.valid) {
+        this.line = Object.assign({}, this.lineForm.value);
+        this.line.stations = this.newLineStations;
+        this.line.buses = this.newLineBuses;
+        this.adminService.updateLine(this.line, this.editLine.id).subscribe(next => {
+          this.alertify.success('Line updated!');
+          this.route.navigate(['/viewLines']);
+        }, error => {
+          this.alertify.error('Error while updating line');
+        });
+      }
+    } else {
+      if (this.lineForm.valid) {
+        this.line = Object.assign({}, this.lineForm.value);
+        this.line.stations = this.newLineStations;
+        this.line.buses = this.newLineBuses;
+        this.adminService.createNewLine(this.line).subscribe(next => {
+          this.alertify.success('New line added!');
+          this.route.navigate(['/viewLines']);
+        }, error => {
+          this.alertify.error('Error while adding new line');
+        });
+      }
     }
   }
 
@@ -91,17 +105,20 @@ export class NewLineComponent implements OnInit {
   }
 
   removeStation() {
-    const index = this.newLineStations.indexOf(this.newLineStations.find(station => station.id === this.selectedStation));
+    const index = this.newLineStations.indexOf(this.newLineStations.find(station => +station.id === +this.selectedStation));
     this.newLineStations.splice(index, 1);
   }
 
   stationChangedAdd(id: number) {
     this.selectedStationToAdd = id;
+    console.log(id);
   }
 
   addStation() {
-    const index = this.allStations.indexOf(this.allStations.find(station => station.id === this.selectedStationToAdd));
+    const index = this.allStations.indexOf(this.allStations.find(station => +station.id === +this.selectedStationToAdd));
     this.newLineStations.push(this.allStations[index]);
+    console.log(this.allStations.indexOf(this.allStations.find(station => +station.id === +this.selectedStationToAdd)));
+    console.log(this.allStations[index]);
   }
 
   busChanged(id: number) {
@@ -109,7 +126,7 @@ export class NewLineComponent implements OnInit {
   }
 
   removeBus() {
-    const index = this.newLineBuses.indexOf(this.newLineBuses.find(bus => bus.id === this.selectedBus));
+    const index = this.newLineBuses.indexOf(this.newLineBuses.find(bus => +bus.id === +this.selectedBus));
     this.newLineBuses.splice(index, 1);
   }
 
@@ -118,7 +135,7 @@ export class NewLineComponent implements OnInit {
   }
 
   addBus() {
-    const index = this.allBuses.indexOf(this.allBuses.find(bus => bus.id === this.selectedBusToAdd));
+    const index = this.allBuses.indexOf(this.allBuses.find(bus => +bus.id === +this.selectedBusToAdd));
     this.newLineBuses.push(this.allBuses[index]);
   }
 

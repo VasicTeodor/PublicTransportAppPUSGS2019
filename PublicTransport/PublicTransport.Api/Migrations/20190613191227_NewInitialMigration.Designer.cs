@@ -10,8 +10,8 @@ using PublicTransport.Api.Data;
 namespace PublicTransport.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190601124919_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20190613191227_NewInitialMigration")]
+    partial class NewInitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -91,7 +91,7 @@ namespace PublicTransport.Api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PublicTransport.Api.Models.Adress", b =>
+            modelBuilder.Entity("PublicTransport.Api.Models.Address", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,6 +137,8 @@ namespace PublicTransport.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description");
+
                     b.Property<string>("Type");
 
                     b.HasKey("Id");
@@ -151,6 +153,8 @@ namespace PublicTransport.Api.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("LineNumber");
+
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
@@ -177,6 +181,8 @@ namespace PublicTransport.Api.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("Active");
 
                     b.Property<DateTime>("From");
 
@@ -205,7 +211,7 @@ namespace PublicTransport.Api.Migrations
 
                     b.HasIndex("PricelistId");
 
-                    b.ToTable("PricelistItem");
+                    b.ToTable("PricelistItems");
                 });
 
             modelBuilder.Entity("PublicTransport.Api.Models.Role", b =>
@@ -239,7 +245,7 @@ namespace PublicTransport.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AdressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<int?>("LocationId");
 
@@ -247,7 +253,7 @@ namespace PublicTransport.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdressId");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("LocationId");
 
@@ -321,9 +327,9 @@ namespace PublicTransport.Api.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("Active");
+                    b.Property<string>("AccountStatus");
 
-                    b.Property<int?>("AdressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -355,6 +361,8 @@ namespace PublicTransport.Api.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed");
 
+                    b.Property<string>("PublicId");
+
                     b.Property<string>("SecurityStamp");
 
                     b.Property<string>("Surname");
@@ -366,9 +374,11 @@ namespace PublicTransport.Api.Migrations
 
                     b.Property<string>("UserType");
 
+                    b.Property<bool>("Verified");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AdressId");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
@@ -379,6 +389,21 @@ namespace PublicTransport.Api.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("PublicTransport.Api.Models.UserDiscount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Type");
+
+                    b.Property<double>("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserDiscounts");
                 });
 
             modelBuilder.Entity("PublicTransport.Api.Models.UserRole", b =>
@@ -428,7 +453,7 @@ namespace PublicTransport.Api.Migrations
 
             modelBuilder.Entity("PublicTransport.Api.Models.Bus", b =>
                 {
-                    b.HasOne("PublicTransport.Api.Models.Line")
+                    b.HasOne("PublicTransport.Api.Models.Line", "Line")
                         .WithMany("Buses")
                         .HasForeignKey("LineId");
 
@@ -450,9 +475,9 @@ namespace PublicTransport.Api.Migrations
 
             modelBuilder.Entity("PublicTransport.Api.Models.Station", b =>
                 {
-                    b.HasOne("PublicTransport.Api.Models.Adress", "Adress")
+                    b.HasOne("PublicTransport.Api.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AdressId");
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("PublicTransport.Api.Models.Location", "Location")
                         .WithMany()
@@ -492,9 +517,9 @@ namespace PublicTransport.Api.Migrations
 
             modelBuilder.Entity("PublicTransport.Api.Models.User", b =>
                 {
-                    b.HasOne("PublicTransport.Api.Models.Adress", "Adress")
+                    b.HasOne("PublicTransport.Api.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AdressId");
+                        .HasForeignKey("AddressId");
                 });
 
             modelBuilder.Entity("PublicTransport.Api.Models.UserRole", b =>

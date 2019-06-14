@@ -56,6 +56,52 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.LineNumber); })
                 .ForMember(dest => dest.Buses,
                     opt => { opt.MapFrom(src => src.Buses); });
+            CreateMap<NewLineDto, Line>()
+                .ForMember(dest => dest.Buses,
+                    opt => { opt.MapFrom(src => src.Buses); })
+                .ForMember(dest => dest.Name,
+                    opt => { opt.MapFrom(src => src.Name); })
+                .ForMember(dest => dest.LineNumber,
+                    opt => { opt.MapFrom(src => src.LineNumber); })
+                .ForMember(dest => dest.Stations,
+                    opt => opt.Ignore());
+            CreateMap<NewPricelistDto, PricelistItem>()
+                .ForPath(dest => dest.Item.Type,
+                    opt => { opt.MapFrom(src => src.Type); })
+                .ForPath(dest => dest.Pricelist.Active,
+                    opt => { opt.MapFrom(src => src.Active); })
+                .ForPath(dest => dest.Pricelist.From,
+                    opt => { opt.MapFrom(src => src.From); })
+                .ForPath(dest => dest.Pricelist.To,
+                    opt => { opt.MapFrom(src => src.To); })
+                .ForMember(dest => dest.Price,
+                    opt => { opt.MapFrom(src => src.Price); });
+            CreateMap<PricelistItem, PricelistItem>()
+                .ForPath(dest => dest.Item.Type,
+                    opt => { opt.MapFrom(src => src.Item.Type); })
+                .ForPath(dest => dest.Pricelist.Active,
+                    opt => { opt.MapFrom(src => src.Pricelist.Active); })
+                .ForPath(dest => dest.Pricelist.From,
+                    opt => { opt.MapFrom(src => src.Pricelist.From); })
+                .ForPath(dest => dest.Pricelist.To,
+                    opt => { opt.MapFrom(src => src.Pricelist.To); })
+                .ForMember(dest => dest.Id,
+                    opt => { opt.Ignore(); });
+            CreateMap<TimeTable, TimeTable>()
+                .ForMember(dest => dest.Day,
+                    opt => { opt.MapFrom(src => src.Day); })
+                .ForMember(dest => dest.Departures,
+                    opt => { opt.MapFrom(src => src.Departures); })
+                .ForMember(dest => dest.Id,
+                    opt => { opt.Ignore(); })
+                .ForMember(dest => dest.Type,
+                    opt => { opt.MapFrom(src => src.Type); })
+                .ForMember(dest => dest.Line,
+                    opt => { opt.MapFrom(src => src.Line); });
+
+
+
+
         }
     }
 }

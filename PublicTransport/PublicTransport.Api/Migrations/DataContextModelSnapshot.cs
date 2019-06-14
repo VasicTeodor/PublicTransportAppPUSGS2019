@@ -451,7 +451,7 @@ namespace PublicTransport.Api.Migrations
 
             modelBuilder.Entity("PublicTransport.Api.Models.Bus", b =>
                 {
-                    b.HasOne("PublicTransport.Api.Models.Line")
+                    b.HasOne("PublicTransport.Api.Models.Line", "Line")
                         .WithMany("Buses")
                         .HasForeignKey("LineId");
 

@@ -56,6 +56,7 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
+        [AllowAnonymous]
         [HttpGet("getLines")]
         public async Task<IActionResult> GetLines()
         {
@@ -86,8 +87,8 @@ namespace PublicTransport.Api.Controllers
             }
         }
 
-        [HttpGet("getPricelists")]
-        public async Task<IActionResult> GetPricelists()
+        [HttpGet("getAllPricelists")]
+        public async Task<IActionResult> getAllPricelists()
         {
             var pricelists = await _publicTransportRepository.GetPriceListove();
 
@@ -229,9 +230,13 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPost("addPricelist")]
-        public async Task<IActionResult> AddPricelist(PricelistItem pricelist)
+        public async Task<IActionResult> AddPricelist(NewPricelistDto pricelist)
         {
-            var result = await _publicTransportRepository.AddPricelist(pricelist);
+            var pricelistToAdd = new PricelistItem();
+
+            _mapper.Map(pricelist, pricelistToAdd);
+
+            var result = await _publicTransportRepository.AddPricelist(pricelistToAdd);
 
             if (result != null)
             {
@@ -266,12 +271,19 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut("updateLine")]
-        public async Task<IActionResult> UpdateLine(int lineId, Line line)
+        public async Task<IActionResult> UpdateLine(int lineId, NewLineDto line)
         {
             var result = await _publicTransportRepository.UpdateLine(lineId, line);
 
             if (result != null)
             {
+                if (line.Stations != null)
+                {
+                    foreach (var station in line.Stations)
+                    {
+                        await _publicTransportRepository.AddStationToLine(station.Id, result.Id);
+                    }
+                }
                 return Ok(result);
             }
             else
@@ -296,9 +308,13 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpPut("updatePricelist")]
-        public async Task<IActionResult> UpdatePricelist(int pricelistId, PricelistItem pricelist)
+        public async Task<IActionResult> UpdatePricelist(int pricelistId, NewPricelistDto pricelist)
         {
-            var result = await _publicTransportRepository.UpdatePricelist(pricelistId, pricelist);
+            var pricelistToUpdate = new PricelistItem();
+
+            _mapper.Map(pricelist, pricelistToUpdate);
+
+            var result = await _publicTransportRepository.UpdatePricelist(pricelistId, pricelistToUpdate);
 
             if (result != null)
             {

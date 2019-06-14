@@ -17,39 +17,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">4342</th>
-            <td>07/10/2018</td>
-            <td>07/10/2019</td>
-            <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
-            <td>Hourly</td>
-            <td>65 RSD</td>
-            <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
+          <tr *ngFor="let pricelist of allPricelists">
+            <th scope="row">{{pricelist.id}}</th>
+            <td>{{pricelist.pricelist.from | date: 'dd/MM/yyyy'}}</td>
+            <td>{{pricelist.pricelist.to | date: 'dd/MM/yyyy'}}</td>
+            <td><input type="checkbox" [checked]="pricelist.pricelist.active" class="form-check-input m-0" id="exampleCheck1"></td>
+            <td>{{pricelist.item.type}}</td>
+            <td>{{pricelist.price}} RSD</td>
+            <td><button [routerLink]="['/newPricelist', {pricelistId: pricelist.id}]" routerLinkActive="router-link-active"
                 class="btn btn-default moiClassButton">Edit</button></td>
-            <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+            <td><i class="fa fa-trash moiClassButtonTable" (click)="removePricelist(pricelist.id)"></i></td>
           </tr>
-          <tr>
-              <th scope="row">4342</th>
-              <td>07/10/2018</td>
-              <td>07/10/2019</td>
-              <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
-              <td>Monthly</td>
-              <td>1000 RSD</td>
-              <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
-                  class="btn btn-default moiClassButton">Edit</button></td>
-              <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-            </tr>
-            <tr>
-                <th scope="row">4342</th>
-                <td>07/10/2018</td>
-                <td>07/10/2019</td>
-                <td><input type="checkbox" class="form-check-input m-0" id="exampleCheck1"></td>
-                <td>Daily</td>
-                <td>650 RSD</td>
-                <td><button [routerLink]="['/newPricelist']" routerLinkActive="router-link-active"
-                    class="btn btn-default moiClassButton">Edit</button></td>
-                <td><i class="fa fa-trash moiClassButtonTable"></i></td>
-              </tr>
       </table>
     </div>
   </div>
