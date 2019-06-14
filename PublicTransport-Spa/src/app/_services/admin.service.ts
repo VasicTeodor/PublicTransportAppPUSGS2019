@@ -10,6 +10,7 @@ import { Bus } from '../_models/bus';
 import { Pricelist } from '../_models/pricelist';
 import { NewPricelist } from '../_models/newPricelist';
 import { PricelistItem } from '../_models/pricelistItem';
+import { TimeTable } from '../_models/timeTable';
 
 @Injectable({
   providedIn: 'root'
@@ -83,4 +84,23 @@ updatePricelist(pricelist: NewPricelist, pricelistId: number) {
   return this.http.put(this.baseUrl + 'admin/updatePricelist?pricelistId=' + pricelistId, pricelist);
 }
 
+createNewTimetable(timetable: TimeTable) {
+  return this.http.post(this.baseUrl + 'admin/addTimetable', timetable);
+}
+
+getTimetables() {
+  return this.http.get<Observable<TimeTable[]>>(this.baseUrl + 'admin/getTimetables');
+}
+
+getTimetable(timetableId: number) {
+  return this.http.get<TimeTable>(this.baseUrl + 'admin/getTimetable?timetableId=' + timetableId);
+}
+
+deleteTimetable(timetableId) {
+  return this.http.delete(this.baseUrl + 'admin/removeTimetable?timetableId=' + timetableId);
+}
+
+updateTimetable(timetableId: number, timetable: TimeTable) {
+  return this.http.put(this.baseUrl + 'admin/updateTimetable?timetableId=' + timetableId, timetable);
+}
 }

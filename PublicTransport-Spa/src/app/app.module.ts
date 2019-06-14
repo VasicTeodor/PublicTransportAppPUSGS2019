@@ -46,6 +46,7 @@ import { LineListResolver } from './_resolvers/lineList.resolver';
 import { AgmCoreModule } from '@agm/core';
 import { BusListResolver } from './_resolvers/busList.resolver';
 import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
+import { TimetableListResolver } from './_resolvers/timetableList.resolver';
 import { AgmDirectionModule } from 'agm-direction';
 
 export function getToken() {
@@ -116,7 +117,8 @@ export function getToken() {
      TicketResolver,
      LineListResolver,
      BusListResolver,
-     PriceListAdminResolver
+     PriceListAdminResolver,
+     TimetableListResolver
   ],
   bootstrap: [
      AppComponent

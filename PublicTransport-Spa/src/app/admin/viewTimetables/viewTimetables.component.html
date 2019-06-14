@@ -10,7 +10,7 @@
           <th scope="col">Type</th>
           <th scope="col">Line</th>
           <th scope="col" class="moiClassShowLines">
-            <a (click)="isCollapsedStations = !isCollapsedStations" [attr.aria-expanded]="!isCollapsedStations"
+            <a (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
               aria-controls="collapseBasic">
               Show Departures</a>
           </th>
@@ -18,39 +18,21 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <th scope="row">4342</th>
-          <td>City</td>
-          <td style="font-size: 12px">7. NOVO NASELJE - ZELEZNICKA STANICA - LIMAN 4</td>
-          <td>Working Day</td>
-          <td><button [routerLink]="['/newLine']" routerLinkActive="router-link-active"
+      <tbody *ngFor="let timetable of allTimetables">
+        <tr >
+          <th scope="row">{{timetable?.id}}</th>
+          <td>{{timetable?.type}}</td>
+          <td style="font-size: 12px">{{timetable?.line?.lineNumber}}. {{timetable?.line?.name}}</td>
+          <td>{{timetable?.day}}</td>
+          <td><button [routerLink]="['/newTimetable',{timetableId: timetable.id}]" routerLinkActive="router-link-active"
               class="btn btn-default moiClassButton">Edit</button></td>
-          <td><i class="fa fa-trash moiClassButtonTable"></i></td>
+          <td><i class="fa fa-trash moiClassButtonTable" (click)="deleteTimetable(timetable?.id)"></i></td>
         </tr>
         <tr>
           <td colspan="6">
-            <div id="collapseBasic" [collapse]="isCollapsedStations" [isAnimated]="true" class="text-white"
+            <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true" class="text-white"
               style="font-size: 14px; width: 100%; text-align: left">
-              <span style="color: rgb(255, 174, 0)"> 05: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span> |<span
-                style="color:  rgb(255, 210, 113)">06: 05 11 17 21 31 40 57</span>
-              |<span style="color:   rgb(255, 174, 0)">06: 05 11 17 21 31 40 57</span>
+              <span style="color: rgb(255, 174, 0)">{{timetable.departures}}</span>
             </div>
           </td>
 
