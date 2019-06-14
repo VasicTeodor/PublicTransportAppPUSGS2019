@@ -45,6 +45,7 @@ import { StationListResolver } from './_resolvers/stationList.resolver';
 import { LineListResolver } from './_resolvers/lineList.resolver';
 import { AgmCoreModule } from '@agm/core';
 import { BusListResolver } from './_resolvers/busList.resolver';
+import { TimetableListResolver } from './_resolvers/timetableList.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -112,7 +113,8 @@ export function getToken() {
      StationListResolver,
      TicketResolver,
      LineListResolver,
-     BusListResolver
+     BusListResolver,
+     TimetableListResolver
   ],
   bootstrap: [
      AppComponent
