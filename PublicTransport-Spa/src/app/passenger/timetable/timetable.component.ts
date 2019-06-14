@@ -90,16 +90,6 @@ export class TimetableComponent implements OnInit {
           /* let desc = depToEdit[1].replace('-', '  ') */
           this.departures[i].name = depToEdit[0];
           this.departures[i].description = depToEdit[1];
-
-          /* let dep = depToEdit[1].split('-');
-          for(let j=0; j<dep.length; j++)
-          {
-            if(dep[j] !== undefined)
-            {
-              this.departures[i].departuresHour[j] = dep[j];
-              console.log(this.departures[i].departuresHour[j]);
-            }
-          } */
         }
       }
     }
