@@ -1,12 +1,12 @@
 <div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
   <div class="row mx-auto moiClassMapView">
-      <agm-map [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" [zoom]="18" (mapClick)="placeMarker($event)">  
+      <agm-map [latitude]="45.261705" [longitude]="19.837223" [zoom]="16">  
 
         <div *ngFor="let station of allStations">
           <agm-marker [latitude]="station.location.x" [longitude]="station.location.y" [title]="station.name"
           [label]="station.name">
       
-            <agm-info-window [latitude]="markerInfo.location.latitude" [longitude]="markerInfo.location.longitude" >
+            <agm-info-window [latitude]="station.location.x" [longitude]="station.location.y" >
               <span style="font-size: 16px;font-family:'Times New Roman'">{{station.name}}</span>
               <br/>
               <span *ngFor="let st of station.stationLines" style="font-family:'Times New Roman'; color:gray;"><strong>{{st.line.lineNumber}}</strong></span>
@@ -21,7 +21,9 @@
       
           <!-- <agm-marker *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude" [iconUrl]="polyline.icon">
           </agm-marker> -->
-          <agm-direction *ngIf="dir" [origin]="dir.origin" [destination]="dir.destination"></agm-direction>
-        </agm-map>
+          <div *ngFor="let dir of allDir">
+            <agm-direction [waypoints]="dir.waypoints"  [origin]="dir.origin" [destination]="dir.destination"></agm-direction>
+          </div>
+      </agm-map>
   </div>
 </div>
