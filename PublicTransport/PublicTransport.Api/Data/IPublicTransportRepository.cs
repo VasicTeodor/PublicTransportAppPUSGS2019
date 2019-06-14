@@ -45,5 +45,7 @@ namespace PublicTransport.Api.Data
         Task<Bus> AddBus(Bus bus);
         Task<bool> RemoveBus(int busId);
         Task<Bus> UpdateBus(int busId, Bus bus);
+        Task<UserDiscount> GetDiscount(string type);
+        Task<UserDiscount> UpdateDiscount(string type, UserDiscount discount);
     }
 }

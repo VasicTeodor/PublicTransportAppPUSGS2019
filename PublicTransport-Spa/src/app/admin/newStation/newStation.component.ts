@@ -127,4 +127,5 @@ export class NewStationComponent implements OnInit {
     this.stationForm.controls.x.setValue(this.latitude);
     this.stationForm.controls.y.setValue(this.longitude);
 }
+
 }

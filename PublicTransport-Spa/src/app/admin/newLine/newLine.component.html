@@ -78,8 +78,27 @@
               <button class="btn btn-default moiClassButton" type="submit">Add Line</button>
             </th>
           </tr>
+          <tr>
+            <td colspan="7">&nbsp;</td>
+          </tr>
+          <tr>
+            <td colspan="7" class="text-center">
+              <h4 class="my-4">Add new bus:</h4>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="7">&nbsp;</td>
+          </tr>
         </tbody>
       </table>
     </form>
   </div>
+</div>
+<div class="row moiClassView p-2 m-0 justify-content-center text-center bg-dark" style="font-size: 14px">
+  
+  <form #busForm="ngForm" (ngSubmit)="addNewBus()" class="form-signin">
+    <input type="number" name="busNum" id="inputBusNumber" class="form-control" placeholder="Bus number" required autofocus [(ngModel)]="model.busNumber">
+    <br>
+    <button [disabled]="!busForm.valid" class="btn btn-default moiClassButton" type="submit">Add bus</button>
+</form>
 </div>

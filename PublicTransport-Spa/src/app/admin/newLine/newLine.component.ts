@@ -27,6 +27,7 @@ export class NewLineComponent implements OnInit {
   selectedBus: number;
   selectedStationToAdd: number;
   selectedBusToAdd: number;
+  model: Bus = {} as Bus;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
               private adminService: AdminService, private router: ActivatedRoute, private route: Router) { }
@@ -139,5 +140,16 @@ export class NewLineComponent implements OnInit {
     this.newLineBuses.push(this.allBuses[index]);
   }
 
-
+  addNewBus() {
+    this.adminService.createNewBus(this.model).subscribe(next => {
+      this.alertify.success('Bus added');
+      this.adminService.getBusses().subscribe( next => {
+        this.allBuses = (next as unknown) as Bus[];
+      }, error => {
+        this.alertify.error('Error while getting busses');
+      });
+    }, error => {
+      this.alertify.error('Error while adding bus');
+    });
+  }
 }

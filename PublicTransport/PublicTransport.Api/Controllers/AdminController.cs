@@ -386,5 +386,50 @@ namespace PublicTransport.Api.Controllers
                 return BadRequest($"Failed while deleting pricelist with id {pricelistId}");
             }
         }
+
+        [HttpPost("addBus")]
+        public async Task<IActionResult> AddBus(Bus bus)
+        {
+            var result = await _publicTransportRepository.AddBus(bus);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed while creating new bus");
+            }
+        }
+
+        [HttpGet("getUserDiscount")]
+        public async Task<IActionResult> GetUserDiscount(string type)
+        {
+            var discount = await _publicTransportRepository.GetDiscount(type);
+
+            if (discount != null)
+            {
+                return Ok(discount);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("updateUserDiscount")]
+        public async Task<IActionResult> UpdateUserDiscount(string type, UserDiscount discount)
+        {
+            var result = await _publicTransportRepository.UpdateDiscount(type, discount);
+
+            if (result != null)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return BadRequest("Failed to update timetable");
+            }
+        }
     }
 }

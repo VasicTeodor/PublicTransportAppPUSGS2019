@@ -8,6 +8,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { PricelistItem } from 'src/app/_models/pricelistItem';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
+import { UserDiscount } from 'src/app/_models/userDiscount';
 
 @Component({
   selector: 'app-newPricelist',
@@ -21,6 +22,8 @@ export class NewPricelistComponent implements OnInit {
   newPricelist: NewPricelist;
   editPricelist: PricelistItem;
   ticketType = 'Hourly';
+  discountType = 'Student';
+  userDiscount: UserDiscount = {} as UserDiscount;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private router: ActivatedRoute, private route: Router,
               private alertify: AlertifyService, private adminService: AdminService) { }
@@ -94,5 +97,22 @@ export class NewPricelistComponent implements OnInit {
 
   ticketTypeChanged(type: string) {
     this.ticketType = type;
+  }
+
+  discountTypeChanged(type: string) {
+    this.discountType = type;
+    this.adminService.getUserDiscount(this.discountType).subscribe(next => {
+      this.userDiscount = next;
+    }, error => {
+      this.alertify.error('Failed to get user discount');
+    });
+  }
+
+  updateDiscount() {
+    this.adminService.updateUserDiscount(this.discountType, this.userDiscount).subscribe(next => {
+      this.alertify.success('User discount updated');
+    }, error => {
+      this.alertify.error('User discount failed to updated');
+    });
   }
 }

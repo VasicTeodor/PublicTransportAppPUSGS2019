@@ -717,5 +717,37 @@ namespace PublicTransport.Api.Data
                 return null;
             }
         }
+
+        public async Task<UserDiscount> GetDiscount(string type)
+        {
+            var result = await _userDiscountRepository.GetUserDiscountForType(type);
+
+            if (result != null)
+            {
+                return result;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<UserDiscount> UpdateDiscount(string type, UserDiscount discount)
+        {
+            var discountForUpdate = await _userDiscountRepository.GetUserDiscountForType(type);
+
+            _context.Update(discountForUpdate);
+
+            discountForUpdate.Value = discount.Value;
+
+            if (await SaveAll())
+            {
+                return discountForUpdate;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

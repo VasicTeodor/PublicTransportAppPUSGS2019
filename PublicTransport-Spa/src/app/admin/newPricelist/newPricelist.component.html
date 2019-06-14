@@ -58,3 +58,40 @@
       </form>
     </div>
   </div>
+  <div class="row jumbotron-fluid moiClassView p-2 m-0" style="font-size: 14px">
+      <div class="col">
+        <form #discountForm="ngForm" (ngSubmit)="updateDiscount()">
+          <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
+            <thead>
+              <tr>
+                <th scope="col" colspan="6" style="font-size: 20px">New Pricelist</th>
+              </tr>
+              <tr>
+                <th colspan="6" scope="col">&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                  <th scope="row">Type of User discount:</th>
+                  <td>
+                    <select (change)="discountTypeChanged($event.target.value)" class="custom-select mr-sm-4" style="font-size: 14px">
+                      <option value="Student" selected>Student</option>
+                      <option value="Regular">Regular</option>
+                      <option value="Senior">Senior</option>
+                    </select>
+                  </td>
+                  <th scope="row">Price:</th>
+                  <td><input type="number" name="discountVal" id="discountVal" class="form-control" placeholder="Discount Value" 
+                    required autofocus [(ngModel)]="userDiscount.value">
+                </td>
+              </tr>
+              <tr>
+                <th scope="row" colspan="7">
+                  <button [disabled]="!discountForm.valid" class="btn btn-default moiClassButton" type="submit">Update Discount</button>
+                </th>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>

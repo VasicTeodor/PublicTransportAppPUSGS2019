@@ -11,6 +11,7 @@ import { Pricelist } from '../_models/pricelist';
 import { NewPricelist } from '../_models/newPricelist';
 import { PricelistItem } from '../_models/pricelistItem';
 import { TimeTable } from '../_models/timeTable';
+import { UserDiscount } from '../_models/userDiscount';
 
 @Injectable({
   providedIn: 'root'
@@ -102,5 +103,17 @@ deleteTimetable(timetableId) {
 
 updateTimetable(timetableId: number, timetable: TimeTable) {
   return this.http.put(this.baseUrl + 'admin/updateTimetable?timetableId=' + timetableId, timetable);
+}
+
+createNewBus(bus: any) {
+  return this.http.post(this.baseUrl + 'admin/addBus', bus);
+}
+
+getUserDiscount(type: string) {
+  return this.http.get<UserDiscount>(this.baseUrl + 'admin/getUserDiscount?type=' + type);
+}
+
+updateUserDiscount(type: string, discount: UserDiscount) {
+  return this.http.put(this.baseUrl + 'admin/updateUserDiscount?type=' + type, discount);
 }
 }
