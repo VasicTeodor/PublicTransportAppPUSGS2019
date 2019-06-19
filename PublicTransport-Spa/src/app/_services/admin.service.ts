@@ -74,7 +74,7 @@ getPricelists() {
 }
 
 getPricelist(pricelistId: number) {
-  return this.http.get<PricelistItem>(this.baseUrl + 'admin/getPricelist?pricelistId=' + pricelistId);
+  return this.http.get<NewPricelist>(this.baseUrl + 'admin/getPricelist?pricelistId=' + pricelistId);
 }
 
 deletePricelist(pricelistId) {

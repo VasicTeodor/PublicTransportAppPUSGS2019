@@ -89,25 +89,68 @@ namespace PublicTransport.Api.Data
             }
         }
 
-        public async Task<PricelistItem> AddPricelist(PricelistItem pricelist)
+        public async Task<PricelistItem> AddPricelist(NewPricelistDto pricelist)
         {
-            var item = await _context.Items.FirstOrDefaultAsync(i => i.Type == pricelist.Item.Type);
+            var prl = new Pricelist()
+            {
+                From = pricelist.From,
+                To = pricelist.To,
+                Active = pricelist.Active
+            };
 
-            var pricelistFromDb = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist)
-                .FirstOrDefaultAsync(pr => pr.Item.Type == item.Type);
+            _context.Pricelists.Add(prl);
+            await SaveAll();
 
-            pricelist.Item = item;
 
-            Add(pricelist);
+            var hourItem = await _context.Items.FirstOrDefaultAsync(i => i.Type == "Hourly");
+            var dayItem = await _context.Items.FirstOrDefaultAsync(i => i.Type == "Daily");
+            var monthItem = await _context.Items.FirstOrDefaultAsync(i => i.Type == "Monthly");
+            var annualItem = await _context.Items.FirstOrDefaultAsync(i => i.Type == "Annual");
+            var priceHourly = new PricelistItem();
+            var priceDaily = new PricelistItem();
+            var priceMonthly = new PricelistItem();
+            var priceAnnual = new PricelistItem();
+
+            _mapper.Map(pricelist, priceHourly);
+            _mapper.Map(pricelist, priceDaily);
+            _mapper.Map(pricelist, priceMonthly);
+            _mapper.Map(pricelist, priceAnnual);
+
+            priceHourly.Item = hourItem;
+            priceHourly.Price = pricelist.PriceHourly;
+            priceHourly.Pricelist = prl;
+
+            priceDaily.Item = dayItem;
+            priceDaily.Price = pricelist.PriceDaily;
+            priceDaily.Pricelist = prl;
+
+            priceMonthly.Item = monthItem;
+            priceMonthly.Price = pricelist.PriceMonthly;
+            priceMonthly.Pricelist = prl;
+
+            priceAnnual.Item = annualItem;
+            priceAnnual.Price = pricelist.PriceAnnual;
+            priceAnnual.Pricelist = prl;
+
+            if (pricelist.Active)
+            {
+                var pricelistFromDb = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist)
+                .Where(pr => pr.Pricelist.Active == true).ToListAsync();
+
+                foreach (var pr in pricelistFromDb)
+                {
+                    pr.Pricelist.Active = false;
+                }
+            }
+
+            _context.PricelistItems.Add(priceHourly);
+            _context.PricelistItems.Add(priceDaily);
+            _context.PricelistItems.Add(priceMonthly);
+            _context.PricelistItems.Add(priceAnnual);
 
             if (await SaveAll())
             {
-                pricelistFromDb.Pricelist.Active = false;
-
-                _context.Update(pricelistFromDb);
-
-                await SaveAll();
-                return pricelist;
+                return priceAnnual;
             }
             else
             {
@@ -151,13 +194,13 @@ namespace PublicTransport.Api.Data
             Add(timetable);
             if (await SaveAll())
             {
-                if (timetable.LineId != null)
+                if (timetable.LineId == 0)
                 {
-                    //var line = await _context.Lines.FirstOrDefaultAsync(l => l.Id == lineId);
                     var line = await _lineRepository.GetLine(lineId);
                     line.TimetableId = timetable.Id;
+                    timetable.LineId = line.Id;
+                    await SaveAll();
                 }
-                await SaveAll();
                 return timetable;
             }
             else
@@ -290,9 +333,29 @@ namespace PublicTransport.Api.Data
             return await _lineRepository.GetLines();
         }
 
-        public async Task<PricelistItem> GetPricelist(int pricelistId)
+        public async Task<NewPricelistDto> GetPricelist(int pricelistId)
         {
-            return await _pricelistItemRepository.GetPriceListItem(pricelistId);
+            var priceHourly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Hourly" && pr.Pricelist.Active);
+            var priceDaily = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Daily" && pr.Pricelist.Active);
+            var priceMonthly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Monthly" && pr.Pricelist.Active);
+            var priceAnnual = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Annual" && pr.Pricelist.Active);
+
+            var prToRet = new NewPricelistDto
+            {
+                Active = true,
+                From = priceHourly.Pricelist.From,
+                To = priceHourly.Pricelist.To,
+                IdHourly = priceHourly.Id,
+                IdDaily = priceDaily.Id,
+                IdMonthly = priceMonthly.Id,
+                IdAnnual = priceAnnual.Id,
+                PriceHourly = priceHourly.Price,
+                PriceDaily = priceDaily.Price,
+                PriceMonthly = priceMonthly.Price,
+                PriceAnnual = priceAnnual.Price
+            };
+
+            return prToRet;
         }
 
         public async Task<IEnumerable<PricelistItem>> GetPriceListove()
@@ -538,15 +601,45 @@ namespace PublicTransport.Api.Data
             }
         }
 
-        public async Task<PricelistItem> UpdatePricelist(int pricelistId, PricelistItem pricelist)
+        public async Task<PricelistItem> UpdatePricelist(int pricelistId, NewPricelistDto pricelist)
         {
-            var pricelistForUpdate = await _pricelistItemRepository.GetPriceListItem(pricelistId);
+            var priceHourly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Hourly" && pr.Id == pricelist.IdHourly);
 
-            _mapper.Map(pricelist, pricelistForUpdate);
+            priceHourly.Pricelist.From = pricelist.From;
+            priceHourly.Pricelist.To = pricelist.To;
+            priceHourly.Pricelist.Active = pricelist.Active;
+
+            _context.Update(priceHourly);
+            await SaveAll();
+
+            var priceDaily = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Daily" && pr.Id == pricelist.IdDaily);
+            var priceMonthly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Monthly" && pr.Id == pricelist.IdMonthly);
+            var priceAnnual = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Annual" && pr.Id == pricelist.IdAnnual);
+
+            priceHourly.Price = pricelist.PriceHourly;
+            priceDaily.Price = pricelist.PriceDaily;
+            priceMonthly.Price = pricelist.PriceMonthly;
+            priceAnnual.Price = pricelist.PriceAnnual;
+
+            _context.Update(priceHourly);
+            _context.Update(priceDaily);
+            _context.Update(priceMonthly);
+            _context.Update(priceAnnual);
+
+            if (pricelist.Active)
+            {
+                var pricelistFromDb = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist)
+                .Where(pr => pr.Pricelist.Active == true && priceHourly.Pricelist.Id != pr.Pricelist.Id).ToListAsync();
+
+                foreach (var pr in pricelistFromDb)
+                {
+                    pr.Pricelist.Active = false;
+                }
+            }
 
             if (await SaveAll())
             {
-                return pricelistForUpdate;
+                return priceHourly;
             }
             else
             {
@@ -592,6 +685,7 @@ namespace PublicTransport.Api.Data
                 //var line = await _context.Lines.FirstOrDefaultAsync(l => l.Id == lineId);
                 var line = await _lineRepository.GetLine(lineId);
                 line.TimetableId = timetable.Id;
+                timetableForUpdate.LineId = line.Id;
                 await SaveAll();
                 return timetableForUpdate;
             }

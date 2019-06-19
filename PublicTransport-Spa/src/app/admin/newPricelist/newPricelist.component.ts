@@ -20,10 +20,11 @@ export class NewPricelistComponent implements OnInit {
   pricelistForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   newPricelist: NewPricelist;
-  editPricelist: PricelistItem;
+  editPricelist: NewPricelist;
   ticketType = 'Hourly';
   discountType = 'Student';
   userDiscount: UserDiscount = {} as UserDiscount;
+  idForUpdate: number;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private router: ActivatedRoute, private route: Router,
               private alertify: AlertifyService, private adminService: AdminService) { }
@@ -39,7 +40,8 @@ export class NewPricelistComponent implements OnInit {
 
     if (id !== null) {
       this.adminService.getPricelist(+id).subscribe(next => {
-        this.editPricelist = next as PricelistItem;
+        this.editPricelist = next as NewPricelist;
+        this.idForUpdate = +id;
         this.createPricelistUpdateForm();
       }, error => {
         this.route.navigate(['/viewPricelist']);
@@ -52,18 +54,24 @@ export class NewPricelistComponent implements OnInit {
     this.pricelistForm = this.fb.group({
       from: ['', Validators.required],
       to: ['', Validators.required],
-      price: ['', Validators.required]
+      priceHourly: ['', Validators.required],
+      priceDaily: ['', Validators.required],
+      priceMonthly: ['', Validators.required],
+      priceAnnual: ['', Validators.required]
     });
   }
 
   createPricelistUpdateForm() {
-    const myMomentFrom: moment.Moment = moment(this.editPricelist.pricelist.from);
-    const myMomentTo: moment.Moment = moment(this.editPricelist.pricelist.to);
+    const myMomentFrom: moment.Moment = moment(this.editPricelist.from);
+    const myMomentTo: moment.Moment = moment(this.editPricelist.to);
 
     this.pricelistForm = this.fb.group({
       from: [myMomentFrom.toDate(), Validators.required],
       to: [myMomentTo.toDate(), Validators.required],
-      price: [this.editPricelist.price, Validators.required]
+      priceHourly: [this.editPricelist.priceHourly, Validators.required],
+      priceDaily: [this.editPricelist.priceDaily, Validators.required],
+      priceMonthly: [this.editPricelist.priceMonthly, Validators.required],
+      priceAnnual: [this.editPricelist.priceAnnual, Validators.required]
     });
   }
 
@@ -72,8 +80,12 @@ export class NewPricelistComponent implements OnInit {
       if (this.pricelistForm.valid) {
         this.newPricelist = Object.assign({}, this.pricelistForm.value);
         this.newPricelist.type = this.ticketType;
+        this.newPricelist.idHourly = this.editPricelist.idHourly;
+        this.newPricelist.idDaily = this.editPricelist.idDaily;
+        this.newPricelist.idMonthly = this.editPricelist.idMonthly;
+        this.newPricelist.idAnnual = this.editPricelist.idAnnual;
         this.newPricelist.active = true;
-        this.adminService.updatePricelist(this.newPricelist, this.editPricelist.id).subscribe(() => {
+        this.adminService.updatePricelist(this.newPricelist, this.idForUpdate).subscribe(() => {
           this.alertify.success('Successfully created pricelist');
           this.route.navigate(['/viewPricelist']);
         }, error => {

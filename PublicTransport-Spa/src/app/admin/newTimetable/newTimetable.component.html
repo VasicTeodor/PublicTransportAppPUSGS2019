@@ -13,13 +13,13 @@
         <tbody>
           <tr class="form-group">
             <th scope="row">Type: </th>
-            <td><select (change)="typeChanged($event.target.value)" class="custom-select mr-sm-4" style="font-size: 14px">
+            <td><select (change)="typeChanged($event.target.value)" [value]="editTimetable?.type" class="custom-select mr-sm-4" style="font-size: 14px">
                 <option selected value="In City">In City</option>
                 <option value="Out of City">Out of City</option>
               </select>
             </td>
             <th scope="row">Line: </th>
-            <td><select (change)="lineChanged($event.target.value)" class="custom-select mr-sm-4" size="4" style="font-size: 14px">
+            <td><select (change)="lineChanged($event.target.value)" [value]="editTimetable?.lineId" class="custom-select mr-sm-4" size="4" style="font-size: 14px">
                 <option *ngFor="let line of allLines" value={{line?.id}}>{{line?.lineNumber}}. {{line?.name}}</option>
               </select>
             </td>
@@ -27,7 +27,7 @@
           <tr>
             <th scope="row" colspan="3">Departures for: </th>
             <td style="float: left">
-                <select (change)="dayChanged($event.target.value)" class="custom-select mr-sm-4" style="font-size: 14px; width: 200px;">
+                <select (change)="dayChanged($event.target.value)" [value]="editTimetable?.day" class="custom-select mr-sm-4" style="font-size: 14px; width: 200px;">
                     <option selected value="Working day">Working day</option>
                     <option value="Saturday">Saturday</option>
                     <option value="Sunday">Sunday</option>

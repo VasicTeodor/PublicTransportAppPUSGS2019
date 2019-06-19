@@ -71,7 +71,7 @@ namespace PublicTransport.Api.Helpers
                     opt => opt.Ignore());
             CreateMap<NewPricelistDto, PricelistItem>()
                 .ForPath(dest => dest.Item.Type,
-                    opt => { opt.MapFrom(src => src.Type); })
+                    opt => { opt.Ignore(); })
                 .ForPath(dest => dest.Pricelist.Active,
                     opt => { opt.MapFrom(src => src.Active); })
                 .ForPath(dest => dest.Pricelist.From,
@@ -79,7 +79,7 @@ namespace PublicTransport.Api.Helpers
                 .ForPath(dest => dest.Pricelist.To,
                     opt => { opt.MapFrom(src => src.To); })
                 .ForMember(dest => dest.Price,
-                    opt => { opt.MapFrom(src => src.Price); });
+                    opt => { opt.Ignore(); });
             CreateMap<PricelistItem, PricelistItem>()
                 .ForPath(dest => dest.Item.Type,
                     opt => { opt.MapFrom(src => src.Item.Type); })
@@ -104,10 +104,6 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.Line); })
                 .ForMember(dest => dest.LineId,
                         opt => { opt.MapFrom(src => src.Line.Id); });
-
-
-
-
         }
     }
 }

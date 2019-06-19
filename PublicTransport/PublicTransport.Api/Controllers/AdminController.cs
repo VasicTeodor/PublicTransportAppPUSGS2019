@@ -234,11 +234,8 @@ namespace PublicTransport.Api.Controllers
         [HttpPost("addPricelist")]
         public async Task<IActionResult> AddPricelist(NewPricelistDto pricelist)
         {
-            var pricelistToAdd = new PricelistItem();
 
-            _mapper.Map(pricelist, pricelistToAdd);
-
-            var result = await _publicTransportRepository.AddPricelist(pricelistToAdd);
+            var result = await _publicTransportRepository.AddPricelist(pricelist);
 
             if (result != null)
             {
@@ -312,11 +309,8 @@ namespace PublicTransport.Api.Controllers
         [HttpPut("updatePricelist")]
         public async Task<IActionResult> UpdatePricelist(int pricelistId, NewPricelistDto pricelist)
         {
-            var pricelistToUpdate = new PricelistItem();
 
-            _mapper.Map(pricelist, pricelistToUpdate);
-
-            var result = await _publicTransportRepository.UpdatePricelist(pricelistId, pricelistToUpdate);
+            var result = await _publicTransportRepository.UpdatePricelist(pricelistId, pricelist);
 
             if (result != null)
             {

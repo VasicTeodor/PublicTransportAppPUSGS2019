@@ -74,7 +74,6 @@ export class NewTimetableComponent implements OnInit {
                 {
                   this.departuresEdit[i].departuresHour[j] = dep[j];
                   this.departures[i].departuresHour[j] = dep[j];
-                  console.log(this.departuresEdit[i].departuresHour[j]);
                 }
               }
             }
@@ -168,7 +167,6 @@ export class NewTimetableComponent implements OnInit {
 
   typeChanged(type: string) {
     this.type = type;
-    console.log(type);
   }
 
   lineChanged(id: number) {
@@ -188,16 +186,11 @@ export class NewTimetableComponent implements OnInit {
       }
       this.isInitialized = true;
     }
-    console.log(val + id);
     let index = id.split('-');
     let depName = index[0];
     let depHour = index[1];
-    console.log(depName + " a saat " + depHour);
-    console.log("Index is: " + (+depName));
     this.departures[+depName].name = depName;
-    console.log("NameDep is: " + this.departures[+depName].name);
     this.departures[+depName].departuresHour[+depHour] = val;
-    console.log("ValDep is: " + this.departures[+depName].departuresHour[+depHour]);
   }
 
 }

@@ -32,13 +32,13 @@ namespace PublicTransport.Api.Data
         Task<bool> RemoveTimetable(int timetableId);
         Task<TimeTable> UpdateTimetable(int timetableId, TimeTable timetable);
         Task<IEnumerable<PricelistItem>> GetPriceListove();
-        Task<PricelistItem> AddPricelist(PricelistItem pricelist);
+        Task<PricelistItem> AddPricelist(NewPricelistDto pricelist);
         Task<bool> RemovePricelist(int pricelistId);
-        Task<PricelistItem> UpdatePricelist(int pricelistId, PricelistItem pricelist);
+        Task<PricelistItem> UpdatePricelist(int pricelistId, NewPricelistDto pricelist);
         Task<Station> GetStation(int stationId);
         Task<Line> GetLine(int lineId);
         Task<TimeTable> GetTimetable(int timetableId);
-        Task<PricelistItem> GetPricelist(int pricelistId);
+        Task<NewPricelistDto> GetPricelist(int pricelistId);
         Task AddLineToStation(int stationId, int lineId);
         Task AddStationToLine(int stationId, int lineId);
         Task<IEnumerable<Bus>> GetBuses();

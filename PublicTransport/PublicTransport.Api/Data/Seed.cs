@@ -17,6 +17,7 @@ namespace PublicTransport.Api.Data
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _context.Database.EnsureCreated();
         }
 
         public void SeedUsers()
