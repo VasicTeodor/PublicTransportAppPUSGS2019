@@ -19,7 +19,7 @@ namespace PublicTransport.Api.Data
         public async Task<Line> GetLine(int id)
         {
             return await _context.Lines.Include(s => s.Stations)
-                .ThenInclude(sl => sl.Station).Include(b => b.Buses)
+                .ThenInclude(sl => sl.Station).ThenInclude(s => s.Location).Include(b => b.Buses)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 

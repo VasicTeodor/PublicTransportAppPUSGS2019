@@ -96,6 +96,12 @@
         
             </agm-marker>
           </div>
+
+          <div>
+            <agm-marker [latitude]="signalRService?.data?.x" [longitude]="signalRService?.data?.y" title="Bus">
+        
+            </agm-marker>
+          </div>
             <!-- <agm-polyline [strokeColor]="polyline.color">
                  <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
                  </agm-polyline-point>

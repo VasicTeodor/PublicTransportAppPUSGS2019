@@ -6,6 +6,8 @@ import { TimeTable } from 'src/app/_models/timeTable';
 import { Departures } from 'src/app/_models/departures';
 import { Directions } from 'src/app/_models/directions';
 import { Station } from 'src/app/_models/station';
+import { SignalRService } from 'src/app/_services/signal-r.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-timetable',
@@ -31,16 +33,26 @@ export class TimetableComponent implements OnInit {
   };
 
 
-  constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router) { }
+  constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router,
+              public signalRService: SignalRService, private http: HttpClient) { }
 
   ngOnInit() {
     this.router.data.subscribe(data => {
       this.allTimetables = data.timetables;
       this.allLines = data.lines;
-    });
+      this.signalRService.startConnection();
+      this.signalRService.addTransferBusLocationListener();
+  });
 
     this.day = 'Working day';
     this.type = 'In City';
+  }
+
+  private startHttpRequest = (lineId: number) => {
+    this.http.get('http://localhost:5000/api/busLocation?lineId=' + lineId)
+      .subscribe(res => {
+        console.log(res);
+      })
   }
 
   dayChanged(day: string) {
@@ -53,7 +65,6 @@ export class TimetableComponent implements OnInit {
 
   lineChanged(id: number) {
     this.selectedLine = id;
-    console.log(this.selectedLine);
     this.allStations = null;
     this.allStations = new Array<Station>();
     this.allDir.forEach(element => {
@@ -63,16 +74,14 @@ export class TimetableComponent implements OnInit {
     this.allDir = new Array<Directions>();
     this.showTimetable();
     this.initializeRoutes();
+    this.startHttpRequest(id);
   }
 
   showTimetable() {
-    console.log('mrs');
     this.timetable.day = this.day;
     this.timetable.type = this.type;
     let index = this.allLines.indexOf(this.allLines.find(line => +line.id === +this.selectedLine));
     this.line = this.allLines[index] as Line;
-    console.log(this.line.name);
-    console.log(this.line.id);
     this.timetable.line = this.line;
     this.timetable.departures = "";
 
@@ -84,7 +93,6 @@ export class TimetableComponent implements OnInit {
         this.timetable.day = tmtable.day;
         this.timetable.line = this.line;
         this.timetable.departures = tmtable.departures;
-        console.log(this.timetable.id);
       }
     });
 
@@ -114,12 +122,10 @@ export class TimetableComponent implements OnInit {
   }
 
   initializeRoutes() {
-    console.table(this.allLines);
     if (this.line.stations !== null || this.line.stations !== undefined || this.line.stations.length > 0) {
       let dir = new Directions();
       dir.waypoints = new Array<any>();
       if (this.line.stations[0] !== undefined) {
-        console.log(this.line.stations[0]);
         dir.origin = {lat: this.line.stations[0].station.location.x, lng: this.line.stations[0].station.location.y};
         dir.destination = {lat: this.line.stations[this.line.stations.length - 1].station.location.x,
             lng: this.line.stations[this.line.stations.length - 1].station.location.y};
@@ -130,7 +136,5 @@ export class TimetableComponent implements OnInit {
         this.allDir.push(dir);
       }
     }
-
-    console.log(this.allDir);
   }
 }

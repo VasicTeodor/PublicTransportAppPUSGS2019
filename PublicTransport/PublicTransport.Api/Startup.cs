@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using PublicTransport.Api.Helpers;
+using PublicTransport.Api.Hub;
 
 namespace PublicTransport.Api
 {
@@ -69,9 +70,19 @@ namespace PublicTransport.Api
                     opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 });
 
-            services.AddCors();
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy",
+                    corsBuilder => corsBuilder.WithOrigins("http://localhost:4200")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
             services.AddAutoMapper();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
+            // Web Sockets
+            services.AddSignalR();
+            services.AddTransient<BusLocationHub>();
 
             services.AddTransient<Seed>();
 
@@ -97,8 +108,11 @@ namespace PublicTransport.Api
             seeder.SeedUsers();
             seeder.SeedStations();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors("CorsPolicy");
             app.UseAuthentication();
+
+            app.UseSignalR(routes => { routes.MapHub<BusLocationHub>("/busLocation"); });
+
             app.UseMvc();
         }
     }
