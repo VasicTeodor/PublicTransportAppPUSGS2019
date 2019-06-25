@@ -48,6 +48,7 @@ import { BusListResolver } from './_resolvers/busList.resolver';
 import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
 import { TimetableListResolver } from './_resolvers/timetableList.resolver';
 import { AgmDirectionModule } from 'agm-direction';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -93,6 +94,7 @@ export function getToken() {
       HttpClientModule,
       MomentModule,
       FormsModule,
+      NgxPayPalModule,
       ReactiveFormsModule,
       FileUploadModule,
       BsDropdownModule.forRoot(),

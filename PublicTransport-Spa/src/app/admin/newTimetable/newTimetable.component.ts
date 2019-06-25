@@ -19,6 +19,7 @@ export class NewTimetableComponent implements OnInit {
   timetable: TimeTable = {} as TimeTable;
   editTimetable: TimeTable;
   selectedLine: number;
+  updatingTimetable = false;
   allLines: Line[];
   type: string = 'In City';
   day: string = 'Working day';
@@ -82,10 +83,13 @@ export class NewTimetableComponent implements OnInit {
         
          
         this.createTimetableFormForUpdate();
+        this.updatingTimetable = true;
       }, error => {
         this.route.navigate(['/viewTimetables']);
         this.alertify.error('Error while getting timetable');
       });
+    } else {
+      this.updatingTimetable = false;
     }
 
   }

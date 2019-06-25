@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { Pricelist } from '../_models/pricelist';
@@ -54,5 +54,14 @@ buyTicketUser(ticketType, userId) {
   params = params.append('type', ticketType);
   params = params.append('userId', userId);
   return this.http.put(this.baseUrl + 'user/buyTicket', params);
+}
+
+buyTicketPayPal(ticketType, userId, email) {
+  const httpOptions = {
+    headers: new HttpHeaders({ 
+      'Access-Control-Allow-Origin':'*'
+    })
+  };
+  return this.http.get(this.baseUrl + 'paypal/create?ticketType=' + ticketType + "&userId=" + userId + "&email=" + email, httpOptions);
 }
 }

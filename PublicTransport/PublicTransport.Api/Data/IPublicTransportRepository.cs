@@ -47,5 +47,6 @@ namespace PublicTransport.Api.Data
         Task<Bus> UpdateBus(int busId, Bus bus);
         Task<UserDiscount> GetDiscount(string type);
         Task<UserDiscount> UpdateDiscount(string type, UserDiscount discount);
+        Task<PricelistItem> GetTicketPrice(string ticketType);
     }
 }

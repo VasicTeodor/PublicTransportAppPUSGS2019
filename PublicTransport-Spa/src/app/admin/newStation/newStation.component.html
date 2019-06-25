@@ -106,7 +106,8 @@
           </tr>
           <tr>
             <th scope="row" colspan="7">
-              <button class="btn btn-default moiClassButton" type="submit" >Add Station</button>
+              <button *ngIf="!updatingStation" class="btn btn-default moiClassButton" type="submit" >Add Station</button>
+              <button *ngIf="updatingStation" class="btn btn-default moiClassButton" type="submit" >Update Station</button>
             </th>
           </tr>
         </tbody>

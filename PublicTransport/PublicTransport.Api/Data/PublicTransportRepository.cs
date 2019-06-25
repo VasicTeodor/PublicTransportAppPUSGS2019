@@ -865,5 +865,19 @@ namespace PublicTransport.Api.Data
                 return null;
             }
         }
+
+        public async Task<PricelistItem> GetTicketPrice(string ticketType)
+        {
+            var ticketPrice = await _pricelistItemRepository.GetPriceListItemForTicketType(ticketType);
+
+            if (ticketPrice != null)
+            {
+                return ticketPrice;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

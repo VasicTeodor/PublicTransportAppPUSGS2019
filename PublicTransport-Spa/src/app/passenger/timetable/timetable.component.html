@@ -84,9 +84,14 @@
   <div class="col jumbotron m-0" style="background-color:  rgba(52, 51, 56, 0.603);">
       <agm-map [latitude]="45.261705" [longitude]="19.837223" [zoom]="16">  
 
-          <div *ngFor="let station of allStations">
+        <div style="z-index: 10000 !important; position: relative !important;">
+          <agm-marker [latitude]="busLocation?.x" [longitude]="busLocation?.y" title="Bus" style="z-index: 100000 !important; position: relative !important;" [iconUrl]="icon">
+          </agm-marker>
+        </div>
+
+          <div *ngFor="let station of allStations" style="z-index: -1 !important; position: relative !important;">
             <agm-marker [latitude]="station.location.x" [longitude]="station.location.y" [title]="station.name"
-            [label]="station.name">
+            [label]="station.name" style="z-index: 1 !important; position: relative !important;">
         
               <agm-info-window [latitude]="station.location.x" [longitude]="station.location.y" >
                 <span style="font-size: 16px;font-family:'Times New Roman'">{{station.name}}</span>
@@ -97,11 +102,6 @@
             </agm-marker>
           </div>
 
-          <div>
-            <agm-marker [latitude]="signalRService?.data?.x" [longitude]="signalRService?.data?.y" title="Bus">
-        
-            </agm-marker>
-          </div>
             <!-- <agm-polyline [strokeColor]="polyline.color">
                  <agm-polyline-point *ngFor="let point of polyline.path" [latitude]="point.latitude" [longitude]="point.longitude">
                  </agm-polyline-point>

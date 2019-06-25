@@ -75,7 +75,8 @@
             </tr>
           <tr>
             <th scope="row" colspan="7">
-              <button class="btn btn-default moiClassButton" type="submit">Add Line</button>
+              <button *ngIf="!editingLine" class="btn btn-default moiClassButton" type="submit">Add Line</button>
+              <button *ngIf="editingLine" class="btn btn-default moiClassButton" type="submit">Update Line</button>
             </th>
           </tr>
           <tr>

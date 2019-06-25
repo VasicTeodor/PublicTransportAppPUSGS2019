@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false, 
-  apiUrl: 'http://localhost:5000/api/'
+  apiUrl: 'http://localhost:5000/api/',
+  clientId: 'AQ3QHeMqqyTY1aJJXQq8tSamjJdi7P_gqIpCH76SjgcLWUWZPioB-w3rHelhfoqY7-Xacl2eH4SWxuF5'
 };
 
 /*

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Line } from 'src/app/_models/line';
@@ -8,6 +8,7 @@ import { Directions } from 'src/app/_models/directions';
 import { Station } from 'src/app/_models/station';
 import { SignalRService } from 'src/app/_services/signal-r.service';
 import { HttpClient } from '@angular/common/http';
+import { BusLocation } from 'src/app/_models/busLocation';
 
 @Component({
   selector: 'app-timetable',
@@ -15,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./timetable.component.css'],
   styles: ['agm-map {height: 100%; width: 100%;}']
 })
-export class TimetableComponent implements OnInit {
+export class TimetableComponent implements OnInit, OnDestroy {
   allTimetables: TimeTable[];
   allLines: Line[];
   day: string;
@@ -31,6 +32,15 @@ export class TimetableComponent implements OnInit {
   options = {
       suppressMarkers: true,
   };
+  busLocation: BusLocation;
+
+  icon = {
+    url: '../../../assets/busicon.png',
+    scaledSize: {
+      width: 75,
+      height: 75
+    }
+  };
 
 
   constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router,
@@ -41,11 +51,22 @@ export class TimetableComponent implements OnInit {
       this.allTimetables = data.timetables;
       this.allLines = data.lines;
       this.signalRService.startConnection();
-      this.signalRService.addTransferBusLocationListener();
+      const busLocationObservable = this.signalRService.addTransferBusLocationListener();
+        busLocationObservable.subscribe((locationData: BusLocation) => {
+          // console.log('linija: ' + this.selectedLine + 'dobijena linija: ' + locationData.lineId);
+          if (locationData.lineId == this.selectedLine) {
+            // console.log('Primljena linija je: ' + locationData.lineId);
+            this.busLocation = locationData;
+          }
+        });
   });
 
     this.day = 'Working day';
     this.type = 'In City';
+  }
+
+  ngOnDestroy() {
+    this.signalRService.stopConnection();
   }
 
   private startHttpRequest = (lineId: number) => {
@@ -64,17 +85,21 @@ export class TimetableComponent implements OnInit {
   }
 
   lineChanged(id: number) {
+    console.log("Selektovana linija je " + id);
     this.selectedLine = id;
     this.allStations = null;
     this.allStations = new Array<Station>();
-    this.allDir.forEach(element => {
-      element.show = false;
-    });
-    this.allDir = null;
-    this.allDir = new Array<Directions>();
+    this.hideDirections();
     this.showTimetable();
     this.initializeRoutes();
     this.startHttpRequest(id);
+  }
+
+  hideDirections() {
+    console.log(this.allDir);
+    for (let index = 0; index < this.allDir.length; index++) {
+      this.allDir[index].show = false;
+    }
   }
 
   showTimetable() {

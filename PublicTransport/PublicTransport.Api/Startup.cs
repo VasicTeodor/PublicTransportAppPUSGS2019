@@ -72,9 +72,10 @@ namespace PublicTransport.Api
 
             services.AddCors(options => {
                 options.AddPolicy("CorsPolicy",
-                    corsBuilder => corsBuilder.WithOrigins("http://localhost:4200")
-                    .AllowAnyMethod()
+                    corsBuilder => corsBuilder.WithOrigins("http://localhost:4200", "https://www.sandbox.paypal.com")
+                        .AllowAnyMethod()
                     .AllowAnyHeader()
+                    .AllowAnyOrigin()
                     .AllowCredentials());
             });
             services.AddAutoMapper();
@@ -82,7 +83,7 @@ namespace PublicTransport.Api
 
             // Web Sockets
             services.AddSignalR();
-            services.AddTransient<BusLocationHub>();
+            services.AddScoped<BusLocationHub>();
 
             services.AddTransient<Seed>();
 
@@ -95,6 +96,9 @@ namespace PublicTransport.Api
             services.AddScoped<IStationRepository, StationRepository>();
             services.AddScoped<ITimeTableRepository, TimeTableRepository>();
             services.AddScoped<IUserDiscountRepository, UserDiscountRepository>();
+
+            // PayPal
+            services.AddScoped<IPayPalService, PayPalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

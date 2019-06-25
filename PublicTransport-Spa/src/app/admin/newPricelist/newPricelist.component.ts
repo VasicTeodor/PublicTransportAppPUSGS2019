@@ -9,6 +9,7 @@ import { PricelistItem } from 'src/app/_models/pricelistItem';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { UserDiscount } from 'src/app/_models/userDiscount';
+import { isatty } from 'tty';
 
 @Component({
   selector: 'app-newPricelist',
@@ -17,6 +18,8 @@ import { UserDiscount } from 'src/app/_models/userDiscount';
 })
 export class NewPricelistComponent implements OnInit {
   isCollapsed = true;
+  isActive = false;
+  updatingPricelist = false;
   pricelistForm: FormGroup;
   bsConfig: Partial<BsDatepickerConfig>;
   newPricelist: NewPricelist;
@@ -43,11 +46,19 @@ export class NewPricelistComponent implements OnInit {
         this.editPricelist = next as NewPricelist;
         this.idForUpdate = +id;
         this.createPricelistUpdateForm();
+        this.updatingPricelist = true;
       }, error => {
         this.route.navigate(['/viewPricelist']);
         this.alertify.error('Error while getting pricelist');
       });
+    } else {
+      this.updatingPricelist = false;
     }
+  }
+
+  checkValue() {
+    this.isActive = !this.isActive;
+    console.log(this.isActive);
   }
 
   createPricelistForm() {
@@ -65,6 +76,7 @@ export class NewPricelistComponent implements OnInit {
     const myMomentFrom: moment.Moment = moment(this.editPricelist.from);
     const myMomentTo: moment.Moment = moment(this.editPricelist.to);
 
+    this.isActive = this.editPricelist.active;
     this.pricelistForm = this.fb.group({
       from: [myMomentFrom.toDate(), Validators.required],
       to: [myMomentTo.toDate(), Validators.required],
@@ -84,7 +96,7 @@ export class NewPricelistComponent implements OnInit {
         this.newPricelist.idDaily = this.editPricelist.idDaily;
         this.newPricelist.idMonthly = this.editPricelist.idMonthly;
         this.newPricelist.idAnnual = this.editPricelist.idAnnual;
-        this.newPricelist.active = true;
+        this.newPricelist.active = this.isActive;
         this.adminService.updatePricelist(this.newPricelist, this.idForUpdate).subscribe(() => {
           this.alertify.success('Successfully created pricelist');
           this.route.navigate(['/viewPricelist']);
@@ -96,7 +108,7 @@ export class NewPricelistComponent implements OnInit {
       if (this.pricelistForm.valid) {
         this.newPricelist = Object.assign({}, this.pricelistForm.value);
         this.newPricelist.type = this.ticketType;
-        this.newPricelist.active = true;
+        this.newPricelist.active = this.isActive;
         this.adminService.createPricelist(this.newPricelist).subscribe(() => {
           this.alertify.success('Successfully created pricelist');
           this.route.navigate(['/viewPricelist']);

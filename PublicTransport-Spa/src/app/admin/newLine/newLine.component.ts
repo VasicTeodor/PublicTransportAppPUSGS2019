@@ -19,6 +19,7 @@ export class NewLineComponent implements OnInit {
   lineForm: FormGroup;
   line: NewLine;
   editLine: Line;
+  editingLine = false;
   newLineStations: Station[] = new Array<Station>();
   allStations: Station[];
   newLineBuses: Bus[] = new Array<Bus>();
@@ -52,10 +53,13 @@ export class NewLineComponent implements OnInit {
           this.newLineBuses.push(element);
           });
         this.createLineFormForUpdate();
+        this.editingLine = true;
       }, error => {
         this.route.navigate(['/viewLines']);
         this.alertify.error('Error while getting line');
       });
+    } else {
+      this.editingLine = false;
     }
   }
 

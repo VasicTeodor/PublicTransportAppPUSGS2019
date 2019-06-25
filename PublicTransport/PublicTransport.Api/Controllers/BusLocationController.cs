@@ -30,6 +30,7 @@ namespace PublicTransport.Api.Controllers
 
             if (locations.Count > 0)
             {
+                _locationHub.StopTimer();
                 _locationHub.InitializeHub(locations, lineId);
             }
 

@@ -18,6 +18,7 @@ export class NewStationComponent implements OnInit {
   isCollapsed = true;
   stationForm: FormGroup;
   station: NewStation;
+  updatingStation = false;
   editStation: Station;
   newStationLines: Line[] = new Array<Line>();
   allLines: Line[];
@@ -46,10 +47,13 @@ export class NewStationComponent implements OnInit {
          this.newStationLines.push(element.line);
         });
         this.createStationFormForUpdate();
+        this.updatingStation = true;
       }, error => {
         this.route.navigate(['/viewStations']);
         this.alertify.error('Error while getting station');
       });
+    } else {
+      this.updatingStation = false;
     }
   }
 

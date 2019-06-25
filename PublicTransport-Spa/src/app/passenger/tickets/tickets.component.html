@@ -33,10 +33,17 @@
                 (click)="buyTicket(ticket.item.type)"
                 >Buy Ticket</button>
               </div>
+              <div class="text-center mt-2">
+                <button class="btn btn-default border-dark moiClassTicketHover" 
+                [disabled]="ticket.item.type !== 'Hourly' && !loggedIn()" 
+                (click)="buyTicketPayPal(ticket.item.type)"
+                >Buy Ticket - PayPal</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div *ngIf="!loggedIn()">
       <br>
       <hr style="border: 2px solid white;">
       <br>
@@ -47,5 +54,32 @@
                placeholder="Email address" required autofocus [(ngModel)]="email">
           </form>
       </div>
+      <br>
+      <hr style="border: 2px solid white;">
+      <br>
+    </div>
+      <!-- <div *ngIf="!loggedIn()" class="text-white font-weight-bold">
+      <div class="row justify-content-center text-center mb-3">
+        <h4 class="mb-4">Pay ticket via:</h4>
+      </div>
+      <div class="row justify-content-center text-center mb-3">
+        <h5 class="mb-2">PayPal:</h5>
+      </div>
+      <div class="row justify-content-center text-center mb-3">
+        <ngx-paypal [config]="payPalConfig"></ngx-paypal>
+      </div>
+      <div class="row justify-content-center text-center mb-3">
+        <h5 class="mb-2">In Person</h5>
+      </div>
+      <div class="row justify-content-center text-center mb-3">
+        <button class="btn btn-default text-white border-white moiClassTicketHover">Buy Ticket</button>
+      </div>
+      <div class="row justify-content-center text-center mb-3">
+        <button class="btn btn-default text-white border-white moiClassTicketHover">Cancel</button>
+      </div>
+      <br>
+      <hr style="border: 2px solid white;">
+      <br>
+    </div> -->
     </div>
   </div>

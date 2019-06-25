@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Location } from '../_models/location';
 import * as signalR from '@aspnet/signalr';
+import { BusLocation } from '../_models/busLocation';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
-public data: Location;
+public data: BusLocation;
 
 private hubConnection: signalR.HubConnection;
 
@@ -21,10 +23,20 @@ public startConnection = () => {
 }
 
 public addTransferBusLocationListener = () => {
-  this.hubConnection.on('sendbuslocation', (data) => {
-      this.data = data;
-      console.log(data);
-  });
+  let locationObservable;
+  locationObservable = new Observable(observer => {
+    this.hubConnection.on('sendbuslocation', (data) => {
+        this.data = data;
+        // console.log(data);
+        observer.next(data);
+      });
+    }).pipe(delay(2000));
+    return locationObservable;
+}
+
+public stopConnection() {
+  this.hubConnection.stop().then(() => console.log('Connection started'))
+                    .catch(err => console.log('Error while starting connection: ' + err));
 }
 
 }

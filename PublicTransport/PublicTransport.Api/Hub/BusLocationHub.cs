@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Microsoft.AspNetCore.SignalR;
+using PublicTransport.Api.Dtos;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Hub
@@ -35,7 +37,7 @@ namespace PublicTransport.Api.Hub
 
         public void InitializeHub(List<Location> locations, int lineId)
         {
-            _action = () =>_hub.Clients.All.SendAsync("sendbuslocation", ReturnLocation(locations, GetIndex(locations, ref indx, ref reverse))).Wait();
+            _action = () =>_hub.Clients.All.SendAsync("sendbuslocation", ReturnLocation(locations, lineId, GetIndex(locations, ref indx, ref reverse))).Wait();
             _autoResetEvent = new AutoResetEvent(false);
             _timer = new Timer(Execute, _autoResetEvent, 1000, 2000);
             _timeStarted = DateTime.Now;
@@ -45,21 +47,47 @@ namespace PublicTransport.Api.Hub
         {
             _action();
 
-            if ((DateTime.Now - TimeStarted).Seconds > 3600)
+            if ((DateTime.Now - TimeStarted).Minutes > 5)
             {
                 _timer.Dispose();
             }
         }
 
-        private Location ReturnLocation(List<Location> allLocations, int indx)
+        public void StopTimer()
+        {
+            try
+            {
+                _timer.Dispose();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
+            }
+        }
+
+        private BusLocationDto ReturnLocation(List<Location> allLocations, int lineId, int indx)
         {
             if (indx >= 0 && indx < allLocations.Count)
             {
-                return allLocations[indx];
+                var busLocation = new BusLocationDto()
+                {
+                    X = allLocations[indx].X,
+                    Y = allLocations[indx].Y,
+                    LineId = lineId
+                };
+
+                return busLocation;
             }
             else
             {
-                return allLocations[0];
+                var busLocation = new BusLocationDto()
+                {
+                    X = allLocations[0].X,
+                    Y = allLocations[0].Y,
+                    LineId = lineId
+                };
+
+                return busLocation;
             }
         }
 
@@ -89,6 +117,18 @@ namespace PublicTransport.Api.Hub
             else
             {
                 return 0;
+            }
+        }
+
+        ~BusLocationHub()
+        {
+            try
+            {
+                _timer.Dispose();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e);
             }
         }
     }
