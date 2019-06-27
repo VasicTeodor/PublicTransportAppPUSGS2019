@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { NewStation } from '../_models/newStation';
 import { Observable } from 'rxjs';
@@ -12,6 +12,8 @@ import { NewPricelist } from '../_models/newPricelist';
 import { PricelistItem } from '../_models/pricelistItem';
 import { TimeTable } from '../_models/timeTable';
 import { UserDiscount } from '../_models/userDiscount';
+import { PaginatedResult } from '../_models/Pagination';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +27,27 @@ createNewStation(station: NewStation) {
   return this.http.post(this.baseUrl + 'admin/addStation', station);
 }
 
-getStations() {
-  return this.http.get<Observable<Station[]>>(this.baseUrl + 'admin/GetStations');
+getAllStations() {
+  return this.http.get<Observable<Station[]>>(this.baseUrl + 'admin/GetAllStations');
+}
+
+getStations(page?, itemsPerPage?): Observable<PaginatedResult<Station[]>> {
+  const paginatedResult: PaginatedResult<Station[]> = new PaginatedResult<Station[]>();
+
+  let params = new HttpParams()
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<Station[]>(this.baseUrl + 'admin/GetStations', { observe: 'response', params}).pipe(map(response => {
+    paginatedResult.result = response.body;
+    if (response.headers.get('Pagination') != null) {
+      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    }
+    return paginatedResult;
+  }));
 }
 
 getStation(stationId: number) {
@@ -45,8 +66,23 @@ createNewLine(line: NewLine) {
   return this.http.post(this.baseUrl + 'admin/addLine', line);
 }
 
-getLines() {
-  return this.http.get<Observable<Line[]>>(this.baseUrl + 'admin/getLines');
+getLines(page?, itemsPerPage?) {
+  const paginatedResult: PaginatedResult<Line[]> = new PaginatedResult<Line[]>();
+
+  let params = new HttpParams()
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<Line[]>(this.baseUrl + 'admin/getLines', { observe: 'response', params}).pipe(map(response => {
+    paginatedResult.result = response.body;
+    if (response.headers.get('Pagination') != null) {
+      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    }
+    return paginatedResult;
+  }));
 }
 
 getLine(lineId: number) {
@@ -69,8 +105,23 @@ createPricelist(pricelist: NewPricelist) {
   return this.http.post(this.baseUrl + 'admin/addPricelist', pricelist);
 }
 
-getPricelists() {
-  return this.http.get<Observable<PricelistItem[]>>(this.baseUrl + 'admin/getAllPricelists');
+getPricelists(page?, itemsPerPage?) {
+  const paginatedResult: PaginatedResult<PricelistItem[]> = new PaginatedResult<PricelistItem[]>();
+
+  let params = new HttpParams()
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<PricelistItem[]>(this.baseUrl + 'admin/getAllPricelists', { observe: 'response', params}).pipe(map(response => {
+    paginatedResult.result = response.body;
+    if (response.headers.get('Pagination') != null) {
+      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    }
+    return paginatedResult;
+  }));
 }
 
 getPricelist(pricelistId: number) {
@@ -89,8 +140,23 @@ createNewTimetable(timetable: TimeTable) {
   return this.http.post(this.baseUrl + 'admin/addTimetable', timetable);
 }
 
-getTimetables() {
-  return this.http.get<Observable<TimeTable[]>>(this.baseUrl + 'admin/getTimetables');
+getTimetables(page?, itemsPerPage?): Observable<PaginatedResult<TimeTable[]>> {
+  const paginatedResult: PaginatedResult<TimeTable[]> = new PaginatedResult<TimeTable[]>();
+
+  let params = new HttpParams()
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<TimeTable[]>(this.baseUrl + 'admin/getTimetables', { observe: 'response', params}).pipe(map(response => {
+    paginatedResult.result = response.body;
+    if (response.headers.get('Pagination') != null) {
+      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    }
+    return paginatedResult;
+  }));
 }
 
 getTimetable(timetableId: number) {

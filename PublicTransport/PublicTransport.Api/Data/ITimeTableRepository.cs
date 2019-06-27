@@ -10,7 +10,7 @@ namespace PublicTransport.Api.Data
     {
         Task<IEnumerable<TimeTable>> GetTimeTables();
         Task<IEnumerable<TimeTable>> GetTimeTablesForParams(string type, string day);
-        Task<IEnumerable<Line>> GetLines(string type);
+        Task<IEnumerable<Line>> GetLines(string type, string day);
         Task<TimeTable> GetTimeTable(int id);
     }
 }

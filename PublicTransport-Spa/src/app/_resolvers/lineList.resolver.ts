@@ -10,12 +10,12 @@ import { Line } from '../_models/line';
 @Injectable()
 export class LineListResolver implements Resolve<Line[]> {
     pageNumber = 1;
-    pageSize = 5;
+    pageSize = 10;
 
     constructor(private router: Router, private alertify: AlertifyService, private adminService: AdminService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Line[]> {
-        return this.adminService.getLines().pipe(
+        return this.adminService.getLines(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);

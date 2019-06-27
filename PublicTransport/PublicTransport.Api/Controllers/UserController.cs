@@ -47,9 +47,11 @@ namespace PublicTransport.Api.Controllers
 
         [Authorize(Roles = "Controller, Admin")]
         [HttpGet]
-        public async Task<IActionResult> GetUsers(string accountStatus = null)
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams, string accountStatus = null)
         {
-            var users = await _publicTransportRepository.GetUsers(accountStatus);
+            var users = await _publicTransportRepository.GetUsers(userParams, accountStatus);
+
+            Response.AddPagination(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 
             if (users != null)
             {

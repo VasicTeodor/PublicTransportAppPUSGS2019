@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using PublicTransport.Api.Dtos;
+using PublicTransport.Api.Helpers;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Data
@@ -12,26 +13,26 @@ namespace PublicTransport.Api.Data
         Task<bool> SaveAll();
         Task<IEnumerable<PricelistItem>> GetPricelists(bool active, int userId);
         Task<IEnumerable<TimeTable>> GetTimetables(string type, string dayInWeek);
-        Task<IEnumerable<User>> GetUsers(string accountStatus);
+        Task<PagedList<User>> GetUsers(UserParams userParams, string accountStatus);
         Task<User> GetUser(int id);
         Task<bool> BuyTicketAsync(string ticketType, int userId = -1, string email = null);
         Task<bool> ValidateUserAccount(int userId, bool valid);
         Task<Ticket> ValidateUserTicket(int ticketId);
-        Task<IEnumerable<Ticket>> GetTickets();
+        Task<PagedList<Ticket>> GetTickets(UserParams userParams);
         Task<AllPricelistsForUsersDto> CalculateAllPricelists(List<PricelistItem> pricelist);
-        Task<IEnumerable<Station>> GetStations();
+        Task<PagedList<Station>> GetStations(UserParams userParams);
         Task<Station> AddStation(Station station);
         Task<bool> RemoveStation(int stationId);
         Task<Station> UpdateStation(int stationId, NewStationDto station);
-        Task<IEnumerable<Line>> GetLines();
+        Task<PagedList<Line>> GetLines(UserParams userParams);
         Task<Line> AddLine(Line line);
         Task<bool> RemoveLine(int lineId);
         Task<Line> UpdateLine(int lineId, NewLineDto line);
-        Task<IEnumerable<TimeTable>> GetTimetableove();
+        Task<PagedList<TimeTable>> GetTimetableove(UserParams userParams);
         Task<TimeTable> AddTimetable(TimeTable timetable);
         Task<bool> RemoveTimetable(int timetableId);
         Task<TimeTable> UpdateTimetable(int timetableId, TimeTable timetable);
-        Task<IEnumerable<PricelistItem>> GetPriceListove();
+        Task<PagedList<PricelistItem>> GetPriceListove(UserParams userParams);
         Task<PricelistItem> AddPricelist(NewPricelistDto pricelist);
         Task<bool> RemovePricelist(int pricelistId);
         Task<PricelistItem> UpdatePricelist(int pricelistId, NewPricelistDto pricelist);
@@ -48,5 +49,7 @@ namespace PublicTransport.Api.Data
         Task<UserDiscount> GetDiscount(string type);
         Task<UserDiscount> UpdateDiscount(string type, UserDiscount discount);
         Task<PricelistItem> GetTicketPrice(string ticketType);
+        Task<IEnumerable<Line>> GetLinesForTimetable(string type, string day);
+        Task<IEnumerable<Station>> GetAllStations();
     }
 }

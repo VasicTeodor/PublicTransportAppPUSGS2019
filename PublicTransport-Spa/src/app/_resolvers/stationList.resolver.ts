@@ -9,12 +9,12 @@ import { AdminService } from '../_services/admin.service';
 @Injectable()
 export class StationListResolver implements Resolve<Station[]> {
     pageNumber = 1;
-    pageSize = 5;
+    pageSize = 10;
 
     constructor(private router: Router, private alertify: AlertifyService, private adminService: AdminService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<Station[]> {
-        return this.adminService.getStations().pipe(
+        return this.adminService.getStations(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);

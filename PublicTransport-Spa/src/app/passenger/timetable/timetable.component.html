@@ -7,7 +7,7 @@
           <label for="exampleFormControlSelect1" style="color: white">Select a day</label>
         </div>
         <div class="col-9">
-          <select (change)="dayChanged($event.target.value)" class="custom-select mr-sm-4" style="font-size: 14px">
+          <select (change)="dayChanged($event.target.value)" (select)="this.day" class="custom-select mr-sm-4" style="font-size: 14px">
             <option selected>Working day</option>
             <option>Saturday</option>
             <option>Sunday</option>

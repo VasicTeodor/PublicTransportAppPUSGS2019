@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PublicTransport.Api.Data;
 using PublicTransport.Api.Dtos;
+using PublicTransport.Api.Helpers;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
@@ -28,9 +29,29 @@ namespace PublicTransport.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("getStations")]
-        public async Task<IActionResult> GetStations()
+        public async Task<IActionResult> GetStations([FromQuery]UserParams userParams)
         {
-            var stations = await _publicTransportRepository.GetStations();
+            var stations = await _publicTransportRepository.GetStations(userParams);
+
+            Response.AddPagination(stations.CurrentPage, stations.PageSize, stations.TotalCount, stations.TotalPages);
+
+
+            if (stations != null)
+            {
+                return Ok(stations);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getAllStations")]
+        public async Task<IActionResult> GetAllStations()
+        {
+            var stations = await _publicTransportRepository.GetAllStations();
+
 
             if (stations != null)
             {
@@ -59,9 +80,11 @@ namespace PublicTransport.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("getLines")]
-        public async Task<IActionResult> GetLines()
+        public async Task<IActionResult> GetLines([FromQuery]UserParams userParams)
         {
-            var lines = await _publicTransportRepository.GetLines();
+            var lines = await _publicTransportRepository.GetLines(userParams);
+
+            Response.AddPagination(lines.CurrentPage, lines.PageSize, lines.TotalCount, lines.TotalPages);
 
             if (lines != null)
             {
@@ -75,9 +98,11 @@ namespace PublicTransport.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("getTimetables")]
-        public async Task<IActionResult> GetTimetables()
+        public async Task<IActionResult> GetTimetables([FromQuery]UserParams userParams)
         {
-            var timetables = await _publicTransportRepository.GetTimetableove();
+            var timetables = await _publicTransportRepository.GetTimetableove(userParams);
+
+            Response.AddPagination(timetables.CurrentPage, timetables.PageSize, timetables.TotalCount, timetables.TotalPages);
 
             if (timetables != null)
             {
@@ -90,9 +115,11 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpGet("getAllPricelists")]
-        public async Task<IActionResult> getAllPricelists()
+        public async Task<IActionResult> getAllPricelists([FromQuery]UserParams userParams)
         {
-            var pricelists = await _publicTransportRepository.GetPriceListove();
+            var pricelists = await _publicTransportRepository.GetPriceListove(userParams);
+
+            Response.AddPagination(pricelists.CurrentPage, pricelists.PageSize, pricelists.TotalCount, pricelists.TotalPages);
 
             if (pricelists != null)
             {

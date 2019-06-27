@@ -194,7 +194,7 @@ namespace PublicTransport.Api.Data
             Add(timetable);
             if (await SaveAll())
             {
-                if (timetable.LineId == 0)
+                if (timetable.Line == null)
                 {
                     var line = await _lineRepository.GetLine(lineId);
                     line.TimetableId = timetable.Id;
@@ -328,9 +328,13 @@ namespace PublicTransport.Api.Data
             return await _lineRepository.GetLine(lineId);
         }
 
-        public async Task<IEnumerable<Line>> GetLines()
+        public async Task<PagedList<Line>> GetLines(UserParams userParams)
         {
-            return await _lineRepository.GetLines();
+            // return await _lineRepository.GetLines();
+
+            var lines = _context.Lines.Include(l => l.Buses).Include(l => l.Stations).ThenInclude(s => s.Station);
+
+            return await PagedList<Line>.CreateAsync(lines, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<NewPricelistDto> GetPricelist(int pricelistId)
@@ -358,9 +362,13 @@ namespace PublicTransport.Api.Data
             return prToRet;
         }
 
-        public async Task<IEnumerable<PricelistItem>> GetPriceListove()
+        public async Task<PagedList<PricelistItem>> GetPriceListove(UserParams userParams)
         {
-            return await _pricelistItemRepository.GetPricelistItems();
+            // return await _pricelistItemRepository.GetPricelistItems();
+
+            var pricelists = _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist);
+
+            return await PagedList<PricelistItem>.CreateAsync(pricelists, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<IEnumerable<PricelistItem>> GetPricelists(bool active, int userId)
@@ -387,14 +395,24 @@ namespace PublicTransport.Api.Data
             return await _stationRepository.GetStation(stationId);
         }
 
-        public async Task<IEnumerable<Station>> GetStations()
+        public async Task<PagedList<Station>> GetStations(UserParams userParams)
         {
-            return await _stationRepository.GetStations();
+            // return await _stationRepository.GetStations();
+
+            var stations = _context.Stations.Include(s => s.Location).Include(s => s.Address)
+                .Include(s => s.StationLines).ThenInclude(st => st.Line);
+
+            return await PagedList<Station>.CreateAsync(stations, userParams.PageNumber, userParams.PageSize);
         }
 
-        public async Task<IEnumerable<Ticket>> GetTickets()
+        public async Task<PagedList<Ticket>> GetTickets(UserParams userParams)
         {
-            return await _ticketRepository.GetTickets();
+            //var tickets = (await _ticketRepository.GetTickets()) as IQueryable<Ticket>;
+
+            var tickets = _context.Tickets.Include(t => t.User).Include(t => t.PriceInfo).ThenInclude(t => t.Item)
+                .Include(t => t.PriceInfo).ThenInclude(t => t.Pricelist);
+
+            return await PagedList<Ticket>.CreateAsync(tickets, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<TimeTable> GetTimetable(int timetableId)
@@ -402,9 +420,14 @@ namespace PublicTransport.Api.Data
             return await _timeTableRepository.GetTimeTable(timetableId);
         }
 
-        public async Task<IEnumerable<TimeTable>> GetTimetableove()
+        public async Task<PagedList<TimeTable>> GetTimetableove(UserParams userParams)
         {
-            return await _timeTableRepository.GetTimeTables();
+            // return await _timeTableRepository.GetTimeTables();
+
+            var timetablse = _context.TimeTables.Include(t => t.Line).ThenInclude(t => t.Stations)
+                .ThenInclude(s => s.Station).Include(t => t.Line).ThenInclude(b => b.Buses);
+
+            return await PagedList<TimeTable>.CreateAsync(timetablse, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<IEnumerable<TimeTable>> GetTimetables(string type, string dayInWeek)
@@ -417,22 +440,24 @@ namespace PublicTransport.Api.Data
             return await _userManager.GetUserById(id);
         }
 
-        public async Task<IEnumerable<User>> GetUsers(string accountStatus)
+        public async Task<PagedList<User>> GetUsers(UserParams userParams, string accountStatus)
         {
             if (accountStatus != null)
             {
-                return await _userManager.Users.Include(u => u.Address)
+                var users = _userManager.Users.Include(u => u.Address)
                     .Include(u => u.Tickets)
                     .ThenInclude(t => t.PriceInfo)
-                    .Where(u => u.AccountStatus == accountStatus)
-                    .ToListAsync();
+                    .Where(u => u.AccountStatus == accountStatus);
+
+                return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
             }
             else
             {
-                return await _userManager.Users.Include(u => u.Address)
+                var users = _userManager.Users.Include(u => u.Address)
                     .Include(u => u.Tickets)
-                    .ThenInclude(t => t.PriceInfo)
-                    .ToListAsync();
+                    .ThenInclude(t => t.PriceInfo);
+
+                return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
             }
         }
 
@@ -878,6 +903,16 @@ namespace PublicTransport.Api.Data
             {
                 return null;
             }
+        }
+
+        public async Task<IEnumerable<Line>> GetLinesForTimetable(string type, string day)
+        {
+            return await _lineRepository.GetLines();
+        }
+
+        public async Task<IEnumerable<Station>> GetAllStations()
+        {
+            return await _stationRepository.GetStations();
         }
     }
 }

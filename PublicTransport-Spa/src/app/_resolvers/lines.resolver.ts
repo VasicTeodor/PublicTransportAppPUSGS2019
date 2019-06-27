@@ -1,19 +1,22 @@
+
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Station } from '../_models/station';
+import { AdminService } from '../_services/admin.service';
+import { Line } from '../_models/line';
 import { UserService } from '../_services/user.service';
-import { TimeTable } from '../_models/timeTable';
 
 @Injectable()
-export class TimetablesResolver implements Resolve<any> {
-    
+export class LinesResolver implements Resolve<Line[]> {
+
     constructor(private router: Router, private alertify: AlertifyService, private userService: UserService) {}
 
-    resolve(route: ActivatedRouteSnapshot): Observable<TimeTable[]> {
+    resolve(route: ActivatedRouteSnapshot): Observable<Line[]> {
         const day = this.getDate();
-        return this.userService.getTimetables('In City', day).pipe(
+        return this.userService.getLines('In City', day).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);

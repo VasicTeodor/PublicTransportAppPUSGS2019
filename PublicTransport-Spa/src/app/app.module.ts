@@ -4,7 +4,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './user/register/register.component';
-import { BsDropdownModule, BsDatepickerModule, ButtonsModule, CollapseModule } from 'ngx-bootstrap';
+import { BsDropdownModule, BsDatepickerModule, ButtonsModule, CollapseModule, PaginationModule } from 'ngx-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { appRoutes } from './routes';
 import { RouterModule } from '@angular/router';
@@ -49,6 +49,9 @@ import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
 import { TimetableListResolver } from './_resolvers/timetableList.resolver';
 import { AgmDirectionModule } from 'agm-direction';
 import { NgxPayPalModule } from 'ngx-paypal';
+import { TimetablesResolver } from './_resolvers/timetables.resolver';
+import { LinesResolver } from './_resolvers/lines.resolver';
+import { StationsResolver } from './_resolvers/stations.resolver';
 
 export function getToken() {
   return localStorage.getItem('token');
@@ -97,6 +100,7 @@ export function getToken() {
       NgxPayPalModule,
       ReactiveFormsModule,
       FileUploadModule,
+      PaginationModule.forRoot(),
       BsDropdownModule.forRoot(),
       BsDatepickerModule.forRoot(),
       ButtonsModule.forRoot(),
@@ -120,7 +124,10 @@ export function getToken() {
      LineListResolver,
      BusListResolver,
      PriceListAdminResolver,
-     TimetableListResolver
+     TimetableListResolver,
+     TimetablesResolver,
+     LinesResolver,
+     StationsResolver
   ],
   bootstrap: [
      AppComponent

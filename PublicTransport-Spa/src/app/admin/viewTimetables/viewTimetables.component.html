@@ -39,5 +39,10 @@
         </tr>
       </tbody>
     </table>
+    <div class="d-flex justify-content-center">
+      <pagination class="my-pagination" [boundaryLinks]="true" [totalItems]="pagination?.totalItems" [(ngModel)]="pagination.currentPage" [itemsPerPage]="pagination.itemsPerPage"
+              (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+              </pagination>
+    </div>
   </div>
 </div>

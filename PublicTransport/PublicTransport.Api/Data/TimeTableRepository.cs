@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Data
@@ -16,12 +17,12 @@ namespace PublicTransport.Api.Data
             this._context = context;
         }
 
-        public async Task<IEnumerable<Line>> GetLines(string type)
+        public async Task<IEnumerable<Line>> GetLines(string type, string day)
         {
             return await (from t in _context.TimeTables
                             join l in _context.Lines
                             on t.Line.Id equals l.Id
-                            where t.Type == type
+                            where t.Type == type  && t.Day == day
                             select new Line
                             {
                                 Id = l.Id,

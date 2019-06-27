@@ -3,6 +3,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { PricelistItem } from 'src/app/_models/pricelistItem';
+import { Pagination, PaginatedResult } from 'src/app/_models/Pagination';
 
 @Component({
   selector: 'app-viewPricelist',
@@ -12,14 +13,30 @@ import { PricelistItem } from 'src/app/_models/pricelistItem';
 export class ViewPricelistComponent implements OnInit {
   isCollapsedPrices = true;
   allPricelists: PricelistItem[];
+  pagination: Pagination
 
   constructor(private adminService: AdminService, private alertify: AlertifyService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.allPricelists = data.pricelists;
+      this.allPricelists = data.pricelists.result;
+      this.pagination = data.pricelists.pagination;
     });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.loadPricelists();
+  }
+
+  loadPricelists() {
+    this.adminService.getPricelists(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<PricelistItem[]>) => {
+      this.allPricelists = res.result;
+      this.pagination = this.pagination;
+    }, error => {
+      this.alertify.error(error);
+    })
   }
 
   removePricelist(pricelistId: number) {

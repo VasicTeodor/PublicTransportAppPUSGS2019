@@ -60,7 +60,7 @@ namespace PublicTransport.Api.Controllers
 
             var timetables = await _publicTransportRepository.GetTimetables(type, day);
 
-            if (timetables.Count() > 0)
+            if (timetables.Count() >= 0)
             {
                 return Ok(timetables);
             }
@@ -71,9 +71,23 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpGet("lines")]
-        public Task<IActionResult> GetLinesForMap()
+        public async Task<IActionResult> GetLinesForMap([FromQuery]string type = "In City", [FromQuery]string day = null)
         {
-            throw new NotImplementedException();
+            if (day == null)
+            {
+                day = DateTime.Now.GetTimetableForToday();
+            }
+
+            var timetables = await _publicTransportRepository.GetLinesForTimetable(type, day);
+
+            if (timetables.Count() >= 0)
+            {
+                return Ok(timetables);
+            }
+            else
+            {
+                return BadRequest("Error while getting timetables.");
+            }
         }
     }
 }

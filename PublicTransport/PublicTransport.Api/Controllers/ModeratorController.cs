@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PublicTransport.Api.Data;
+using PublicTransport.Api.Helpers;
 using PublicTransport.Api.Models;
 
 namespace PublicTransport.Api.Controllers
@@ -30,9 +31,11 @@ namespace PublicTransport.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTickets()
+        public async Task<IActionResult> GetTickets([FromQuery]UserParams userParams)
         {
-            var tickets = await _publicTransportRepository.GetTickets();
+            var tickets = await _publicTransportRepository.GetTickets(userParams);
+
+            Response.AddPagination(tickets.CurrentPage, tickets.PageSize, tickets.TotalCount, tickets.TotalPages);
 
             if (tickets != null)
             {

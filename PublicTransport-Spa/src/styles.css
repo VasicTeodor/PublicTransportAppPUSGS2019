@@ -14,3 +14,41 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+/* PAGINATION */
+.pagination > li > a {
+    background-color: rgb(59, 59, 59);
+    color: white;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover {
+    color: rgb(17, 17, 17);
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > .page-link {
+    color: white;
+    background: rgb(51, 50, 50);
+    background-color: rgb(46, 44, 44);
+    border: solid 1px black;
+}
+
+.pagination > .active > .page-link:hover {
+    background-color: rgb(73, 68, 68);
+    background: rgb(87, 83, 83);
+    border: solid 1px black;
+}
+
+.pagination > .disabled > .page-link {
+    background-color: rgb(88, 88, 88);
+    color: white;
+}
+
+.pagination > .disabled > .page-link:hover,
+.pagination > .disabled > .page-link:focus {
+    background-color: gray;
+    color: white;
+}

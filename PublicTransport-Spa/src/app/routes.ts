@@ -31,14 +31,17 @@ import { LineListResolver } from './_resolvers/lineList.resolver';
 import { BusListResolver } from './_resolvers/busList.resolver';
 import { PriceListAdminResolver } from './_resolvers/priceListAdmin.resolver';
 import { TimetableListResolver } from './_resolvers/timetableList.resolver';
+import { TimetablesResolver } from './_resolvers/timetables.resolver';
+import { LinesResolver } from './_resolvers/lines.resolver';
+import { StationsResolver } from './_resolvers/stations.resolver';
 
 
 export const appRoutes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
     {path: 'register', component: RegisterComponent},
-    {path: 'timetable', component: TimetableComponent, resolve: {timetables: TimetableListResolver, lines: LineListResolver}},
-    {path: 'map', component: MapComponent, resolve: {lines: LineListResolver, stations: StationListResolver}},
+    {path: 'timetable', component: TimetableComponent, resolve: {timetables: TimetablesResolver, lines: LinesResolver}},
+    {path: 'map', component: MapComponent, resolve: {lines: LinesResolver, stations: StationsResolver}},
     {path: 'tickets', component: TicketsComponent, resolve: {pricelists: TicketResolver}},
     {path: 'pricelist', component: PricelistComponent, resolve: {allPricelists: PricelistResolver}},
     {path: 'updateAccount', runGuardsAndResolvers: 'always',
@@ -48,17 +51,17 @@ export const appRoutes: Routes = [
     {path: 'ticketVerification', runGuardsAndResolvers: 'always',
     canActivate: [ControllerGuard], component: TicketVerificationComponent, resolve: {tickets: TicketVerificationResolver}},
     {path: 'newLine', component: NewLineComponent, runGuardsAndResolvers: 'always',
-    canActivate: [AdminGuard], resolve: {stations: StationListResolver, busses: BusListResolver}},
+    canActivate: [AdminGuard], resolve: {stations: StationsResolver, busses: BusListResolver}},
     {path: 'viewLines', component: ViewLinesComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
     {path: 'newStation', component: NewStationComponent, runGuardsAndResolvers: 'always',
-    canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
+    canActivate: [AdminGuard], resolve: {lines: LinesResolver}},
     {path: 'viewStations', component: ViewStationsComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {stations: StationListResolver}},
     {path: 'newTimetable', component: NewTimetableComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
     {path: 'viewTimetables', component: ViewTimetablesComponent, runGuardsAndResolvers: 'always',
-    canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver, lines: LineListResolver}},
+    canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver, lines: LinesResolver}},
     {path: 'viewPricelist', component: ViewPricelistComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {pricelists: PriceListAdminResolver}},
     {path: 'newPricelist', component: NewPricelistComponent, runGuardsAndResolvers: 'always',

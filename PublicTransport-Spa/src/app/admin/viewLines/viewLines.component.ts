@@ -3,6 +3,7 @@ import { Line } from 'src/app/_models/line';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
+import { Pagination, PaginatedResult } from 'src/app/_models/Pagination';
 
 @Component({
   selector: 'app-viewLines',
@@ -13,14 +14,30 @@ export class ViewLinesComponent implements OnInit {
   isCollapsedStations = true;
   isCollapsedBuses = true;
   allLines: Line[];
+  pagination: Pagination;
 
   constructor(private adminService: AdminService, private alertify: AlertifyService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.allLines = data.lines;
+      this.allLines = data.lines.result;
+      this.pagination = data.lines.pagination;
     });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.loadLines();
+  }
+
+  loadLines() {
+    this.adminService.getLines(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Line[]>) => {
+      this.allLines = res.result;
+      this.pagination = this.pagination;
+    }, error => {
+      this.alertify.error(error);
+    })
   }
 
   deleteLine(lineId: number) {

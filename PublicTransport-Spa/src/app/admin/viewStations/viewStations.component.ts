@@ -3,6 +3,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { Station } from 'src/app/_models/station';
+import { Pagination, PaginatedResult } from 'src/app/_models/Pagination';
 
 @Component({
   selector: 'app-viewStations',
@@ -12,14 +13,30 @@ import { Station } from 'src/app/_models/station';
 export class ViewStationsComponent implements OnInit {
   isCollapsed = true;
   allStations: Station[];
+  pagination: Pagination;
 
   constructor(private adminService: AdminService, private alertify: AlertifyService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
-      this.allStations = data.stations;
+      this.allStations = data.stations.result;
+      this.pagination = data.stations.pagination;
     });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.loadStations();
+  }
+
+  loadStations() {
+    this.adminService.getStations(this.pagination.currentPage, this.pagination.itemsPerPage).subscribe((res: PaginatedResult<Station[]>) => {
+      this.allStations = res.result;
+      this.pagination = this.pagination;
+    }, error => {
+      this.alertify.error(error);
+    })
   }
 
   deleteStation(stationId: number) {

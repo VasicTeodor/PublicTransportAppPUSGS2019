@@ -9,12 +9,12 @@ import { PricelistItem } from '../_models/pricelistItem';
 @Injectable()
 export class PriceListAdminResolver implements Resolve<PricelistItem[]> {
     pageNumber = 1;
-    pageSize = 5;
+    pageSize = 8;
 
     constructor(private router: Router, private alertify: AlertifyService, private adminService: AdminService) {}
 
     resolve(route: ActivatedRouteSnapshot): Observable<PricelistItem[]> {
-        return this.adminService.getPricelists().pipe(
+        return this.adminService.getPricelists(this.pageNumber, this.pageSize).pipe(
             catchError(error => {
                 this.alertify.error('Problem retrieving data');
                 this.router.navigate(['/home']);

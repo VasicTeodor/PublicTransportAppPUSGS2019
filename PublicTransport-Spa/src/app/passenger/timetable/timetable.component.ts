@@ -9,6 +9,9 @@ import { Station } from 'src/app/_models/station';
 import { SignalRService } from 'src/app/_services/signal-r.service';
 import { HttpClient } from '@angular/common/http';
 import { BusLocation } from 'src/app/_models/busLocation';
+import { UserService } from 'src/app/_services/user.service';
+import { Observable } from 'rxjs';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-timetable',
@@ -18,9 +21,9 @@ import { BusLocation } from 'src/app/_models/busLocation';
 })
 export class TimetableComponent implements OnInit, OnDestroy {
   allTimetables: TimeTable[];
-  allLines: Line[];
-  day: string;
-  type: string;
+  allLines: Line[] = new Array<Line>();
+  day: string = 'Working day';
+  type: string = 'In City';
   selectedLine: number;
   line: Line;
   timetable= {} as TimeTable;
@@ -42,28 +45,47 @@ export class TimetableComponent implements OnInit, OnDestroy {
     }
   };
 
-
-  constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router,
-              public signalRService: SignalRService, private http: HttpClient) { }
+  constructor(private alertify: AlertifyService, private router: ActivatedRoute, private route: Router, private adminService: AdminService,
+              public signalRService: SignalRService, private http: HttpClient, private userService: UserService) { }
 
   ngOnInit() {
     this.router.data.subscribe(data => {
       this.allTimetables = data.timetables;
-      this.allLines = data.lines;
+      this.allTimetables.forEach(timetable => {
+        this.allLines.push(data.lines.find(l => l.id === timetable.lineId));
+      });
       this.signalRService.startConnection();
       const busLocationObservable = this.signalRService.addTransferBusLocationListener();
         busLocationObservable.subscribe((locationData: BusLocation) => {
-          // console.log('linija: ' + this.selectedLine + 'dobijena linija: ' + locationData.lineId);
           if (locationData.lineId == this.selectedLine) {
-            // console.log('Primljena linija je: ' + locationData.lineId);
             this.busLocation = locationData;
           }
         });
   });
 
-    this.day = 'Working day';
+    this.day = this.getDate();
     this.type = 'In City';
   }
+
+  private getDate(): string {
+    let result = '';
+    var d = new Date();
+    var day = d.getDay();
+
+    switch (day) {
+        case 6:
+            result = 'Saturday';
+            break;
+        case 7:
+            result = 'Sunday';
+            break;
+        default:
+            result = 'Working day'
+            break;
+    }
+
+    return result;
+}
 
   ngOnDestroy() {
     this.signalRService.stopConnection();
@@ -76,12 +98,31 @@ export class TimetableComponent implements OnInit, OnDestroy {
       })
   }
 
+  private getTimetables() {
+    this.userService.getTimetables(this.type, this.day).subscribe(next => {
+      this.allTimetables = next;
+      this.userService.getLines().subscribe(next => {
+        this.allLines.splice(0, this.allLines.length);
+      this.allTimetables.forEach(timetable => {
+        const lines = next;
+        this.allLines.push(lines.find(l => l.id === timetable.lineId));
+      });
+      }, error => {
+        this.alertify.error(error);
+      })
+    }, error => {
+      this.alertify.error(error);
+    })
+  }
+
   dayChanged(day: string) {
     this.day = day;
+    this.getTimetables();
   }
 
   typeChanged(type: string) {
     this.type = type;
+    this.getTimetables();
   }
 
   lineChanged(id: number) {

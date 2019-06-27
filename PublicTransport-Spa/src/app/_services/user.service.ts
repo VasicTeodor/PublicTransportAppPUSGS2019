@@ -8,6 +8,9 @@ import { PricelistItem } from '../_models/pricelistItem';
 import { UserRegister } from '../_models/userRegister';
 import { User } from '../_models/user';
 import { AllPricelists } from '../_models/allPricelists';
+import { PaginatedResult } from '../_models/Pagination';
+import { TimeTable } from '../_models/timeTable';
+import { Line } from '../_models/line';
 
 @Injectable({
   providedIn: 'root'
@@ -34,8 +37,23 @@ getUser(id): Observable<User> {
   return this.http.get<User>(this.baseUrl + 'user/' + id);
 }
 
-getUsers(): Observable<User[]> {
-  return this.http.get<User[]>(this.baseUrl + 'user/');
+getUsers(page?, itemsPerPage?): Observable<PaginatedResult<User[]>> {
+  const paginatedResult: PaginatedResult<User[]> = new PaginatedResult<User[]>();
+
+  let params = new HttpParams()
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<User[]>(this.baseUrl + 'user/', {observe: 'response', params}).pipe(map(response => {
+    paginatedResult.result = response.body;
+    if (response.headers.get('Pagination') != null) {
+      paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+    }
+    return paginatedResult;
+  }));;
 }
 
 updateAccount(user: UserRegister, id: number) {
@@ -63,5 +81,19 @@ buyTicketPayPal(ticketType, userId, email) {
     })
   };
   return this.http.get(this.baseUrl + 'paypal/create?ticketType=' + ticketType + "&userId=" + userId + "&email=" + email, httpOptions);
+}
+
+getTimetables(type?: string, day?: string) {
+  let params = new HttpParams();
+  params = params.append('type', type);
+  params = params.append('day', day);
+  return this.http.get<TimeTable[]>(this.baseUrl + 'publictransport/timetables', {params});
+}
+
+getLines(type?: string, day?: string) {
+  let params = new HttpParams();
+  params = params.append('type', type);
+  params = params.append('day', day);
+  return this.http.get<Line[]>(this.baseUrl + 'publictransport/lines', {params});
 }
 }

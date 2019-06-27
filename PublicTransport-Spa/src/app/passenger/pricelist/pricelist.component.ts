@@ -16,11 +16,7 @@ export class PricelistComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.allPrices = data.allPricelists;
-      console.log(data.allPricelists);
     });
-    console.table(this.allPrices.regularUserPricelist);
-    console.table(this.allPrices.studentPricelist);
-    console.table(this.allPrices.seniorPricelist);
   }
 
 }
