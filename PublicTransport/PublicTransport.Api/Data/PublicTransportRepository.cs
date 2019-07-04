@@ -339,14 +339,15 @@ namespace PublicTransport.Api.Data
 
         public async Task<NewPricelistDto> GetPricelist(int pricelistId)
         {
-            var priceHourly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Hourly" && pr.Pricelist.Active);
-            var priceDaily = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Daily" && pr.Pricelist.Active);
-            var priceMonthly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Monthly" && pr.Pricelist.Active);
-            var priceAnnual = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Annual" && pr.Pricelist.Active);
+            var pricelistIdDb = (await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Id == pricelistId)).Pricelist.Id;
+            var priceHourly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Hourly" && pr.Pricelist.Id == pricelistIdDb);
+            var priceDaily = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Daily" && pr.Pricelist.Id == pricelistIdDb);
+            var priceMonthly = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Monthly" && pr.Pricelist.Id == pricelistIdDb);
+            var priceAnnual = await _context.PricelistItems.Include(pr => pr.Item).Include(pr => pr.Pricelist).FirstOrDefaultAsync(pr => pr.Item.Type == "Annual" && pr.Pricelist.Id == pricelistIdDb);
 
             var prToRet = new NewPricelistDto
             {
-                Active = true,
+                Active = priceHourly.Pricelist.Active,
                 From = priceHourly.Pricelist.From,
                 To = priceHourly.Pricelist.To,
                 IdHourly = priceHourly.Id,
