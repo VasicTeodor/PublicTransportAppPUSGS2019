@@ -152,6 +152,10 @@ export class TimetableComponent implements OnInit, OnDestroy {
     this.timetable.line = this.line;
     this.timetable.departures = "";
 
+    this.departures.forEach(departure => {
+      departure.description = '';
+    });
+
     this.allTimetables.forEach(tmtable => {
       if (tmtable.day === this.day && tmtable.type === this.type && tmtable.lineId === this.line.id)
       {
