@@ -59,7 +59,7 @@ export const appRoutes: Routes = [
     {path: 'viewStations', component: ViewStationsComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {stations: StationListResolver}},
     {path: 'newTimetable', component: NewTimetableComponent, runGuardsAndResolvers: 'always',
-    canActivate: [AdminGuard], resolve: {lines: LineListResolver}},
+    canActivate: [AdminGuard], resolve: {lines: LinesResolver}},
     {path: 'viewTimetables', component: ViewTimetablesComponent, runGuardsAndResolvers: 'always',
     canActivate: [AdminGuard], resolve: {timetables: TimetableListResolver, lines: LinesResolver}},
     {path: 'viewPricelist', component: ViewPricelistComponent, runGuardsAndResolvers: 'always',

@@ -58,13 +58,11 @@ export class MapComponent implements OnInit {
   }
 
   initializeRoutes() {
-    console.table(this.allLines);
     this.allLines.forEach(element => {
       if (element.stations !== null || element.stations !== undefined || element.stations.length > 0) {
         let dir = new Directions();
         dir.waypoints = new Array<any>();
         if (element.stations[0] !== undefined) {
-          console.log(element.stations[0]);
           dir.origin = {lat: element.stations[0].station.location.x, lng: element.stations[0].station.location.y};
           dir.destination = {lat: element.stations[element.stations.length - 1].station.location.x,
              lng: element.stations[element.stations.length - 1].station.location.y};
@@ -75,8 +73,6 @@ export class MapComponent implements OnInit {
         }
       }
     });
-
-    console.log(this.allDir);
   }
 
 }

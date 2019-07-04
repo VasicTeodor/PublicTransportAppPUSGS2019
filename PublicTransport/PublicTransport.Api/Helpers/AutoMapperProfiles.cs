@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using PayPal.Api;
 using PublicTransport.Api.Dtos;
 using PublicTransport.Api.Models;
 using System;
@@ -104,6 +105,33 @@ namespace PublicTransport.Api.Helpers
                     opt => { opt.MapFrom(src => src.Line); })
                 .ForMember(dest => dest.LineId,
                         opt => { opt.MapFrom(src => src.Line.Id); });
+            CreateMap<Payment, PayPalInfo>()
+                .ForMember(dest => dest.PayerEmail,
+                opt => { opt.MapFrom(src => src.payer.payer_info.email); })
+                .ForMember(dest => dest.PayerFirstName,
+                opt => { opt.MapFrom(src => src.payer.payer_info.first_name); })
+                .ForMember(dest => dest.PayerLastName,
+                opt => { opt.MapFrom(src => src.payer.payer_info.last_name); })
+                .ForMember(dest => dest.PayerId,
+                opt => { opt.MapFrom(src => src.payer.payer_info.payer_id); })
+                .ForMember(dest => dest.PayerAccountStatus,
+                opt => { opt.MapFrom(src => src.payer.status); })
+                .ForMember(dest => dest.Status,
+                opt => { opt.MapFrom(src => src.state); })
+                .ForMember(dest => dest.Time,
+                opt => { opt.MapFrom(src => src.create_time); })
+                .ForMember(dest => dest.Total,
+                opt => { opt.MapFrom(src => src.transactions[0].amount.total); })
+                .ForMember(dest => dest.Currency,
+                opt => { opt.MapFrom(src => src.transactions[0].amount.currency); })
+                .ForMember(dest => dest.PaymentMethod,
+                opt => { opt.MapFrom(src => src.payer.payment_method); })
+                .ForMember(dest => dest.UserId,
+                opt => { opt.Ignore(); })
+                .ForMember(dest => dest.TableVersion,
+                opt => { opt.Ignore(); })
+                .ForMember(dest => dest.Id,
+                opt => { opt.Ignore(); });
         }
     }
 }

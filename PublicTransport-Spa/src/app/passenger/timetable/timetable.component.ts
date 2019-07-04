@@ -56,7 +56,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
       });
       this.signalRService.startConnection();
       const busLocationObservable = this.signalRService.addTransferBusLocationListener();
-        busLocationObservable.subscribe((locationData: BusLocation) => {
+      busLocationObservable.subscribe((locationData: BusLocation) => {
           if (locationData.lineId == this.selectedLine) {
             this.busLocation = locationData;
           }
@@ -69,8 +69,8 @@ export class TimetableComponent implements OnInit, OnDestroy {
 
   private getDate(): string {
     let result = '';
-    var d = new Date();
-    var day = d.getDay();
+    let d = new Date();
+    let day = d.getDay();
 
     switch (day) {
         case 6:
@@ -102,8 +102,9 @@ export class TimetableComponent implements OnInit, OnDestroy {
     this.userService.getTimetables(this.type, this.day).subscribe(next => {
       this.allTimetables = next;
       this.userService.getLines().subscribe(next => {
+        console.log(next);
         this.allLines.splice(0, this.allLines.length);
-      this.allTimetables.forEach(timetable => {
+        this.allTimetables.forEach(timetable => {
         const lines = next;
         this.allLines.push(lines.find(l => l.id === timetable.lineId));
       });

@@ -4,7 +4,7 @@
       <table class="table table-dark moiClassTimeTable" style="font-size: 16px">
         <thead>
           <tr>
-            <th scope="col" colspan="4" style="font-size: 20px">New Line</th>
+            <th scope="col" colspan="4"><h4>New Line</h4></th>
           </tr>
           <tr>
             <th colspan="4" scope="col">&nbsp;</th>
@@ -79,26 +79,15 @@
               <button *ngIf="editingLine" class="btn btn-default moiClassButton" type="submit">Update Line</button>
             </th>
           </tr>
-          <tr>
-            <td colspan="7">&nbsp;</td>
-          </tr>
-          <tr>
-            <td colspan="7" class="text-center">
-              <h4 class="my-4">Add new bus:</h4>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="7">&nbsp;</td>
-          </tr>
         </tbody>
       </table>
     </form>
   </div>
 </div>
 <div class="row moiClassView p-2 m-0 justify-content-center text-center bg-dark" style="font-size: 14px">
-  
   <form #busForm="ngForm" (ngSubmit)="addNewBus()" class="form-signin">
-    <input type="number" name="busNum" id="inputBusNumber" class="form-control" placeholder="Bus number" required autofocus [(ngModel)]="model.busNumber">
+    <label for="inputBusNumber" class="text-white font-weight-bold"><h4>Add New Bus:</h4></label>
+    <input type="number" name="inputBusNumber" id="inputBusNumber" class="form-control" placeholder="Bus number" required autofocus [(ngModel)]="model.busNumber">
     <br>
     <button [disabled]="!busForm.valid" class="btn btn-default moiClassButton" type="submit">Add bus</button>
 </form>

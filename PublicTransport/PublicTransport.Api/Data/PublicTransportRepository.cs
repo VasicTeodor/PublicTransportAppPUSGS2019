@@ -914,5 +914,12 @@ namespace PublicTransport.Api.Data
         {
             return await _stationRepository.GetStations();
         }
+
+        public async Task<bool> SavePayPalPayementInfo(PayPalInfo payPalInfo)
+        {
+            Add<PayPalInfo>(payPalInfo);
+
+            return await SaveAll();
+        }
     }
 }

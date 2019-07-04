@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Threading.Tasks;
+using AutoMapper;
 using PayPal.Api;
 using PublicTransport.Api.Models;
 using Item = PayPal.Api.Item;
@@ -12,6 +13,7 @@ namespace PublicTransport.Api.Data
     public class PayPalService : IPayPalService
     {
         private readonly IPublicTransportRepository _publicTransportRepository;
+        private readonly IMapper _mapper;
         private string _accessToken;
 
         public string Token
@@ -21,9 +23,10 @@ namespace PublicTransport.Api.Data
         }
 
 
-        public PayPalService(IPublicTransportRepository publicTransportRepository)
+        public PayPalService(IPublicTransportRepository publicTransportRepository, IMapper mapper)
         {
             _publicTransportRepository = publicTransportRepository;
+            _mapper = mapper;
         }
         public async Task<Payment> CreatePayment(string ticketType, int userId = -1, string email = null)
         {
@@ -120,6 +123,13 @@ namespace PublicTransport.Api.Data
             Payment executedPayment = await Task.Run(() => payment.Execute(apiContext, paymentExecution));
 
             var result = await _publicTransportRepository.BuyTicketAsync(ticketType, userId, email);
+
+            var payPalInfo = _mapper.Map<PayPalInfo>(executedPayment);
+
+            payPalInfo.UserId = userId;
+
+            var payPalSaveResult = await _publicTransportRepository.SavePayPalPayementInfo(payPalInfo);
+
             return executedPayment;
         }
 

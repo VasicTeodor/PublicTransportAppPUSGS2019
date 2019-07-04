@@ -51,5 +51,6 @@ namespace PublicTransport.Api.Data
         Task<PricelistItem> GetTicketPrice(string ticketType);
         Task<IEnumerable<Line>> GetLinesForTimetable(string type, string day);
         Task<IEnumerable<Station>> GetAllStations();
+        Task<bool> SavePayPalPayementInfo(PayPalInfo payPalInfo);
     }
 }

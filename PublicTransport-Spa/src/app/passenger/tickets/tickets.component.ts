@@ -29,7 +29,6 @@ export class TicketsComponent implements OnInit {
 
   ngOnInit() {
     const success = this.route.snapshot.paramMap.get('success');
-    console.log(success);
     if (success != null) {
       if (+success === 1) {
         this.alertify.success('Ticket bought successfuly via PayPal.')
@@ -50,8 +49,6 @@ export class TicketsComponent implements OnInit {
       console.log(res);
     }, error => {
       this.alertify.error(error);
-    }, () => {
-      console.log('Ovo odradi i posel errora i  poslse uspeha');
     });
   }
 
@@ -88,7 +85,6 @@ export class TicketsComponent implements OnInit {
 
     if (this.loggedIn()) {
       this.userService.buyTicketPayPal(ticketType, this.authService.decodedToken.nameid, null).subscribe(next => {
-        console.log(next);
         const address = next as PaypalHelper;
         window.location.href = address.address;
         this.alertify.message('Redirecting to PayPal');
@@ -98,7 +94,6 @@ export class TicketsComponent implements OnInit {
     } else {
       if (this.email !== null && re.test(this.email)) {
         this.userService.buyTicketPayPal(ticketType, -1, this.email).subscribe(next => {
-          console.log(next);
           const address = next as PaypalHelper;
           window.location.href = address.address;
           this.alertify.message('Redirecting to PayPal');
@@ -115,7 +110,7 @@ export class TicketsComponent implements OnInit {
     this.payPalConfig = {
       currency: 'EUR',
       clientId: environment.clientId,
-      createOrderOnClient: (data) => <ICreateOrderRequest>{
+      createOrderOnClient: (data) => <ICreateOrderRequest> {
         intent: 'CAPTURE',
         purchase_units: [
           {
