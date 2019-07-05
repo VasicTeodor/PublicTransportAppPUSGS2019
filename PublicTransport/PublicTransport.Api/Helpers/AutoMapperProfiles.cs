@@ -126,6 +126,8 @@ namespace PublicTransport.Api.Helpers
                 opt => { opt.MapFrom(src => src.transactions[0].amount.currency); })
                 .ForMember(dest => dest.PaymentMethod,
                 opt => { opt.MapFrom(src => src.payer.payment_method); })
+                .ForMember(dest => dest.PaymentId,
+                opt => { opt.MapFrom(src => src.id); })
                 .ForMember(dest => dest.UserId,
                 opt => { opt.Ignore(); })
                 .ForMember(dest => dest.TableVersion,

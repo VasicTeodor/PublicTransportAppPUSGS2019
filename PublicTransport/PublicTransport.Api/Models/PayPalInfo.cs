@@ -20,6 +20,7 @@ namespace PublicTransport.Api.Models
         public string Time { get; set; }
         public string Currency { get; set; }
         public string Total { get; set; }
+        public string PaymentId { get; set; }
         [Timestamp]
         public byte[] TableVersion { get; set; }
     }
