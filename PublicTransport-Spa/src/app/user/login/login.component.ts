@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/home']);
       this.modalRef.hide();
     }, error => {
-      this.alertify.error(error);
+      this.alertify.error('Failed to login');
     }, () => {
       console.log('This is where magic happens!');
     });

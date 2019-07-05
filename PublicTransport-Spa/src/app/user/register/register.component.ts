@@ -4,6 +4,7 @@ import { BsDatepickerConfig, BsModalRef } from 'ngx-bootstrap';
 import { AuthService } from 'src/app/_services/auth.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { UserRegister } from 'src/app/_models/userRegister';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -17,7 +18,7 @@ export class RegisterComponent implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
 
   constructor(private authService: AuthService, private fb: FormBuilder, private alertify: AlertifyService,
-              public modalRef: BsModalRef) { }
+              public modalRef: BsModalRef, private router: Router) { }
 
   ngOnInit() {
     this.bsConfig = {
@@ -59,6 +60,7 @@ export class RegisterComponent implements OnInit {
         model.password = this.user.password;
         model.email = this.user.email;
         this.authService.login(model).subscribe(() => {
+          this.router.navigate(['/home']);
           console.log('logged in');
         });
       });
