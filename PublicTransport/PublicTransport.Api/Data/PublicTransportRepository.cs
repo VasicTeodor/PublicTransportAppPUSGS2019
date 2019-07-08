@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
@@ -384,7 +382,10 @@ namespace PublicTransport.Api.Data
 
                 foreach (var pricelistItem in pricelist)
                 {
-                    pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)discount.Value);
+                    if (discount.Value != 0)
+                    {
+                        pricelistItem.Price = pricelistItem.Price - (pricelistItem.Price / (decimal)discount.Value);
+                    }
                 }
             }
 
