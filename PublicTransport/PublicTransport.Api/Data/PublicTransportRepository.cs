@@ -248,7 +248,17 @@ namespace PublicTransport.Api.Data
                     };
 
                     Add(newTicket);
-                    return await SaveAll();
+                    var result = await SaveAll();
+
+                    if (result)
+                    {
+                        EmailService.SendEmail($"You have successfuly bought {newTicket.TicketType} ticket.", email);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -917,11 +927,73 @@ namespace PublicTransport.Api.Data
             return await _stationRepository.GetStations();
         }
 
-        public async Task<bool> SavePayPalPayementInfo(PayPalInfo payPalInfo)
+        public async Task<bool> SavePayPalPayementInfo(PayPalInfo payPalInfo, string ticketType, int userId = -1, string email = null)
         {
-            Add<PayPalInfo>(payPalInfo);
+            if (userId == -1 && email != null)
+            {
+                PricelistItem prInfo = await _pricelistItemRepository.GetPriceListItemForTicketType(ticketType);
+                Ticket newTicket = new Ticket()
+                {
+                    IsValid = true,
+                    TicketType = ticketType,
+                    PriceInfo = prInfo,
+                    DateOfIssue = DateTime.Now
+                };
 
-            return await SaveAll();
+                Add(newTicket);
+                var result = await SaveAll();
+
+                if (result)
+                {
+                    payPalInfo.TicketId = newTicket.Id;
+                    Add<PayPalInfo>(payPalInfo);
+
+                    await SaveAll();
+                    EmailService.SendEmail("You have successfuly bought hourly ticket.", email);
+                    return true;
+                }
+
+                return false;
+            }
+
+            if (userId != -1)
+            {
+                var userFromDatabase = await _userManager.GetUserById(userId);
+                if (userFromDatabase.Verified == true)
+                {
+                    PricelistItem prInfo = await _pricelistItemRepository.GetPriceListItemForTicketType(ticketType);
+                    Ticket newTicket = new Ticket()
+                    {
+                        User = userFromDatabase,
+                        IsValid = true,
+                        TicketType = ticketType,
+                        PriceInfo = prInfo,
+                        DateOfIssue = DateTime.Now
+                    };
+
+                    Add(newTicket);
+
+                    await SaveAll();
+
+                    payPalInfo.TicketId = newTicket.Id;
+                    Add<PayPalInfo>(payPalInfo);
+
+                    var result = await SaveAll();
+
+                    if (result)
+                    {
+                        EmailService.SendEmail($"You have successfuly bought {newTicket.TicketType} ticket.", email);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return false;
+            
         }
     }
 }

@@ -9,6 +9,7 @@ namespace PublicTransport.Api.Models
     public class PayPalInfo
     {
         public int Id { get; set; }
+        public int TicketId { get; set; }
         public int UserId { get; set; }
         public string PayerEmail { get; set; }
         public string PayerId { get; set; }

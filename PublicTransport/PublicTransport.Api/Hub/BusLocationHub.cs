@@ -18,7 +18,7 @@ namespace PublicTransport.Api.Hub
         private IHubContext<BusLocationHub> _hub;
         private DateTime _timeStarted;
 
-    public DateTime TimeStarted
+        public DateTime TimeStarted
         {
             get => _timeStarted;
             set

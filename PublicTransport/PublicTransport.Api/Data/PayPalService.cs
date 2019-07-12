@@ -122,13 +122,11 @@ namespace PublicTransport.Api.Data
 
             Payment executedPayment = await Task.Run(() => payment.Execute(apiContext, paymentExecution));
 
-            var result = await _publicTransportRepository.BuyTicketAsync(ticketType, userId, email);
-
             var payPalInfo = _mapper.Map<PayPalInfo>(executedPayment);
 
             payPalInfo.UserId = userId;
 
-            var payPalSaveResult = await _publicTransportRepository.SavePayPalPayementInfo(payPalInfo);
+            var payPalSaveResult = await _publicTransportRepository.SavePayPalPayementInfo(payPalInfo, ticketType, userId, email);
 
             return executedPayment;
         }
