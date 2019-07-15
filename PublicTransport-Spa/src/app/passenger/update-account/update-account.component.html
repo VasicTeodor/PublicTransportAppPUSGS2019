@@ -7,6 +7,9 @@
     <div class="row jumbotron-fluid justify-content-center" style="color: orange">
       <h6>Account Status: {{user.accountStatus}}</h6>
     </div>
+    <div *ngIf="!user.verified" class="row jumbotron-fluid justify-content-center" style="color: orange">
+      <h4 class="text-danger"><i class="fa fa-exclamation text-danger"></i> Please upload your document! <i class="fa fa-exclamation text-danger"></i></h4>
+    </div>
     <div class="row moiClassRegisterBg">
       <div class="col">
         <form [formGroup]="updateForm" (ngSubmit)="updateAccount()">

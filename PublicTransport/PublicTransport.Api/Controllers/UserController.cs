@@ -83,6 +83,7 @@ namespace PublicTransport.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAccount(int id,UserForUpdateDto userForUpdateDto)
         {
+            bool userTypeChanged = false;
             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             {
                 return Unauthorized();
@@ -90,7 +91,16 @@ namespace PublicTransport.Api.Controllers
 
             var userFromRepo = await _publicTransportRepository.GetUser(id);
 
+            if (!userFromRepo.UserType.Equals(userForUpdateDto.UserType))
+                userTypeChanged = true;
+
             _mapper.Map(userForUpdateDto, userFromRepo);
+
+            if (userTypeChanged)
+            {
+                userFromRepo.AccountStatus = "Pending activation";
+                userFromRepo.Verified = false;
+            }
 
             var result = await _userManager.UpdateAsync(userFromRepo);
             

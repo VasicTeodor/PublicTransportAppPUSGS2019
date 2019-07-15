@@ -54,7 +54,8 @@ export class RegisterComponent implements OnInit {
         this.alertify.success('Successfull registration');
         this.modalRef.hide();
       }, error => {
-        this.alertify.error(error);
+        console.log(error);
+        this.alertify.error(error.error[0].description);
       }, () => {
         const model: any = {};
         model.password = this.user.password;

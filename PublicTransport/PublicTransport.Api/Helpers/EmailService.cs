@@ -17,20 +17,27 @@ namespace PublicTransport.Api.Helpers
                 Credentials = new NetworkCredential("tranda96srk@gmail.com", "??????")
             };
 
-            using (var message = new MailMessage("tranda96srk@gmail.com", toEmail)
+            try
             {
-                Subject = "Public Transport - Ticket",
-                Body = text
-            })
+                using (var message = new MailMessage("tranda96srk@gmail.com", toEmail)
+                {
+                    Subject = "Public Transport - Ticket",
+                    Body = text
+                })
+                {
+                    try
+                    {
+                        await smtpClient.SendMailAsync(message);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine($"Error while sedding mail: {e.Message}");
+                    }
+                }
+            }
+            catch (Exception e)
             {
-                try
-                {
-                    await smtpClient.SendMailAsync(message);
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine($"Error while sedding mail: {e.Message}");
-                }
+                Trace.WriteLine(e);
             }
         }
     }

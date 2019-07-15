@@ -41,7 +41,15 @@ namespace PublicTransport.Api.Controllers
         {
             var userToCreate = _mapper.Map<User>(userForRegisterDto);
 
-            userToCreate.AccountStatus = "Pending activation";
+            if (userToCreate.UserType.Equals("regular"))
+            {
+                userToCreate.AccountStatus = "Active";
+                userToCreate.Verified = true;
+            }
+            else
+            {
+                userToCreate.AccountStatus = "Pending activation";
+            }
             userToCreate.DateOfBirth = userToCreate.DateOfBirth.AddDays(1);
 
             var result = await _userManager.CreateAsync(userToCreate, userForRegisterDto.Password);

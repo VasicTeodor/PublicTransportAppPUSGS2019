@@ -76,7 +76,7 @@ export class TimetableComponent implements OnInit, OnDestroy {
         case 6:
             result = 'Saturday';
             break;
-        case 7:
+        case 0:
             result = 'Sunday';
             break;
         default:

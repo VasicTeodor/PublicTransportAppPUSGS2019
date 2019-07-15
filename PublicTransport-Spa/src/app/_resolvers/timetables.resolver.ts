@@ -31,14 +31,14 @@ export class TimetablesResolver implements Resolve<any> {
             case 6:
                 result = 'Saturday';
                 break;
-            case 7:
+            case 0:
                 result = 'Sunday';
                 break;
             default:
                 result = 'Working day'
                 break;
         }
-
+        
         return result;
     }
 }

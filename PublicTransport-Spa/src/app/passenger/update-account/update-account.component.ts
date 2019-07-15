@@ -30,15 +30,13 @@ export class UpdateAccountComponent implements OnInit {
               private route: ActivatedRoute, private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    console.log('00USao ovde');
     this.route.data.subscribe(data => {
       this.user = data.user;
     });
-    console.log(this.user);
     this.bsConfig = {
       containerClass: 'theme-orange'
     };
-    //this.createRegiserForm();
+
     this.createUpdateForm();
     this.initializeUploader();
   }
